@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.MainPage"
+             Title="Home">
+    <ContentPage.Content>
+        <VerticalStackLayout 
+            Padding="20"
+            Spacing="20"
+            VerticalOptions="FillAndExpand">
+
+            <Label 
+                Text="Hello, User!" 
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="What would you like to listen to today?" 
+                FontSize="16"
+                HorizontalOptions="Center"
+                TextColor="Gray" />
+
+            <CollectionView 
+                ItemsLayout="HorizontalList"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Pop Hits</x:String>
+                        <x:String>Rock Classics</x:String>
+                        <x:String>Jazz Essentials</x:String>
+                        <x:String>Chill Vibes</x:String>
+                        <x:String>Workout</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame 
+                            Padding="10" 
+                            CornerRadius="10" 
+                            BackgroundColor="#F5F5F5"
+                            WidthRequest="100"
+                            Margin="5">
+                            <Label 
+                                Text="{Binding}" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button 
+                Text="Discover More" 
+                BackgroundColor="#007AFF"
+                TextColor="White"
+                CornerRadius="20"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand" />
+
+            <Button 
+                Text="Your Playlists" 
+                BackgroundColor="#00C853"
+                TextColor="White"
+                CornerRadius="20"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand" />
+
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>

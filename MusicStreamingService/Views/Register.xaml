@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.Views.Register"
+             Title="Register">
+    <ContentPage.Content>
+        <VerticalStackLayout 
+            Padding="20"
+            Spacing="15"
+            VerticalOptions="Center">
+
+            <Label 
+                Text="Create an Account"
+                FontSize="24"
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="Sign up to enjoy your favorite music"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="Gray" />
+
+            <Entry 
+                Placeholder="Username" 
+                Keyboard="Text"
+                TextColor="Black"
+                BackgroundColor="LightGray"
+                Margin="0,10,0,0"
+                HeightRequest="40"
+                HorizontalOptions="FillAndExpand" />
+
+            <Entry 
+                Placeholder="Email" 
+                Keyboard="Email"
+                TextColor="Black"
+                BackgroundColor="LightGray"
+                HeightRequest="40"
+                HorizontalOptions="FillAndExpand" />
+
+            <Entry 
+                Placeholder="Password" 
+                IsPassword="True"
+                TextColor="Black"
+                BackgroundColor="LightGray"
+                HeightRequest="40"
+                HorizontalOptions="FillAndExpand" />
+
+            <Entry 
+                Placeholder="Confirm Password" 
+                IsPassword="True"
+                TextColor="Black"
+                BackgroundColor="LightGray"
+                HeightRequest="40"
+                HorizontalOptions="FillAndExpand" />
+
+            <Button 
+                Text="Register"
+                BackgroundColor="#007AFF"
+                TextColor="White"
+                CornerRadius="20"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand" />
+
+            <HorizontalStackLayout 
+                HorizontalOptions="Center">
+                <Label 
+                    Text="Already have an account?" 
+                    FontSize="12" 
+                    TextColor="Gray" />
+                <Label 
+                    Text="Login" 
+                    FontSize="12" 
+                    TextColor="#007AFF"
+                    FontAttributes="Bold" 
+                    Padding="5,0,0,0" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>
