@@ -9,8 +9,8 @@
     Title="MusicStreamingService">
 
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate views:Register}"
         Route="Register" />
+        
 
 </Shell>

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.Views.Login"
-             Title="Login">
+             >
     <ContentPage.Content>
         <VerticalStackLayout 
             Padding="20"
@@ -21,6 +21,7 @@
                 TextColor="Gray" />
 
             <Entry 
+                x:Name="UsernameEntry"
                 Placeholder="Username" 
                 Keyboard="Text"
                 TextColor="Black"
@@ -30,6 +31,7 @@
                 HorizontalOptions="FillAndExpand" />
 
             <Entry 
+                x:Name="PasswordEntry"
                 Placeholder="Password" 
                 IsPassword="True"
                 TextColor="Black"
@@ -43,7 +45,8 @@
                 TextColor="White"
                 CornerRadius="20"
                 HeightRequest="45"
-                HorizontalOptions="FillAndExpand" />
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnLoginButtonClicked" />
 
             <HorizontalStackLayout 
                 HorizontalOptions="Center">
@@ -56,7 +59,12 @@
                     FontSize="12" 
                     TextColor="#007AFF"
                     FontAttributes="Bold" 
-                    Padding="5,0,0,0" />
+                    Padding="5,0,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSignUpLabelTapped" />
+                    </Label.GestureRecognizers>
+
+                </Label>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ContentPage.Content>
