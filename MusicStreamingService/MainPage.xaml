@@ -2,59 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.MainPage"
-             >
-    <ContentPage.Content>
-        <VerticalStackLayout 
-            Padding="20"
-            Spacing="20"
-            VerticalOptions="FillAndExpand">
+             Title="Početna">
+    <StackLayout Padding="10">
+       <Label Text="MusicStreamingService"
+               FontSize="24"
+               HorizontalOptions="Center" />
 
-            <Label 
-                Text="Hello, User!" 
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalOptions="Center" />
+        <SearchBar Placeholder="Pretraži pjesme, izvođače..."
+                   SearchCommand="{Binding SearchCommand}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" 
+                   x:Name="searchBar"/>
 
-            <Label 
-                Text="Enter a YouTube link to play a song:" 
-                FontSize="16"
-                HorizontalOptions="Center"
-                TextColor="Gray" />
+        <CollectionView ItemsSource="{Binding Songs}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding CurrentSong}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="5">
+                        <Image Source="{Binding AlbumArt}"
+                               WidthRequest="50"
+                               HeightRequest="50" />
+                        <StackLayout Orientation="Vertical" Padding="5">
+                            <Label Text="{Binding Title}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Artist}"
+                                   FontAttributes="Italic"
+                                   FontSize="Small" />
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-            <Entry 
-                x:Name="YouTubeLinkEntry"
-                Placeholder="Enter YouTube link here"
-                Keyboard="Url"
-                BackgroundColor="LightGray"
-                TextColor="Black"
-                HeightRequest="40"
-                HorizontalOptions="FillAndExpand" />
-
-            <Button 
-                Text="Play Song" 
-                BackgroundColor="#007AFF"
-                TextColor="White"
-                CornerRadius="20"
-                HeightRequest="45"
-                HorizontalOptions="FillAndExpand"
-                Clicked="OnPlaySongClicked" />
-
-            <WebView 
-                x:Name="YouTubeWebView"
-                HeightRequest="300"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand" 
-                IsVisible="False" />
-
-            <Button 
-                Text="Logout" 
-                BackgroundColor="#FF3B30"
-                TextColor="White"
-                CornerRadius="20"
-                HeightRequest="45"
-                HorizontalOptions="FillAndExpand" 
-                Clicked="OnLogoutClicked" />
-
-        </VerticalStackLayout>
-    </ContentPage.Content>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Button Text="⏮️" Command="{Binding PreviousCommand}" />
+            <Button Text="{Binding PlayPauseButtonText}" Command="{Binding PlayPauseCommand}" />
+            <Button Text="⏭️" Command="{Binding NextCommand}" />
+        </StackLayout>
+    </StackLayout>
 </ContentPage>
