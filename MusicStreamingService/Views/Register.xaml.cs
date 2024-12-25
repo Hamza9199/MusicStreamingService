@@ -39,9 +39,9 @@ public partial class Register : ContentPage
 			return;
 		}
 
-		Korisnik newUser = new Korisnik(username, email, password);
+		//Korisnik newUser = new Korisnik(username, email, password);
 
-		await DisplayAlert("Success", $"Welcome, {newUser.Username}!", "OK");
+		await DisplayAlert("Success", $"De si Hamza!", "OK");
 
 		if (Application.Current != null)
 		{

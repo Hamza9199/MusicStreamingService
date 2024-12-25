@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.MainPage"
              Title="Početna">
-    <StackLayout Padding="10">
-       <Label Text="MusicStreamingService"
+    <StackLayout Padding="10" Spacing="10">
+        <Label Text="Music Streaming Service"
                FontSize="24"
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center"
+               FontAttributes="Bold" />
 
         <SearchBar Placeholder="Pretraži pjesme, izvođače..."
                    SearchCommand="{Binding SearchCommand}"
@@ -19,22 +20,30 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="5">
-                        <Image Source="{Binding AlbumArt}"
+                        <Image Source="{Binding putanjaSlika}"
                                WidthRequest="50"
-                               HeightRequest="50" />
+                               HeightRequest="50"
+                               Aspect="AspectFill" />
                         <StackLayout Orientation="Vertical" Padding="5">
-                            <Label Text="{Binding Title}"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding Artist}"
+                            <Label Text="{Binding naziv}"
+                                   FontAttributes="Bold" 
+                                   FontSize="Medium" />
+                            <Label Text="{Binding opis}"
+                                      FontSize="Small" />
+                            
+                            <Label Text="{Binding jezikPjesme}"
                                    FontAttributes="Italic"
                                    FontSize="Small" />
+                            <Label Text="{Binding brojReprodukcija, StringFormat='Reprodukcije: {0}'}"
+                                   FontSize="Small"
+                                   TextColor="Gray" />
                         </StackLayout>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
             <Button Text="⏮️" Command="{Binding PreviousCommand}" />
             <Button Text="{Binding PlayPauseButtonText}" Command="{Binding PlayPauseCommand}" />
             <Button Text="⏭️" Command="{Binding NextCommand}" />
