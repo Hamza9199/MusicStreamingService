@@ -12,9 +12,6 @@ namespace MusicStreamingService.Models
 
 		public string pratilacID { get; set; }
 
-		public Korisnik Korisnik { get; set; }
-
-		public Korisnik Pratilac { get; set; }
 
 		public DateTime kreiranDatumVrijeme { get; set; }
 

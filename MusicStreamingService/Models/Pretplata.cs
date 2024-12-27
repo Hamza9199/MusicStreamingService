@@ -10,7 +10,7 @@ namespace MusicStreamingService.Models
 {
 	public class Pretplata
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public string naziv { get; set; }
 

@@ -9,7 +9,7 @@ namespace MusicStreamingService.Models
 {
 	public class Zanr
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public String naziv { get; set; }
 

@@ -8,9 +8,9 @@ namespace MusicStreamingService.Models
 {
 	public class Album
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
-		public string korisnikID { get; set; }
+		public string korisnikid { get; set; }
 
 		public string naziv { get; set; }
 
@@ -30,7 +30,7 @@ namespace MusicStreamingService.Models
 
 		public ICollection<Pjesma> Pjesma { get; set; }
 
-		public Korisnik Korisnik { get; set; }
+		
 
 
 		public Album() { }

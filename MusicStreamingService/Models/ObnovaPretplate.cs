@@ -12,11 +12,9 @@ namespace MusicStreamingService.Models
 	public class ObnovaPretplate
 	{
 		[Key]
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public Int64 korisnikPretplataID { get; set; }
-
-		public KorisnikPretplata KorisnikPretplata { get; set; }
 
 		public DateTime datumObnove { get; set; }
 

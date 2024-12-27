@@ -11,7 +11,7 @@ namespace MusicStreamingService.Models
 {
 	public class StatistikaReprodukcije
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public string korisnikID { get; set; }
 

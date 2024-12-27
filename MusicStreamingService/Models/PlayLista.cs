@@ -10,7 +10,7 @@ namespace MusicStreamingService.Models
 {
 	public class PlayLista
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public string korisnikID { get; set; }
 
@@ -29,7 +29,6 @@ namespace MusicStreamingService.Models
 		public string? putanjaGif { get; set; }
 
 
-		public Korisnik Korisnik { get; set; }
 
 		public ICollection<PjesmaPlayLista>? PjesmaPlayLista { get; set; }
 

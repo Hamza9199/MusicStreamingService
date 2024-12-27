@@ -8,15 +8,13 @@ namespace MusicStreamingService.Models
 {
 	public class IzvodjacPjesma
 	{
-		public string izvodjacID { get; set; }
+		public string izvodjacid { get; set; }
 
-		public Int64 pjesmaID { get; set; }
+		public Int64 pjesmaid { get; set; }
 
 		public DateTime kreiranDatumVrijeme { get; set; }
 
-		public Korisnik Izvodjac { get; set; }
 
-		public Pjesma Pjesma { get; set; }
 
 		public IzvodjacPjesma() { }
 	}

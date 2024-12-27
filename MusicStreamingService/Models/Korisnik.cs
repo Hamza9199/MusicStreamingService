@@ -35,7 +35,6 @@ namespace MusicStreamingService.Models
 
 		public bool obrisan { get; set; }
 
-		public IdentityUser AspNetUser { get; set; }
 
 		public ICollection<PlayLista>? PlayLista { get; set; }
 

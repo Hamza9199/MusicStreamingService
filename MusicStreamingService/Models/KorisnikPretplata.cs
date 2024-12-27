@@ -10,16 +10,12 @@ namespace MusicStreamingService.Models
 {
 	public class KorisnikPretplata
 	{
-		[Key]
-		public Int64 ID { get; set; }
+	
+		public Int64 id { get; set; }
 
 		public string korisnikID { get; set; }
 
 		public Int64 pretplataID { get; set; }
-
-		public Korisnik Korisnik { get; set; }
-
-		public Pretplata Pretplata { get; set; }
 
 		public PretplataStatusEnum PretplataStatus { get; set; }
 

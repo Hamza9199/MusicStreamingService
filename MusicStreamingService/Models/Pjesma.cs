@@ -9,7 +9,7 @@ namespace MusicStreamingService.Models
 {
 	public class Pjesma
 	{
-		public Int64 ID { get; set; }
+		public Int64 id { get; set; }
 
 		public Int64? albumID { get; set; }
 
@@ -54,8 +54,6 @@ namespace MusicStreamingService.Models
 		public ICollection<Komentar>? Komentar { get; set; }
 
 		public ICollection<PjesmaZanr>? PjesmaZanr { get; set; }
-
-		public Album? Album { get; set; }
 
 		public ICollection<IzvodjacPjesma>? IzvodjacPjesma { get; set; }
 

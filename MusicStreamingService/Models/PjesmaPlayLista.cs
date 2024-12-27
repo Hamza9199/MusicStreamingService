@@ -18,13 +18,6 @@ namespace MusicStreamingService.Models
 
 		public DateTime kreiranDatumVrijeme { get; set; }
 
-		public Pjesma Pjesma { get; set; }
-
-		public PlayLista PlayLista { get; set; }
-
-		public Pjesma sljedecaPjesma { get; set; }
-
-		public Pjesma prethodnaPjesma { get; set; }
 
 
 		public PjesmaPlayLista() { }

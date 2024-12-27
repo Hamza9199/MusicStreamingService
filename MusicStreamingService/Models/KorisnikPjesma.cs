@@ -14,9 +14,7 @@ namespace MusicStreamingService.Models
 
 		public DateTime kreiranDatumVrijeme { get; set; }
 
-		public Korisnik Korisnik { get; set; }
 
-		public Pjesma Pjesma { get; set; }
 
 
 		public KorisnikPjesma() { }
