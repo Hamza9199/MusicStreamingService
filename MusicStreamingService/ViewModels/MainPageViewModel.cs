@@ -122,8 +122,10 @@ namespace MusicStreamingService.ViewModels
 
 			_httpClient = new HttpClient
 			{
-				BaseAddress = new Uri("https://localhost:7015/") 
+				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/") 
 			};
+
+			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
 
 			Songs = new ObservableCollection<Pjesma>();
 			Albumi = new ObservableCollection<Album>();
