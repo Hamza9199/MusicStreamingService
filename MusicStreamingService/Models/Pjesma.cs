@@ -64,7 +64,7 @@ namespace MusicStreamingService.Models
 
 		public Pjesma() { }
 
-		public Pjesma(string naziv,string opis, string putanjaAudio, string putanjaSlika, string jezikPjesme, DateTime kreiranDatumVrijeme)
+		/*public Pjesma(string naziv,string opis, string putanjaAudio, string putanjaSlika, string jezikPjesme, DateTime kreiranDatumVrijeme)
 		{
 			this.naziv = naziv;
 			this.opis = opis;
@@ -73,7 +73,7 @@ namespace MusicStreamingService.Models
 			this.jezikPjesme = jezikPjesme;
 			this.kreiranDatumVrijeme = kreiranDatumVrijeme;
 
-		}
+		}*/
 	}
 
 }

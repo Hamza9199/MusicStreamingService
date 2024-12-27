@@ -7,11 +7,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager;
+using System.Text.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MusicStreamingService.ViewModels
 {
 	public class MainPageViewModel : INotifyPropertyChanged
 	{
+
+		private readonly HttpClient _httpClient;
+
 		public ObservableCollection<Pjesma> Songs { get; set; } 
 
 		public ObservableCollection<Album> Albumi { get; set; }
@@ -52,11 +59,43 @@ namespace MusicStreamingService.ViewModels
 		public ICommand SearchCommand { get; } 
 		public ICommand PlayPauseCommand { get; }
 		public ICommand NextCommand { get; } 
-		public ICommand PreviousCommand { get; } 
+		public ICommand PreviousCommand { get; }
+
+		public ICommand SelectSongCommand { get; }
+
+		private string _pjesmiceText;
 
 		public string PlayPauseButtonText => IsPlaying ? "⏸️" : "▶️"; 
 
 		private Pjesma _currentSong;
+
+		public string PjesmiceText
+		{
+			get => _pjesmiceText;
+			set
+			{
+				_pjesmiceText = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Pjesma SelectedSong
+		{
+			get => _selectedSong;
+			set
+			{
+				if (_selectedSong != value)
+				{
+					_selectedSong = value;
+					OnPropertyChanged();
+					CurrentSong = _selectedSong;
+				}
+			}
+		}
+
+		private Pjesma _selectedSong;
+
+
 		public Pjesma CurrentSong
 		{
 			get => _currentSong;
@@ -77,21 +116,51 @@ namespace MusicStreamingService.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public MainPageViewModel()
 		{
 			CrossMediaManager.Current.Init();
+
+			_httpClient = new HttpClient
+			{
+				BaseAddress = new Uri("https://localhost:7015/") 
+			};
+
 			Songs = new ObservableCollection<Pjesma>();
+			Albumi = new ObservableCollection<Album>();
+			historijeSlusanja = new ObservableCollection<HistorijaSlusanja>();
+			korisnici = new ObservableCollection<Korisnik>();
+			komentari = new ObservableCollection<Komentar>();
+			playListe = new ObservableCollection<PlayLista>();
+			pretplate = new ObservableCollection<Pretplata>();
+			zanrovi = new ObservableCollection<Zanr>();
+			statistikeReprodukcije = new ObservableCollection<StatistikaReprodukcije>();
+			pjesmeZanrovi = new ObservableCollection<PjesmaZanr>();
+			pjesmePlayListe = new ObservableCollection<PjesmaPlayLista>();
+			pracenja = new ObservableCollection<PratilacKorisnik>();
+			obnovePretplate = new ObservableCollection<ObnovaPretplate>();
+			korisniciPretplate = new ObservableCollection<KorisnikPretplata>();
+			korisniciPlayListe = new ObservableCollection<KorisnikPlayLista>();
+			korisniciPjesme = new ObservableCollection<KorisnikPjesma>();
+			korisniciAlbumi = new ObservableCollection<KorisnikAlbum>();
+			izvodjaciPjesme = new ObservableCollection<IzvodjacPjesma>();
+
 
 			SearchCommand = new Command<string>(OnSearch);
 			PlayPauseCommand = new Command(OnPlayPause);
 			NextCommand = new Command(OnNext);
 			PreviousCommand = new Command(OnPrevious);
+			SelectSongCommand = new Command<Pjesma>(OnSongSelected);
 
-			LoadSongs(); 
+			//LoadSongs();
+			LoadSongsAsync();
+
+			if (Songs.Any())
+			{
+				SelectedSong = Songs.First();
+			}
 		}
 
-		private void LoadSongs()
+		/*private void LoadSongs()
 		{
 			Songs.Add(new Pjesma(
 				naziv: "BASS",
@@ -109,7 +178,50 @@ namespace MusicStreamingService.ViewModels
 				jezikPjesme: "Bosanski",
 				kreiranDatumVrijeme: DateTime.Now
 				));
+		
+		}*/
 
+		private void OnSongSelected(Pjesma selectedSong)
+		{
+			SelectedSong = selectedSong;
+		}
+
+		private async Task LoadSongsAsync()
+		{
+			try
+			{
+				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
+				response.EnsureSuccessStatusCode();
+
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+
+				var pjesme = JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+
+				if (pjesme != null)
+				{
+					PjesmiceText = pjesme[0].naziv;
+					Songs.Clear();
+
+					foreach (var pjesma in pjesme)
+					{
+						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
+						Songs.Add(pjesma);
+					}
+					if (Songs.Any())
+					{
+						SelectedSong = Songs.First();
+						CurrentSong = Songs.First();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
+			}
 		}
 
 		private void LoadAlbums()
@@ -263,6 +375,15 @@ namespace MusicStreamingService.ViewModels
 			{
 				CurrentSong = Songs[currentIndex - 1];
 				CrossMediaManager.Current.Play(CurrentSong.putanjaAudio);
+			}
+		}
+
+		private void OnSongTapped(object sender, EventArgs e)
+		{
+			var tappedSong = (sender as TapGestureRecognizer)?.CommandParameter as Pjesma;
+			if (tappedSong != null)
+			{
+				CurrentSong = tappedSong;
 			}
 		}
 

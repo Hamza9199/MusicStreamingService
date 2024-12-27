@@ -14,34 +14,39 @@
                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" 
                    x:Name="searchBar"/>
 
-        <CollectionView ItemsSource="{Binding Songs}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding CurrentSong}">
+
+
+        <CollectionView ItemsSource="{Binding Songs}" SelectedItem="{Binding SelectedSong, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="5">
                         <Image Source="{Binding putanjaSlika}"
-                               WidthRequest="50"
-                               HeightRequest="50"
-                               Aspect="AspectFill" />
+                       WidthRequest="50"
+                       HeightRequest="50"
+                       Aspect="AspectFill" />
                         <StackLayout Orientation="Vertical" Padding="5">
                             <Label Text="{Binding naziv}"
-                                   FontAttributes="Bold" 
-                                   FontSize="Medium" />
+                           FontAttributes="Bold" 
+                           FontSize="Medium" />
                             <Label Text="{Binding opis}"
-                                      FontSize="Small" />
-                            
+                           FontSize="Small" />
                             <Label Text="{Binding jezikPjesme}"
-                                   FontAttributes="Italic"
-                                   FontSize="Small" />
-                            <Label Text="{Binding kreiranDatumVrijeme, StringFormat='Kreiran: {00.00.0000}'}"
-                                   FontSize="Small"
-                                   TextColor="Gray" />
+                           FontAttributes="Italic"
+                           FontSize="Small" />
+                            <Label Text="{Binding kreiranDatumVrijeme, StringFormat='Kreiran: {0:dd.MM.yyyy}'}"
+                           FontSize="Small"
+                           TextColor="Gray" />
                         </StackLayout>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.SelectSongCommand, Source={x:Reference Name=CollectionView}}" CommandParameter="{Binding .}"/>
+                        </StackLayout.GestureRecognizers>
+
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
             <Button Text="⏮️" Command="{Binding PreviousCommand}" />
