@@ -1,6 +1,10 @@
 ﻿using MediaManager.Library;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
 
 namespace MusicStreamingService.Models
 {
@@ -19,8 +23,7 @@ namespace MusicStreamingService.Models
 
 		public string? lozinka { get; set; }
 
-		//[EnumDataType(typeof(KorisnikStatusEnum))]
-		//public KorisnikStatusEnum statusKorisnika { get; set; }
+		public KorisnikStatusEnum statusKorisnika { get; set; }
 
 		public string? putanjaProfilneSlike { get; set; }
 
@@ -32,9 +35,9 @@ namespace MusicStreamingService.Models
 
 		public bool obrisan { get; set; }
 
-		//public IdentityUser AspNetUser { get; set; }
+		public IdentityUser AspNetUser { get; set; }
 
-		/*public ICollection<PlayLista>? PlayLista { get; set; }
+		public ICollection<PlayLista>? PlayLista { get; set; }
 
 		public ICollection<KorisnikPjesma>? KorisnikPjesma { get; set; }
 
@@ -46,26 +49,12 @@ namespace MusicStreamingService.Models
 
 		public ICollection<HistorijaSlusanja>? HistorijaSlusanja { get; set; }
 
-		public ICollection<StatistikaReprodukcije>? StatistikaReprodukcije { get; set; }*/
+		public ICollection<StatistikaReprodukcije>? StatistikaReprodukcije { get; set; }
 
 
 		public Korisnik() { }
 
-		public Korisnik (Int64 korisnikID, string ime, string prezime, string bio, string korisnickoIme, string email, string lozinka, string putanjaProfilneSlike, DateTime datumRegistracije, DateTime? zadnjaPrijava, UInt64 brojPratilaca, bool obrisan)
-		{
-			this.korisnikID = korisnikID;
-			this.ime = ime;
-			this.prezime = prezime;
-			this.bio = bio;
-			this.korisnickoIme = korisnickoIme;
-			this.email = email;
-			this.lozinka = lozinka;
-			this.putanjaProfilneSlike = putanjaProfilneSlike;
-			this.datumRegistracije = datumRegistracije;
-			this.zadnjaPrijava = zadnjaPrijava;
-			this.brojPratilaca = brojPratilaca;
-			this.obrisan = obrisan;
-		}
+		
 
 		}
 }

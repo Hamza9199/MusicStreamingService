@@ -14,6 +14,41 @@ namespace MusicStreamingService.ViewModels
 	{
 		public ObservableCollection<Pjesma> Songs { get; set; } 
 
+		public ObservableCollection<Album> Albumi { get; set; }
+
+		public ObservableCollection<HistorijaSlusanja> historijeSlusanja { get; set; }
+
+		public ObservableCollection<Korisnik> korisnici { get; set; }
+
+		public ObservableCollection<Komentar> komentari { get; set; }
+
+		public ObservableCollection<PlayLista> playListe { get; set; }
+
+		public ObservableCollection<Pretplata> pretplate { get; set; }
+
+		public ObservableCollection<Zanr> zanrovi { get; set; }
+
+		public ObservableCollection<StatistikaReprodukcije> statistikeReprodukcije { get; set; }
+
+		public ObservableCollection<PjesmaZanr> pjesmeZanrovi { get; set; }
+
+		public ObservableCollection<PjesmaPlayLista> pjesmePlayListe { get; set; }
+
+		public ObservableCollection<PratilacKorisnik> pracenja { get; set; }
+
+		public ObservableCollection<ObnovaPretplate> obnovePretplate { get; set; }
+
+		public ObservableCollection<KorisnikPretplata> korisniciPretplate { get; set; }
+
+		public ObservableCollection<KorisnikPlayLista> korisniciPlayListe { get; set; }
+
+		public ObservableCollection<KorisnikPjesma> korisniciPjesme { get; set; }
+
+		public ObservableCollection<KorisnikAlbum> korisniciAlbumi { get; set; }
+
+		public ObservableCollection<IzvodjacPjesma> izvodjaciPjesme { get; set; }
+
+
 		public ICommand SearchCommand { get; } 
 		public ICommand PlayPauseCommand { get; }
 		public ICommand NextCommand { get; } 
@@ -59,49 +94,94 @@ namespace MusicStreamingService.ViewModels
 		private void LoadSongs()
 		{
 			Songs.Add(new Pjesma(
-				ID: 1,
-				albumID: 1,
-				redniBrojUAlbumu: 1,
 				naziv: "BASS",
 				opis: "Jala Brat",
-				datumObjave: DateOnly.FromDateTime(DateTime.Now),
-				trajanjeSekunde: 180,
-				javno: true,
-				odobreno: true,
 				putanjaAudio: "https://firebasestorage.googleapis.com/v0/b/trailerflix-25df2.appspot.com/o/items%2Ftest.mp3?alt=media&token=c7aa63d1-9c64-4660-af02-9c8809ed7c90",
 				putanjaSlika: "https://i.scdn.co/image/ab67616d0000b273a8aa97fb6e61f7e092c166f6",
-				putanjaGif: "https://i.scdn.co/image/ab67616d0000b273a8aa97fb6e61f7e092c166f6",
-				brojReprodukcija: 0,
-				brojLajkova: 0,
 				jezikPjesme: "Bosanski",
-				licenca: "Standardna licenca",
-				eksplicitniSadrzaj: false,
-				tekst: "null",
 				kreiranDatumVrijeme: DateTime.Now
 			));
 			Songs.Add(new Pjesma(
-				ID: 2,
-				albumID: 1,
-				redniBrojUAlbumu: 2,
 				naziv: "F1 theme",
 				opis: "Brian Tyler",
-				datumObjave: DateOnly.FromDateTime(DateTime.Now),
-				trajanjeSekunde: 180,
-				javno: true,
-				odobreno: true,
 				putanjaAudio: "https://firebasestorage.googleapis.com/v0/b/trailerflix-25df2.appspot.com/o/items%2FF1%20theme%20by%20Brian%20Tyler.mp3?alt=media&token=5de7f505-809e-48b4-8f3f-d249397afe1b",
 				putanjaSlika: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmBY8mn2_qmAmgCS6C3Ify_WWmVWmXOdpfsw&s",
-				putanjaGif: "",
-				brojReprodukcija: 0,
-				brojLajkova: 0,
 				jezikPjesme: "Bosanski",
-				licenca: "Standardna licenca",
-				eksplicitniSadrzaj: false,
-				tekst: "null",
 				kreiranDatumVrijeme: DateTime.Now
 				));
 
 		}
+
+		private void LoadAlbums()
+		{
+
+		}
+
+		private void LoadHistorijeSlusanja()
+		{
+		}
+
+		private void LoadKorisnike()
+		{
+		}
+
+		private void LoadKomentare()
+		{
+		}
+
+		private void LoadPlayListe()
+		{
+		}
+
+		private void LoadPretplate()
+		{
+		}
+
+		private void LoadZanrove()
+		{
+		}
+
+		private void LoadStatistikeReprodukcije()
+		{
+		}
+
+		private void LoadPjesmeZanrove()
+		{
+		}
+
+		private void LoadPjesmePlayListe()
+		{
+		}
+
+		private void LoadPracenja()
+		{
+		}
+
+		private void LoadObnovePretplate()
+		{
+		}
+
+		private void LoadKorisniciPretplate()
+		{
+		}
+
+		private void LoadKorisniciPlayListe()
+		{
+		}
+
+		private void LoadKorisniciPjesme()
+		{
+		}
+
+		private void LoadKorisniciAlbumi()
+		{
+		}
+
+		private void LoadIzvodjacePjesme()
+		{
+		}
+
+
 
 
 		private void OnSearch(string query)

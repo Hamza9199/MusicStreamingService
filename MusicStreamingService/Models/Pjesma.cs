@@ -47,46 +47,34 @@ namespace MusicStreamingService.Models
 
 		public DateTime kreiranDatumVrijeme { get; set; }
 
-		//public ICollection<PjesmaPlayLista>? PjesmaPlayLista { get; set; }
+		public ICollection<PjesmaPlayLista>? PjesmaPlayLista { get; set; }
 
-		//	public ICollection<KorisnikPjesma>? KorisnikPjesma { get; set; }
+		public ICollection<KorisnikPjesma>? KorisnikPjesma { get; set; }
 
-		//public ICollection<Komentar>? Komentar { get; set; }
+		public ICollection<Komentar>? Komentar { get; set; }
 
-		//	public ICollection<PjesmaZanr>? PjesmaZanr { get; set; }
+		public ICollection<PjesmaZanr>? PjesmaZanr { get; set; }
 
-		//public Album? Album { get; set; }
+		public Album? Album { get; set; }
 
-		//	public ICollection<IzvodjacPjesma>? IzvodjacPjesma { get; set; }
+		public ICollection<IzvodjacPjesma>? IzvodjacPjesma { get; set; }
 
-		//	public ICollection<HistorijaSlusanja>? HistorijaSlusanja { get; set; }
+		public ICollection<HistorijaSlusanja>? HistorijaSlusanja { get; set; }
 
-		//	public ICollection<StatistikaReprodukcije>? StatistikaReprodukcije { get; set; }
+		public ICollection<StatistikaReprodukcije>? StatistikaReprodukcije { get; set; }
 
 
 		public Pjesma() { }
 
-		public Pjesma(Int64 ID, Int64? albumID, Int64? redniBrojUAlbumu, String naziv, string opis, DateOnly datumObjave, uint trajanjeSekunde, bool javno, bool odobreno, string putanjaAudio, string putanjaSlika, string putanjaGif, UInt64 brojReprodukcija, UInt64 brojLajkova, string jezikPjesme, string licenca, bool eksplicitniSadrzaj, string tekst, DateTime kreiranDatumVrijeme)
+		public Pjesma(string naziv,string opis, string putanjaAudio, string putanjaSlika, string jezikPjesme, DateTime kreiranDatumVrijeme)
 		{
-			this.ID = ID;
-			this.albumID = albumID;
-			this.redniBrojUAlbumu = redniBrojUAlbumu;
 			this.naziv = naziv;
 			this.opis = opis;
-			this.datumObjave = datumObjave;
-			this.trajanjeSekunde = trajanjeSekunde;
-			this.javno = javno;
-			this.odobreno = odobreno;
 			this.putanjaAudio = putanjaAudio;
 			this.putanjaSlika = putanjaSlika;
-			this.putanjaGif = putanjaGif;
-			this.brojReprodukcija = brojReprodukcija;
-			this.brojLajkova = brojLajkova;
 			this.jezikPjesme = jezikPjesme;
-			this.licenca = licenca;
-			this.eksplicitniSadrzaj = eksplicitniSadrzaj;
-			this.tekst = tekst;
 			this.kreiranDatumVrijeme = kreiranDatumVrijeme;
+
 		}
 	}
 

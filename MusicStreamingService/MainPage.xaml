@@ -34,7 +34,7 @@
                             <Label Text="{Binding jezikPjesme}"
                                    FontAttributes="Italic"
                                    FontSize="Small" />
-                            <Label Text="{Binding brojReprodukcija, StringFormat='Reprodukcije: {0}'}"
+                            <Label Text="{Binding kreiranDatumVrijeme, StringFormat='Kreiran: {00.00.0000}'}"
                                    FontSize="Small"
                                    TextColor="Gray" />
                         </StackLayout>
