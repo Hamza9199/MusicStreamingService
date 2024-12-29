@@ -7,6 +7,15 @@
 			InitializeComponent();
 
 			MainPage = new AppShell();
+			
+			
+		}
+
+		protected override void OnStart()
+		{
+			base.OnStart();
+
+			Shell.Current.GoToAsync("//Register");
 		}
 	}
 }

@@ -5,13 +5,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MusicStreamingService"
     xmlns:views="clr-namespace:MusicStreamingService.Views"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     BackgroundColor="Black"
-    Title="MusicStreamingService">
+    Title="MusicStreamingService"
+    >
 
-    <ShellContent
-        ContentTemplate="{DataTemplate views:Register}"
-        Route="Register" />
-        
+    <TabBar>
+        <Tab Title="Home" Icon="Images/dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MainPage" />
+        </Tab>
+        <Tab Title="Search" Icon="Images/dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:Search}"
+                Route="Search" />
+        </Tab>
 
+        <Tab Title="Register" Icon="Images/dotnet_bot.png">
+            <ShellContent
+            ContentTemplate="{DataTemplate views:Register}"
+            Route="Register" />
+        </Tab>
+
+        <Tab Title="Login" Icon="Images/dotnet_bot.png">
+            <ShellContent
+            ContentTemplate="{DataTemplate views:Login}"
+            Route="Login" />
+        </Tab>
+
+    </TabBar>
 </Shell>

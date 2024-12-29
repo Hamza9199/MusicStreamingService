@@ -9,12 +9,11 @@ public partial class Login : ContentPage
 		InitializeComponent();
 	}
 
-	private void OnSignUpLabelTapped(object sender, EventArgs e)
+	private async void OnSignUpLabelTapped(object sender, EventArgs e)
 	{
 		if (Application.Current != null)
 		{
-			NavigationPage registerNavigationPage = new NavigationPage(new Register());
-			Application.Current.MainPage = registerNavigationPage;
+			await Shell.Current.GoToAsync("//Register");
 		}
 	}
 
@@ -34,8 +33,7 @@ public partial class Login : ContentPage
 			await DisplayAlert("Success", "Login successful!", "Ok");
 			if (Application.Current != null)
 			{
-				NavigationPage mainNavigationPage = new NavigationPage(new MainPage());
-				Application.Current.MainPage = mainNavigationPage;
+				await Shell.Current.GoToAsync("//MainPage");
 			}
 		}
 		else

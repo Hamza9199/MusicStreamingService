@@ -18,9 +18,5 @@ public partial class MainPage : ContentPage
 		
 	}
 
-	private void SearchHandler(object sender, EventArgs e)
-	{
-		Navigation.PushAsync(new Search());
-
-	}
+	
 }
