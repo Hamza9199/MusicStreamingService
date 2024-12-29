@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MusicStreamingService.Views;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -56,28 +57,20 @@ namespace MusicStreamingService.ViewModels
 		public ObservableCollection<IzvodjacPjesma> izvodjaciPjesme { get; set; }
 
 
-		public ICommand SearchCommand { get; } 
-		public ICommand PlayPauseCommand { get; }
-		public ICommand NextCommand { get; } 
-		public ICommand PreviousCommand { get; }
+		//public ICommand SearchCommand { get; } 
+		//public ICommand PlayPauseCommand { get; }
+		//public ICommand NextCommand { get; } 
+		//public ICommand PreviousCommand { get; }
 
 		public ICommand SelectSongCommand { get; }
 
-		private string _pjesmiceText;
 
-		public string PlayPauseButtonText => IsPlaying ? "⏸️" : "▶️"; 
+		//public string PlayPauseButtonText => IsPlaying ? "⏸️" : "▶️"; 
 
 		private Pjesma _currentSong;
 
-		public string PjesmiceText
-		{
-			get => _pjesmiceText;
-			set
-			{
-				_pjesmiceText = value;
-				OnPropertyChanged();
-			}
-		}
+			
+		
 
 		public Pjesma SelectedSong
 		{
@@ -106,7 +99,7 @@ namespace MusicStreamingService.ViewModels
 			}
 		}
 
-		private bool _isPlaying;
+		/*private bool _isPlaying;
 		public bool IsPlaying
 		{
 			get => _isPlaying;
@@ -115,7 +108,7 @@ namespace MusicStreamingService.ViewModels
 				_isPlaying = value;
 				OnPropertyChanged();
 			}
-		}
+		}*/
 		public MainPageViewModel()
 		{
 			CrossMediaManager.Current.Init();
@@ -147,19 +140,19 @@ namespace MusicStreamingService.ViewModels
 			izvodjaciPjesme = new ObservableCollection<IzvodjacPjesma>();
 
 
-			SearchCommand = new Command<string>(OnSearch);
-			PlayPauseCommand = new Command(OnPlayPause);
+			//SearchCommand = new Command<string>(OnSearch);
+			/*PlayPauseCommand = new Command(OnPlayPause);
 			NextCommand = new Command(OnNext);
-			PreviousCommand = new Command(OnPrevious);
-			SelectSongCommand = new Command<Pjesma>(OnSongSelected);
+			PreviousCommand = new Command(OnPrevious);*/
+			SelectSongCommand = new Command(OnSongSelected);
+
 
 			//LoadSongs();
 			LoadSongsAsync();
+			LoadAlbums();
+			LoadKorisnike();
 
-			if (Songs.Any())
-			{
-				SelectedSong = Songs.First();
-			}
+			
 		}
 
 		/*private void LoadSongs()
@@ -183,9 +176,14 @@ namespace MusicStreamingService.ViewModels
 		
 		}*/
 
-		private void OnSongSelected(Pjesma selectedSong)
+		private async void OnSongSelected()
 		{
-			SelectedSong = selectedSong;
+
+			if (CurrentSong != null) 
+			{
+				await App.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
+			}
+
 		}
 
 		private async Task LoadSongsAsync()
@@ -205,7 +203,6 @@ namespace MusicStreamingService.ViewModels
 
 				if (pjesme != null)
 				{
-					PjesmiceText = pjesme[0].naziv;
 					Songs.Clear();
 
 					foreach (var pjesma in pjesme)
@@ -213,11 +210,7 @@ namespace MusicStreamingService.ViewModels
 						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
 						Songs.Add(pjesma);
 					}
-					if (Songs.Any())
-					{
-						SelectedSong = Songs.First();
-						CurrentSong = Songs.First();
-					}
+					
 				}
 			}
 			catch (Exception ex)
@@ -226,79 +219,130 @@ namespace MusicStreamingService.ViewModels
 			}
 		}
 
-		private void LoadAlbums()
+		private async Task LoadAlbums()
+		{
+
+			try
+			{
+				var response = await _httpClient.GetAsync("api/AlbumControllerAPI");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+				var albumi = JsonSerializer.Deserialize<List<Album>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+				if (albumi != null)
+				{
+					Albumi.Clear();
+					foreach (var album in albumi)
+					{
+						Debug.WriteLine($"Naziv: {album.naziv}, Opis: {album.opis}");
+						Albumi.Add(album);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja albuma: {ex.Message}");
+
+			}
+		}
+
+		private async Task LoadHistorijeSlusanja()
 		{
 
 		}
 
-		private void LoadHistorijeSlusanja()
+		private async Task LoadKorisnike()
+		{
+			try
+			{
+				var response = await _httpClient.GetAsync("api/KorisnikControllerAPI");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+				var korisnici = JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+				if (korisnici != null)
+				{
+					korisnici.Clear();
+					foreach (var korisnik in korisnici)
+					{
+						Debug.WriteLine($"Naziv: {korisnik.korisnickoIme}, Opis: {korisnik.email}");
+						korisnici.Add(korisnik);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja korisnika: {ex.Message}");
+			}
+
+		}
+
+		private async Task LoadKomentare()
 		{
 		}
 
-		private void LoadKorisnike()
+		private async Task LoadPlayListe()
 		{
 		}
 
-		private void LoadKomentare()
+		private async Task LoadPretplate()
 		{
 		}
 
-		private void LoadPlayListe()
+		private async Task LoadZanrove()
 		{
 		}
 
-		private void LoadPretplate()
+		private async Task LoadStatistikeReprodukcije()
 		{
 		}
 
-		private void LoadZanrove()
+		private async Task LoadPjesmeZanrove()
 		{
 		}
 
-		private void LoadStatistikeReprodukcije()
+		private async Task LoadPjesmePlayListe()
 		{
 		}
 
-		private void LoadPjesmeZanrove()
+		private async Task LoadPracenja()
 		{
 		}
 
-		private void LoadPjesmePlayListe()
+		private async Task LoadObnovePretplate()
 		{
 		}
 
-		private void LoadPracenja()
+		private async Task LoadKorisniciPretplate()
 		{
 		}
 
-		private void LoadObnovePretplate()
+		private async Task LoadKorisniciPlayListe()
 		{
 		}
 
-		private void LoadKorisniciPretplate()
+		private async Task LoadKorisniciPjesme()
 		{
 		}
 
-		private void LoadKorisniciPlayListe()
+		private async Task LoadKorisniciAlbumi()
 		{
 		}
 
-		private void LoadKorisniciPjesme()
-		{
-		}
-
-		private void LoadKorisniciAlbumi()
-		{
-		}
-
-		private void LoadIzvodjacePjesme()
+		private async Task LoadIzvodjacePjesme()
 		{
 		}
 
 
 
 
-		private void OnSearch(string query)
+		/*private void OnSearch(string query)
 		{
 			if (string.IsNullOrWhiteSpace(query)) return;
 
@@ -311,9 +355,9 @@ namespace MusicStreamingService.ViewModels
 			{
 				Songs.Add(song);
 			}
-		}
+		}*/
 
-		private string GetAudioPath(Pjesma pjesma)
+		/*private string GetAudioPath(Pjesma pjesma)
 		{
 			if (pjesma == null)
 			{
@@ -322,9 +366,9 @@ namespace MusicStreamingService.ViewModels
 			}
 
 			return pjesma.putanjaAudio;
-		}
+		}*/
 
-		private async void OnPlayPause()
+		/*private async void OnPlayPause()
 		{
 			if (CurrentSong == null)
 			{
@@ -332,9 +376,11 @@ namespace MusicStreamingService.ViewModels
 				return;
 			}
 
+			var mediaManager = CrossMediaManager.Current;
+
 			if (IsPlaying)
 			{
-				await CrossMediaManager.Current.Pause();
+				await mediaManager.Pause();
 				IsPlaying = false;
 			}
 			else
@@ -343,7 +389,19 @@ namespace MusicStreamingService.ViewModels
 				try
 				{
 					System.Diagnostics.Debug.WriteLine($"Pokušaj reprodukcije: {audioPath}");
-					await CrossMediaManager.Current.Play(audioPath);
+
+
+					if (mediaManager.IsStopped())
+					{
+						await mediaManager.Play(audioPath);
+					}
+					else
+					{
+						await mediaManager.Play();
+					}
+
+
+
 					IsPlaying = true;
 				}
 				catch (Exception ex)
@@ -354,9 +412,9 @@ namespace MusicStreamingService.ViewModels
 			}
 
 			OnPropertyChanged(nameof(PlayPauseButtonText));
-		}
+		}*/
 
-		private void OnNext()
+		/*private void OnNext()
 		{
 			if (CurrentSong == null || Songs.Count == 0) return;
 
@@ -378,7 +436,7 @@ namespace MusicStreamingService.ViewModels
 				CurrentSong = Songs[currentIndex - 1];
 				CrossMediaManager.Current.Play(CurrentSong.putanjaAudio);
 			}
-		}
+		}*/
 
 		private void OnSongTapped(object sender, EventArgs e)
 		{

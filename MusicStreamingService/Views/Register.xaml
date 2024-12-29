@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="Black"
              x:Class="MusicStreamingService.Views.Register">
     <ContentPage.Content>
         <VerticalStackLayout 
@@ -21,6 +22,7 @@
 
             <Entry 
                 x:Name="UsernameEntry"
+                PlaceholderColor="Black"
                 Placeholder="Username" 
                 Keyboard="Text"
                 TextColor="Black"
@@ -32,6 +34,7 @@
             <Entry 
                 x:Name="EmailEntry"
                 Placeholder="Email" 
+               PlaceholderColor="Black"
                 Keyboard="Email"
                 TextColor="Black"
                 BackgroundColor="LightGray"
@@ -41,6 +44,8 @@
             <Entry 
                 x:Name="PasswordEntry"
                 Placeholder="Password" 
+                               PlaceholderColor="Black"
+
                 IsPassword="True"
                 TextColor="Black"
                 BackgroundColor="LightGray"
@@ -50,6 +55,8 @@
             <Entry 
                 x:Name="ConfirmPasswordEntry"
                 Placeholder="Confirm Password" 
+                               PlaceholderColor="Black"
+
                 IsPassword="True"
                 TextColor="Black"
                 BackgroundColor="LightGray"

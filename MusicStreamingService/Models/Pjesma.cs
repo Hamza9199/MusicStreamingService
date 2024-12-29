@@ -17,7 +17,7 @@ namespace MusicStreamingService.Models
 
 		public String naziv { get; set; }
 
-		public string? opis { get; set; }
+		public string opis { get; set; }
 
 		public DateOnly datumObjave { get; set; }
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.Views.Search"
+             Background="Black"
+            BackgroundColor="Black">
+    <ScrollView>
+        <VerticalStackLayout>
+        
+        <SearchBar Placeholder="Pretraži pjesme, izvođače..."
+                   BackgroundColor="#333"
+        SearchCommand="{Binding SearchCommand}"
+        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" 
+        x:Name="searchBar"/>
+
+
+        <CollectionView ItemsSource="{Binding Songs}" 
+    SelectionMode="Single" 
+    SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+    SelectionChangedCommand="{Binding SelectSongCommand}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" WidthRequest="150">
+                        <Image Source="{Binding putanjaSlika}"
+           WidthRequest="150"
+           HeightRequest="150"
+           Aspect="AspectFill" />
+                        <Label Text="{Binding naziv}"
+           FontAttributes="Bold" 
+           FontSize="16"
+           HorizontalOptions="Center"
+                               TextColor="White"/>
+                        <Label Text="{Binding opis}"
+           FontSize="12"
+           TextColor="Gray"
+           HorizontalOptions="Center" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:MusicStreamingService"
     xmlns:views="clr-namespace:MusicStreamingService.Views"
     Shell.FlyoutBehavior="Disabled"
+    BackgroundColor="Black"
     Title="MusicStreamingService">
 
     <ShellContent

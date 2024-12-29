@@ -2,57 +2,458 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.MainPage"
-             Title="Početna">
+             Background="Black"
+             BackgroundColor="Black">
     <ScrollView>
-        <StackLayout Padding="10" Spacing="10">
-            <Label Text="Music Streaming Service"
-               FontSize="24"
-               HorizontalOptions="Center"
-               FontAttributes="Bold" />
+        <StackLayout Padding="10" Spacing="10" Margin="5,0,0,5">
 
-            <SearchBar Placeholder="Pretraži pjesme, izvođače..."
-                   SearchCommand="{Binding SearchCommand}"
-                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" 
-                   x:Name="searchBar"/>
+            <Button Text="Search" Clicked="SearchHandler" Margin="100,0,100,0"></Button>
 
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,10,10,10" WidthRequest="170" HeightRequest="85">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                    </Frame.GestureRecognizers>
+                    <HorizontalStackLayout>
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Label 1" TextColor="White" />
+                            <Label Text="Label 2" TextColor="White" />
+                        </StackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
 
+                <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="1" BorderColor="Black" CornerRadius="5" Padding="10" Margin="10,10,10,10" WidthRequest="170" HeightRequest="85">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                    </Frame.GestureRecognizers>
+                    <HorizontalStackLayout>
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Label 3" TextColor="White" />
+                        </StackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
 
-            <CollectionView ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding CurrentSong, Mode=TwoWay}">
+                <Frame BackgroundColor="#333333" Grid.Row="1" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,0,10,10" WidthRequest="170" HeightRequest="85">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                    </Frame.GestureRecognizers>
+                    <HorizontalStackLayout>
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Label 5" TextColor="White" />
+                        </StackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#333333"  Grid.Row="1" Grid.Column="1" BorderColor="Black" CornerRadius="5" Padding="10" Margin="10,0,10,10" WidthRequest="170" HeightRequest="85">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                    </Frame.GestureRecognizers>
+                    <HorizontalStackLayout>
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Label 7" TextColor="White" />
+                        </StackLayout>
+                    </HorizontalStackLayout>
+                </Frame>
+            </Grid>
+
+            <Label Text="Sve dostupne pjesme"
+                   FontAttributes="Bold"
+                    Margin="0,20,0,0"  
+                   FontSize="22"
+                   TextColor="White" />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+                SelectionMode="Single" 
+                SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+                SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Orientation="Horizontal" Padding="5">
+                        <StackLayout Padding="10" WidthRequest="150">
                             <Image Source="{Binding putanjaSlika}"
-                       WidthRequest="50"
-                       HeightRequest="50"
+                       WidthRequest="150"
+                       HeightRequest="150"
                        Aspect="AspectFill" />
-                            <StackLayout Orientation="Vertical" Padding="5">
-                                <Label Text="{Binding naziv}"
-                           FontAttributes="Bold" 
-                           FontSize="Medium" />
-                                <Label Text="{Binding opis}"
-                           FontSize="Small" />
-                                <Label Text="{Binding jezikPjesme}"
-                           FontAttributes="Italic"
-                           FontSize="Small" />
-                                <Label Text="{Binding kreiranDatumVrijeme, StringFormat='Kreiran: {0:dd.MM.yyyy}'}"
-                           FontSize="Small"
-                           TextColor="Gray" />
-                            </StackLayout>
+                            <Label Text="{Binding naziv}"
+                       FontAttributes="Bold" 
+                       FontSize="16"
+                       HorizontalOptions="Center"
+                       TextColor="White" />
+                            <Label Text="{Binding opis}"
+                       FontSize="12"
+                       TextColor="Gray"
+                       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                           
+            <Label Text="Poularni albumi"
+               FontAttributes="Bold"
+               FontSize="22"
+               TextColor="White"
+               Margin="0,30,0,0"    
+                   />
 
+            <CollectionView ItemsSource="{Binding Songs}" 
+        SelectionMode="Single" 
+        SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+        SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+               WidthRequest="150"
+               HeightRequest="150"
+               Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+               FontAttributes="Bold" 
+               FontSize="16"
+               HorizontalOptions="Center"
+               TextColor="White" />
+                            <Label Text="{Binding opis}"
+               FontSize="12"
+               TextColor="Gray"
+               HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Nedavno"
+       FontAttributes="Bold"
+       FontSize="20"
+       TextColor="White"
+                    Margin="0,30,0,0"  
+                   />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="100">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="100"
+       HeightRequest="100"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="14"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="11"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
-                <Button Text="⏮️" Command="{Binding PreviousCommand}" />
-                <Button Text="{Binding PlayPauseButtonText}" Command="{Binding PlayPauseCommand}" />
-                <Button Text="⏭️" Command="{Binding NextCommand}" />
-            </StackLayout>
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularni izvodaci"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150" Margin="5">
+                            <Frame CornerRadius="100" WidthRequest="150"
+                                    HeightRequest="150">
+                                <Image Source="{Binding putanjaSlika}"
+                                   WidthRequest="150"
+                                   HeightRequest="150"
+                                   Aspect="AspectFill" />
+                            </Frame>
+                            
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularni izvodaci"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150" Margin="5">
+                            <Frame CornerRadius="100" WidthRequest="150"
+                                    HeightRequest="150">
+                                <Image Source="{Binding putanjaSlika}"
+                                   WidthRequest="150"
+                                   HeightRequest="150"
+                                   Aspect="AspectFill" />
+                            </Frame>
+
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+           
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="300" Margin="5">
+                            
+                                <Image Source="{Binding putanjaSlika}"
+                                   WidthRequest="300"
+                                   HeightRequest="350"
+                                   Aspect="AspectFill" />
+
+                            <Label Text="{Binding naziv}"
+                           FontSize="25"
+                           TextColor="Gray"
+                           HorizontalOptions="Center" 
+                                   Margin="0,10,0,0"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
         </StackLayout>
 
     </ScrollView>
 </ContentPage>
+

@@ -1,5 +1,6 @@
 ﻿using MusicStreamingService.Models;
 using MusicStreamingService.ViewModels;
+using MusicStreamingService.Views;
 
 namespace MusicStreamingService;
 
@@ -17,16 +18,9 @@ public partial class MainPage : ContentPage
 		
 	}
 
-
-	protected override void OnAppearing()
+	private void SearchHandler(object sender, EventArgs e)
 	{
-		base.OnAppearing();
+		Navigation.PushAsync(new Search());
 
-		if (BindingContext is MainPageViewModel viewModel && viewModel.Songs?.Any() == true)
-		{
-			viewModel.SelectedSong = viewModel.Songs.First();
-		}
 	}
-
-
 }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.Views.Login"
+             BackgroundColor="Black"
              >
     <ContentPage.Content>
         <VerticalStackLayout 
@@ -23,6 +24,8 @@
             <Entry 
                 x:Name="UsernameEntry"
                 Placeholder="Username" 
+                               PlaceholderColor="Black"
+
                 Keyboard="Text"
                 TextColor="Black"
                 BackgroundColor="LightGray"
@@ -33,6 +36,8 @@
             <Entry 
                 x:Name="PasswordEntry"
                 Placeholder="Password" 
+                               PlaceholderColor="Black"
+
                 IsPassword="True"
                 TextColor="Black"
                 BackgroundColor="LightGray"
