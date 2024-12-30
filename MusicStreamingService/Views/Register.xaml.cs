@@ -14,7 +14,9 @@ public partial class Register : ContentPage
 	{
 		if (Application.Current != null)
 		{
-			await Shell.Current.GoToAsync("//Login");
+			await Shell.Current.GoToAsync("//Aut/Register");
+
+
 		}
 	}
 
@@ -44,8 +46,8 @@ public partial class Register : ContentPage
 
 		if (Application.Current != null)
 		{
-			NavigationPage loginNavigationPage = new NavigationPage(new Login());
-			Application.Current.MainPage = loginNavigationPage;
+			Application.Current.MainPage = new Login();
+
 		}
 	}
 }

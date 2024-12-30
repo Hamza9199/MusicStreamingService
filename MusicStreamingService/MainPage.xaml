@@ -1,26 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              x:Class="MusicStreamingService.MainPage"
+             xmlns:icon="clr-namespace:MusicStreamingService"
+             xmlns:helper="clr-namespace:MusicStreamingService"
              Background="Black"
              BackgroundColor="Black">
-    
-    
+
+    <ContentPage.Behaviors> 
+        <mct:StatusBarBehavior StatusBarColor="#333" StatusBarStyle="DarkContent"/>
+        
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <x:String x:Key="smile">&#xf118; </x:String>
+    </ContentPage.Resources>
+        
     <ScrollView>
         <StackLayout Padding="10" Spacing="10" Margin="5,0,0,5">
-            
 
-
+            <Label Text="DECIBEL" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" FontSize="23" Padding="0,10,0,0"></Label>
+           
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                 <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,10,10,10" WidthRequest="170" HeightRequest="85">
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
-                    </Frame.GestureRecognizers>
+                   
                     <HorizontalStackLayout>
-                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <ImageButton Source="Images/like.bmp" HeightRequest="60" WidthRequest="60" Clicked="ImageButton_Clicked" Margin="0,0,10,0" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="Label 1" TextColor="White" />
-                            <Label Text="Label 2" TextColor="White" />
+                            <Label Text="Pjesme" TextColor="White" />
+                            <Label Text="Oznacene sa Like" TextColor="White" />
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>
@@ -92,6 +101,21 @@
                        FontSize="12"
                        TextColor="Gray"
                        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -128,7 +152,24 @@
                FontSize="12"
                TextColor="Gray"
                HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
+                        
+                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -164,6 +205,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="11"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -200,6 +256,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -237,6 +308,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -273,6 +359,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -309,43 +410,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
 
-
-            <Label Text="Poularni albumi"
-       FontAttributes="Bold"
-       FontSize="22"
-       TextColor="White"
-       Margin="0,30,0,0"    
-           />
-
-            <CollectionView ItemsSource="{Binding Songs}" 
-SelectionMode="Single" 
-SelectedItem="{Binding nista, Mode=TwoWay}"
-SelectionChangedCommand="{Binding SelectSongCommand}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10" WidthRequest="150">
-                            <Image Source="{Binding putanjaSlika}"
-       WidthRequest="150"
-       HeightRequest="150"
-       Aspect="AspectFill" />
-                            <Label Text="{Binding naziv}"
-       FontAttributes="Bold" 
-       FontSize="16"
-       HorizontalOptions="Center"
-       TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -383,6 +462,73 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Songs}" 
+SelectionMode="Single" 
+SelectedItem="{Binding nista, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            <Label Text="{Binding opis}"
+       FontSize="12"
+       TextColor="Gray"
+       HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -419,6 +565,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="12"
        TextColor="Gray"
        HorizontalOptions="Center" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -448,6 +609,21 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                            TextColor="Gray"
                            HorizontalOptions="Center" 
                                    Margin="0,10,0,0"/>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

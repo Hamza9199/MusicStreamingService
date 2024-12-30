@@ -11,9 +11,9 @@ namespace MusicStreamingService.Models
 	public class Korisnik
 	{
 		public Int64 korisnikID { get; set; }
-		public string ime { get; set; }
+		public string? ime { get; set; }
 
-		public string prezime { get; set; }
+		public string? prezime { get; set; }
 
 		public string? bio { get; set; }
 

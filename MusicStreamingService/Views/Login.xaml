@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.Views.Login"
              BackgroundColor="Black"
+             
              >
     <ContentPage.Content>
         <VerticalStackLayout 

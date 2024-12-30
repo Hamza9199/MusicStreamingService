@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using MusicStreamingService.Views;
+using Newtonsoft.Json;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -181,13 +182,14 @@ namespace MusicStreamingService.ViewModels
 
 			if (CurrentSong != null) 
 			{
-				await App.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
+				await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
+
 			}
 
 		}
 
 		private async Task LoadSongsAsync()
-		{
+		{	
 			try
 			{
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
@@ -196,7 +198,7 @@ namespace MusicStreamingService.ViewModels
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
 
-				var pjesme = JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
+				var pjesme = System.Text.Json.JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
@@ -228,7 +230,7 @@ namespace MusicStreamingService.ViewModels
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var albumi = JsonSerializer.Deserialize<List<Album>>(json, new JsonSerializerOptions
+				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Album>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
@@ -262,7 +264,7 @@ namespace MusicStreamingService.ViewModels
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var korisnici = JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
+				var korisnici = System.Text.Json.JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});

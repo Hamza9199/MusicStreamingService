@@ -2,7 +2,8 @@ namespace MusicStreamingService.Views;
 
 using MusicStreamingService.Models;
 using MusicStreamingService.ViewModels;
-
+using Newtonsoft.Json;
+using System.Text.Json;
 
 public partial class AudioPlayer : ContentPage
 {
@@ -10,7 +11,8 @@ public partial class AudioPlayer : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = new AudioPlayerViewModel(odabranaPjesma);
+
 	}
 
-
+	
 }

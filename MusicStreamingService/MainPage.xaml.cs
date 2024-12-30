@@ -18,5 +18,13 @@ public partial class MainPage : ContentPage
 		
 	}
 
-	
+	private void OnLajkovanePjesmeClicked(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new LajkovanePjesme());
+	}
+
+	private void ImageButton_Clicked(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new LajkovanePjesme());
+	}
 }

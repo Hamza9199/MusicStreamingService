@@ -1,4 +1,6 @@
-﻿namespace MusicStreamingService
+﻿using MusicStreamingService.Views;
+
+namespace MusicStreamingService
 {
 	public partial class App : Application
 	{
@@ -7,15 +9,16 @@
 			InitializeComponent();
 
 			MainPage = new AppShell();
-			
-			
+
+			Routing.RegisterRoute("Register", typeof(Register));
+			Routing.RegisterRoute("Login", typeof(Login));
+			Routing.RegisterRoute("Search", typeof(Search));
+			Routing.RegisterRoute("MainTabs/D_FAULT_Tab9/MainPage", typeof(MainPage));
+
+			Routing.RegisterRoute("MainTabs/MainPage", typeof(MainPage));
+			Routing.RegisterRoute("MainTabs/Search", typeof(Search));
 		}
 
-		protected override void OnStart()
-		{
-			base.OnStart();
 
-			Shell.Current.GoToAsync("//Register");
-		}
 	}
 }

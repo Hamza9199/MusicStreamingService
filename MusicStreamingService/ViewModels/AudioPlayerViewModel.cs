@@ -47,6 +47,7 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 
 		var mediaManager = CrossMediaManager.Current;
 
+
 		if (isPlaying)
 		{
 			await mediaManager.Pause();

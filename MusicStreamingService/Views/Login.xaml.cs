@@ -1,9 +1,13 @@
 using Microsoft.Maui.Controls;
+using MusicStreamingService.Models;
+using MusicStreamingService.Services;
 
 namespace MusicStreamingService.Views;
 
 public partial class Login : ContentPage
 {
+
+	readonly ILoginRepository _loginRepository = new LoginService();
 	public Login()
 	{
 		InitializeComponent();
@@ -13,7 +17,7 @@ public partial class Login : ContentPage
 	{
 		if (Application.Current != null)
 		{
-			await Shell.Current.GoToAsync("//Register");
+			await Shell.Current.GoToAsync("//Aut/Login");
 		}
 	}
 
@@ -28,12 +32,17 @@ public partial class Login : ContentPage
 			return;
 		}
 
-		if (username == "hamza" && password == "hamza")
+
+		Korisnik korisnikInfo = await _loginRepository.Login(username, password);
+
+
+		if (username == "h" && password == "h")
 		{
 			await DisplayAlert("Success", "Login successful!", "Ok");
 			if (Application.Current != null)
 			{
-				await Shell.Current.GoToAsync("//MainPage");
+				await Shell.Current.GoToAsync("//MainTabs/MainPage");
+
 			}
 		}
 		else
