@@ -14,7 +14,7 @@ public partial class Register : ContentPage
 	{
 		if (Application.Current != null)
 		{
-			await Shell.Current.GoToAsync("//Aut/Register");
+			await Shell.Current.GoToAsync("//Aut/Login");
 
 
 		}

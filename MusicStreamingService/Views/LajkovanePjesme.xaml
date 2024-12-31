@@ -1,139 +1,150 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MusicStreamingService.Views.LajkovanePjesme"
+             xmlns:views="clr-namespace:MusicStreamingService.Views"
+             xmlns:bottomsheet="clr-namespace:The49.Maui.BottomSheet;assembly=The49.Maui.BottomSheet"
+             x:Class="MusicStreamingService.Views.LajkovanePjesme"                    
              >
-    <ScrollView>
-        <VerticalStackLayout>
-            <StackLayout
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout>
+                <StackLayout
                 Padding="10,20,100,0"
                 >
-                <Label 
+                    <Label 
             Text="Pjesme označene sa ´Sviđa mi se´"
             FontSize="21"
             FontAttributes="Bold"    
             />
-            <Label
+                    <Label
                 Text="20 pjesama"
                 Padding="0,10,0,0"
                 TextColor="Gray"
                 />
-            </StackLayout>
-            
-            <HorizontalStackLayout Margin="0,20,0,0">
+                </StackLayout>
+
+                <HorizontalStackLayout Margin="0,20,0,0">
 
                     <ImageButton
-                    Source="Images/dotnet_bot.png" WidthRequest="30" HeightRequest="30" Margin="10,0,0,0"
+                    Source="Images/dotnet_bot.png" WidthRequest="30" HeightRequest="30" Margin="10,0,0,0" Clicked="ImageButton_Clicked"
                    />
-               
+
                     <ImageButton
                          Source="Images/dotnet_bot.png"  WidthRequest="30" HeightRequest="30" Margin="210,0,0,0"
                         />
-                        
-                     <ImageButton
+
+                    <ImageButton
                           Source="Images/dotnet_bot.png"  WidthRequest="30" HeightRequest="30"
                          />
-                
-            </HorizontalStackLayout>
 
-            <CollectionView
+                </HorizontalStackLayout>
+
+               
+
+                <CollectionView
                 x:Name="collectionView" 
                 ItemsSource="{Binding Pjesme}"
                 SelectionMode="Single"
                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
                 SelectionChangedCommand="{Binding PlayPauseCommand}"
                 >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding BindingContext.PlayPauseCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                     CommandParameter="{Binding .}" 
                                     />
-                            </Frame.GestureRecognizers>
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image
                                 Grid.Column="0"
                                 Source="{Binding putanjaSlika}"
                                 HeightRequest="120"
                                 WidthRequest="80"/>
-                                <StackLayout
+                                    <StackLayout
                                 Grid.Column="1"
                                 Padding="10"
                                 VerticalOptions="Center">
-                                    <Label
+                                        <Label
                                     Text="{Binding naziv}"
                                     FontSize="16"
                                     FontAttributes="Bold"/>
-                                    <Label
+                                        <Label
                                     Text="{Binding opis}"
                                     FontSize="14"
                                     TextColor="Gray"/>
-                                </StackLayout>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            </CollectionView>
+                </CollectionView>
 
-            <Label Text="Dodatne pjesme"
+                <Label Text="Dodatne pjesme"
                    FontAttributes="Bold"
                    FontSize="16"
                    Padding="20,30,0,30"
                    />
 
-            <CollectionView
+                <CollectionView
                 ItemsSource="{Binding Pjesme}"
                 SelectionMode="Single"
                 SelectedItem="{Binding CurrentSong2, Mode=TwoWay}"
                 SelectionChangedCommand="{Binding SelectSongCommand}"
                 >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
                                     Command="{Binding BindingContext.PlayPauseCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                     CommandParameter="{Binding .}" 
                                     />
-                            </Frame.GestureRecognizers>
+                                </Frame.GestureRecognizers>
 
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image
+                                <Grid Padding="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image
                                 Grid.Column="0"
                                 Source="{Binding putanjaSlika}"
                                 HeightRequest="60"
                                 WidthRequest="60"/>
-                                <StackLayout
+                                    <StackLayout
                                 Grid.Column="1"
                                 Padding="10"
                                 VerticalOptions="Center">
-                                    <Label
+                                        <Label
                                     Text="{Binding naziv}"
                                     FontSize="16"
                                     FontAttributes="Bold"/>
-                                    <Label
+                                        <Label
                                     Text="{Binding opis}"
                                     FontSize="14"
                                     TextColor="Gray"/>
-                                </StackLayout>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            </CollectionView>
+                </CollectionView>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+       
+
+
+    </Grid>
 </ContentPage>

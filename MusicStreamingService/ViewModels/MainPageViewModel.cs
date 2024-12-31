@@ -23,7 +23,7 @@ namespace MusicStreamingService.ViewModels
 
 		public ObservableCollection<Pjesma> Songs { get; set; } 
 
-		public ObservableCollection<Album> Albumi { get; set; }
+		public ObservableCollection<Models.Album> Albumi { get; set; }
 
 		public ObservableCollection<HistorijaSlusanja> historijeSlusanja { get; set; }
 
@@ -122,7 +122,7 @@ namespace MusicStreamingService.ViewModels
 			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
 
 			Songs = new ObservableCollection<Pjesma>();
-			Albumi = new ObservableCollection<Album>();
+			Albumi = new ObservableCollection<Models.Album>();
 			historijeSlusanja = new ObservableCollection<HistorijaSlusanja>();
 			korisnici = new ObservableCollection<Korisnik>();
 			komentari = new ObservableCollection<Komentar>();
@@ -230,7 +230,7 @@ namespace MusicStreamingService.ViewModels
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Album>>(json, new JsonSerializerOptions
+				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Models.Album>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});

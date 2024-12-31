@@ -4,10 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MusicStreamingService"
     xmlns:views="clr-namespace:MusicStreamingService.Views"
+    xmlns:vm="clr-namespace:MusicStreamingService.ViewModels"
     FlyoutBehavior="Disabled"
+    
     BackgroundColor="Black"
     xmlns:icon="clr-namespace:MusicStreamingService"
     Title="MusicStreamingService">
+
+    <Shell.BindingContext>
+        <vm:AppViewModel/>
+    </Shell.BindingContext>
+
+    
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout>
@@ -29,15 +37,38 @@
         Black
     </Shell.TabBarBackgroundColor>
 
-    <!-- <FlyoutItem Title="Autentifikacija" FlyoutDisplayOptions="AsMultipleItems">  -->
-    <!-- <Tab Title="Registracija" Icon="Images/dotnet_bot.png">-->
-            
-       <!-- </Tab>-->
-    <!--  <Tab Title="Prijava" Icon="Images/dotnet_bot.png">-->
-    
-    <!--  </Tab>-->
-    <!--  </FlyoutItem>-->
+    <FlyoutItem Title="Home" Icon="Images/dotnet_bot.png">
+        <Tab Title="Pocetna" Icon="Images/dotnet_bot.png">
+            <ShellContent
+        Route="MainPage"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+        <Tab Title="Pretraga" Icon="Images/dotnet_bot.png">
+            <ShellContent
+        Route="Search"
+        ContentTemplate="{DataTemplate views:Search}" />
+        </Tab>
+        <Tab Title="Biblioteka" Icon="Images/dotnet_bot.png">
+            <ShellContent
+         Route="Biblioteka"
+         ContentTemplate="{DataTemplate views:Biblioteka}" />
+        </Tab>
+        <Tab Title="Premium" Icon="Images/dotnet_bot.png">
+            <ShellContent
+        Route="Premium"
+        ContentTemplate="{DataTemplate views:Premium}" />
+        </Tab>
+    </FlyoutItem>
 
+   
+
+    <FlyoutItem Title="Postavke" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Postavke" Icon="Images/dotnet_bot.png" Route="Postavke" ContentTemplate="{DataTemplate views:Postavke}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Profil" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Profil" Icon="Images/dotnet_bot.png" Route="Profil" ContentTemplate="{DataTemplate views:Profil}" />
+    </FlyoutItem>
 
     <TabBar Route="Aut">
         <Tab Title="Login" Icon="Images/dotnet_bot.png">
@@ -66,12 +97,12 @@
         <Tab Title="Biblioteka" Icon="Images/dotnet_bot.png">
             <ShellContent
                  Route="Biblioteka"
-                 ContentTemplate="{DataTemplate views:Search}" />
+                 ContentTemplate="{DataTemplate views:Biblioteka}" />
         </Tab>
         <Tab Title="Premium" Icon="Images/dotnet_bot.png">
             <ShellContent
                 Route="Premium"
-                ContentTemplate="{DataTemplate views:Search}" />
+                ContentTemplate="{DataTemplate views:Premium}" />
         </Tab>
     </TabBar>
 

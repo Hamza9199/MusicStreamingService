@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.Views.Profil"
+             Title="Profil">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#333">
+                <VerticalStackLayout>
+                    <Label Text="Profil korisnika" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Image Source="{Binding ProfilnaSlika}" HeightRequest="100" WidthRequest="100" HorizontalOptions="Center"/>
+                    <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="{Binding Ime}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,3,0"/>
+                        <Label Text="{Binding Prezime}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    
+                    <Label Text="{Binding Email}" FontSize="16" TextColor="Gray" HorizontalOptions="Center" Margin="0,10,0,10"/>
+                    <Button Text="Ažuriraj informacije" Command="{Binding UpdateProfileCommand}" BackgroundColor="#007BFF" TextColor="White" CornerRadius="10"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#333333">
+                <VerticalStackLayout>
+                    <Label Text="Moje pjesme" FontSize="20" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding MojePjesme}" Margin="0,10,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal" Spacing="10">
+                                    <Image Source="{Binding putanjaSlika}" HeightRequest="50" WidthRequest="50"/>
+                                    <Label Text="{Binding naziv}" FontSize="16" VerticalOptions="Center"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#333333">
+                <VerticalStackLayout>
+                    <Label Text="Moji albumi" FontSize="20" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding MojiAlbumi}" Margin="0,10,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal" Spacing="10">
+                                    <Image Source="{Binding putanjaSlika}" HeightRequest="50" WidthRequest="50"/>
+                                    <Label Text="{Binding naziv}" FontSize="16" VerticalOptions="Center"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

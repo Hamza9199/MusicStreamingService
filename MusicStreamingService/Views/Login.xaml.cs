@@ -17,7 +17,7 @@ public partial class Login : ContentPage
 	{
 		if (Application.Current != null)
 		{
-			await Shell.Current.GoToAsync("//Aut/Login");
+			await Shell.Current.GoToAsync("//Aut/Register");
 		}
 	}
 
@@ -39,9 +39,11 @@ public partial class Login : ContentPage
 		if (username == "h" && password == "h")
 		{
 			await DisplayAlert("Success", "Login successful!", "Ok");
+			MessagingCenter.Send<Login>(this, "admin");
 			if (Application.Current != null)
 			{
-				await Shell.Current.GoToAsync("//MainTabs/MainPage");
+				//Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+				await Shell.Current.GoToAsync("//MainTabs");
 
 			}
 		}

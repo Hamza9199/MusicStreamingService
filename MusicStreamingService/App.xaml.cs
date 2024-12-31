@@ -10,6 +10,8 @@ namespace MusicStreamingService
 
 			MainPage = new AppShell();
 
+			Routing.RegisterRoute("LajkovanePjesme", typeof(LajkovanePjesme));
+			Routing.RegisterRoute("MainPage", typeof(MainPage));
 			Routing.RegisterRoute("Register", typeof(Register));
 			Routing.RegisterRoute("Login", typeof(Login));
 			Routing.RegisterRoute("Search", typeof(Search));

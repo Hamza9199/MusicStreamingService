@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.Views.Postavke"
+             Title="Postavke"
+             
+             >
+
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <Label Text="Besplatno" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" 
+                   FontSize="23" Padding="0,20,0,20"
+                   />
+
+            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer
+                         Command="{Binding PrebaciDetalje}" 
+                         />
+                </Frame.GestureRecognizers>
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                     Grid.Column="0"
+                     Source="Images/dotnet_bot.png"
+                     HeightRequest="120"
+                     WidthRequest="80"/>
+                    <StackLayout
+                     Grid.Column="1"
+                     Padding="10"
+                     VerticalOptions="Center">
+                        <Label
+                         Text="Račun"
+                         FontSize="16"
+                         FontAttributes="Bold"/>
+                        <Label
+                         Text="Detalj o pretplati"
+                         FontSize="14"
+                         TextColor="Gray"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer
+                         Command="{Binding PrebaciInfo}" 
+                         />
+                </Frame.GestureRecognizers>
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                      Grid.Column="0"
+                      Source="Images/dotnet_bot.png"
+                      HeightRequest="120"
+                      WidthRequest="80"/>
+                    <StackLayout
+                      Grid.Column="1"
+                      Padding="10"
+                      VerticalOptions="Center">
+                        <Label
+                          Text="Informacije"
+                          FontSize="16"
+                          FontAttributes="Bold"/>
+                        <Label
+                          Text="Detalj o aplikaciji"
+                          FontSize="14"
+                          TextColor="Gray"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+
+            <Button Text="Odjava" BackgroundColor="White" TextColor="#333" Margin="100,10,100,0" Clicked="Odjava_Clicked"></Button>
+
+
+        </VerticalStackLayout>
+        
+    </ScrollView>
+    
+</ContentPage>

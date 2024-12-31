@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
+using The49.Maui.BottomSheet;
 
 namespace MusicStreamingService
 {
@@ -11,6 +12,7 @@ namespace MusicStreamingService
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseBottomSheet()
 				.ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -20,7 +22,7 @@ namespace MusicStreamingService
 				fonts.AddFont("Brands-Regular-400.ttf", "FAB");
 				fonts.AddFont("Free-Regular-400.ttf", "FAR");
 				fonts.AddFont("Free-Solid-900.ttf", "FAS");
-			}).UseMauiCommunityToolkit();
+			}).UseMauiCommunityToolkit().UseBottomSheet();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

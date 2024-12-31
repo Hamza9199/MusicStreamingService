@@ -8,12 +8,21 @@ namespace MusicStreamingService
 		{
 			InitializeComponent();
 
-
-
 		}
 
-
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			SetInitialRoute();
+		}
+		private async void SetInitialRoute()
+		{
+			await Shell.Current.GoToAsync("//Aut");
+		}
 		
+
+
+
 		private void AddTabBar(TabbarItem[] items)
 		{
 			var tabBar = new TabBar();

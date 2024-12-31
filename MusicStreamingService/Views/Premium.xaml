@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicStreamingService.Views.Premium"
+             >
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="30">
+
+            <StackLayout>
+                <Label 
+                    Text="Otključaj nevjerovatne mogučnosti sa Premium profilom"
+                    FontSize="24" 
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" 
+                    Margin="0,0,0,14"
+                    TextColor="Gray"/>
+                <Label 
+                    Text="Uživaj bez reklama, offline slušanju, i beskonačnim skipovanjem."
+                    FontSize="16" 
+                    HorizontalOptions="Center" 
+                    TextColor="Gray"/>
+            </StackLayout>
+
+            
+            <StackLayout>
+                <Label Text="Zašto Premium?" FontSize="20" FontAttributes="Bold" TextColor="Gray"  Margin="0,0,0,20"/>
+                <VerticalStackLayout Spacing="10">
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="30" WidthRequest="30" />
+                        <Label Text="Reklama bez užitak." FontSize="16" TextColor="Gray" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="30" WidthRequest="30" />
+                        <Label Text="Skidanje i slušanje pjesama offline." FontSize="16" TextColor="Gray" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="Images/dotnet_bot.png" HeightRequest="30" WidthRequest="30" />
+                        <Label Text="Beskonačno skipovanje za vaše pjesme." FontSize="16" TextColor="Gray" />
+                    </StackLayout>
+                </VerticalStackLayout>
+            </StackLayout>
+
+            
+            <StackLayout>
+                <Label Text="Izaberi svoj plan" FontSize="20" FontAttributes="Bold" TextColor="Gray"  Margin="0,0,0,10"/>
+                <VerticalStackLayout Spacing="15">
+                    <Frame BackgroundColor="#FFDDDD" CornerRadius="10" Padding="10">
+                        <StackLayout>
+                            <Label Text="Individualni Plan" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                            <Label Text="9.99 KM/mjesečno" FontSize="16" TextColor="Gray" />
+                            <Label Text="1 korisnički račun, muzika bez reklama, offline slušanje." FontSize="14" TextColor="Gray" />
+                        </StackLayout>
+                    </Frame>
+                    <Frame BackgroundColor="#DDFFDD" CornerRadius="10" Padding="10">
+                        <StackLayout>
+                            <Label Text="Obiteljski Plan" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                            <Label Text="14.99 KM/mjesečno" FontSize="16" TextColor="Gray" />
+                            <Label Text="Do 6 korisničkih računa, muzika bez reklama, offline slušanje." FontSize="14" TextColor="Gray" />
+                        </StackLayout>
+                    </Frame>
+                    <Frame BackgroundColor="#DDDDFF" CornerRadius="10" Padding="10">
+                        <StackLayout>
+                            <Label Text="Studentski Plan" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                            <Label Text="4.99 KM/mjesečno" FontSize="16" TextColor="Gray" />
+                            <Label Text="1 korisnički račun, muzika bez reklama, offline slušanje." FontSize="14" TextColor="Gray" />
+                        </StackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </StackLayout>
+
+            <StackLayout>
+                <Button 
+                    Text="Kupi Premium Sada"
+                    BackgroundColor="#FF8800"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"/>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

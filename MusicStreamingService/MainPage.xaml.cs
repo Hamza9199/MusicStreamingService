@@ -12,6 +12,12 @@ public partial class MainPage : ContentPage
 		BindingContext = new MainPageViewModel();
 	}
 
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+	}
 	private void OnLogoutClicked(object sender, EventArgs e)
 	{
 		Navigation.PopAsync();
