@@ -13,7 +13,7 @@ namespace MusicStreamingService.Services
 {
 	public class LoginService : ILoginRepository
 	{
-		public async Task<Korisnik> Login(string username, string password)
+		public async Task<string> Login(Korisnik korisnik)
 		{
 			var userInfo = new List<Korisnik>();
 			var _httpClient = new HttpClient
@@ -22,19 +22,45 @@ namespace MusicStreamingService.Services
 			};
 			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
 
-			var response = await _httpClient.GetAsync($"api/KorisnikControllerAPI/{username}/{password}");
+			var response = await _httpClient.GetAsync($"Identity/Account/Login/{korisnik.korisnickoIme}/{korisnik.lozinka}");
 
 			if (response.IsSuccessStatusCode)
 			{
 				string content = await response.Content.ReadAsStringAsync();
 				userInfo = JsonConvert.DeserializeObject<List<Korisnik>>(content);
-				 
-				return await Task.FromResult(userInfo.FirstOrDefault());
+				if (userInfo != null)
+				{
+					await SecureStorage.SetAsync("token", userInfo.ToString());
+					return userInfo.ToString();
+				}
+
+				return null;
 			}
 			else
 			{
 				return null;
 			}
 		}
+
+		public async Task<bool> isUserAuthenticated()
+		{
+			var token = await SecureStorage.GetAsync("token");
+
+			if (token != null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+
+		public void LogoutAsync()
+		{
+			SecureStorage.Default.Remove("token");
+		}
+
 	}
 }

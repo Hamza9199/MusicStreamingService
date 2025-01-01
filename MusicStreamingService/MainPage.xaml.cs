@@ -1,4 +1,5 @@
 ﻿using MusicStreamingService.Models;
+using MusicStreamingService.Services;
 using MusicStreamingService.ViewModels;
 using MusicStreamingService.Views;
 
@@ -6,10 +7,28 @@ namespace MusicStreamingService;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage()
+	private readonly ILoginRepository _loginRepository;
+	public MainPage(ILoginRepository loginRepository)
 	{
 		InitializeComponent();
+		_loginRepository = loginRepository;
 		BindingContext = new MainPageViewModel();
+	}
+
+
+	protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+
+		if (await _loginRepository.isUserAuthenticated())
+		{
+			await Shell.Current.GoToAsync("//MainTabs");
+		}
+		else
+		{
+			await Shell.Current.GoToAsync("//Aut");
+
+		}
 	}
 
 	protected override void OnAppearing()

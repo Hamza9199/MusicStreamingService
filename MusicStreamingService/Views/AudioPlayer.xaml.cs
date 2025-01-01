@@ -15,15 +15,5 @@ public partial class AudioPlayer : ContentPage
 
 	}
 
-	protected override void OnDisappearing()
-	{
-		base.OnDisappearing();
-
-		var viewModel = BindingContext as AudioPlayerViewModel;
-		if (viewModel != null)
-		{
-			var mediaManager = CrossMediaManager.Current;
-			mediaManager.Stop();
-		}
-	}
+	
 }

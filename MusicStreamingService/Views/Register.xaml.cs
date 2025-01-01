@@ -1,12 +1,16 @@
 using Microsoft.Maui.Controls;
 using MusicStreamingService.Models;
+using MusicStreamingService.Services;
 
 namespace MusicStreamingService.Views;
 
 public partial class Register : ContentPage
 {
-	public Register()
+	readonly ILoginRepository _loginRepository;
+
+	public Register(ILoginRepository loginRepository)
 	{
+		_loginRepository = loginRepository;
 		InitializeComponent();
 	}
 
@@ -15,8 +19,6 @@ public partial class Register : ContentPage
 		if (Application.Current != null)
 		{
 			await Shell.Current.GoToAsync("//Aut/Login");
-
-
 		}
 	}
 
@@ -46,8 +48,7 @@ public partial class Register : ContentPage
 
 		if (Application.Current != null)
 		{
-			Application.Current.MainPage = new Login();
-
+			Application.Current.MainPage = new Login(_loginRepository);
 		}
 	}
 }

@@ -15,6 +15,19 @@ public partial class LajkovanePjesme : ContentPage
 
 	}
 
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		var viewModel = BindingContext as LajkovanePjesmeViewModel;
+		if (viewModel != null)
+		{
+			viewModel.CurrentSong = null;
+			var mediaManager = CrossMediaManager.Current;
+			mediaManager.Stop();
+		}
+	}
+
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();

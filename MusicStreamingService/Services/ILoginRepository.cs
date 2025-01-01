@@ -9,6 +9,9 @@ namespace MusicStreamingService.Services
 {
     public interface ILoginRepository
     {
-		Task<Korisnik> Login(string username, string password);
+		Task<string> Login(Korisnik korisnik);
+		Task<bool> isUserAuthenticated();
+
+		void LogoutAsync();
 	}
 }

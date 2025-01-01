@@ -1,16 +1,25 @@
 using Microsoft.Maui.Controls;
 using MusicStreamingService.Models;
 using MusicStreamingService.Services;
+using System.Diagnostics;
 
 namespace MusicStreamingService.Views;
 
 public partial class Login : ContentPage
 {
 
-	readonly ILoginRepository _loginRepository = new LoginService();
-	public Login()
+	readonly ILoginRepository _loginRepository;
+	public Login(ILoginRepository loginRepository)
 	{
 		InitializeComponent();
+		_loginRepository = loginRepository;
+	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
 	}
 
 	private async void OnSignUpLabelTapped(object sender, EventArgs e)
@@ -32,14 +41,37 @@ public partial class Login : ContentPage
 			return;
 		}
 
+		Korisnik korisnik = new Korisnik
+		{
+			korisnickoIme = username,
+			lozinka = password
+		};
 
-		Korisnik korisnikInfo = await _loginRepository.Login(username, password);
+		var error = _loginRepository.Login(korisnik);
+		Debug.WriteLine(error);
+		/*
+		if (error != null)
+		{
+			await DisplayAlert("Error", await error, "OK");
+			return;
+		}
+		else
+		{
+			await DisplayAlert("Success", "Login successful!", "Ok");
+			MessagingCenter.Send<Login>(this, "admin");
+			if (Application.Current != null)
+			{
+				//Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+				await Shell.Current.GoToAsync("//MainTabs");
+			}
+		}*/
 
 
 		if (username == "h" && password == "h")
 		{
 			await DisplayAlert("Success", "Login successful!", "Ok");
 			MessagingCenter.Send<Login>(this, "admin");
+			await SecureStorage.SetAsync("token", korisnik.ToString());
 			if (Application.Current != null)
 			{
 				//Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;

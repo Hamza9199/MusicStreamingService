@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MusicStreamingService.Behaviors"
              x:Class="MusicStreamingService.Views.AudioPlayer"
              BackgroundColor="Black">
     <VerticalStackLayout Spacing="20" Padding="20" HorizontalOptions="Center">
 
         <Image Source="{Binding CurrentSong.putanjaSlika}"
                WidthRequest="300"
-               HeightRequest="400"
+               HeightRequest="330"
                Aspect="AspectFill"
                VerticalOptions="Center" />
 
-            
-                
         <VerticalStackLayout VerticalOptions="Center" Spacing="5" HorizontalOptions="Center">
             <Label Text="{Binding CurrentSong.naziv}"
-                    FontSize="30"
-                    FontAttributes="Bold"
-                    TextColor="Gray" 
-                    Margin="0,10,0,0"
-                   />
+                   FontSize="25"
+                   FontAttributes="Bold"
+                   TextColor="Gray"
+                   Margin="10,5,0,0" />
             <Label Text="{Binding CurrentSong.opis}"
-                    FontSize="25"
-                    TextColor="Gray"
-                    HorizontalOptions="Start"
-                    Margin="-13,20,0,0"
-                   />
-                   
+                   FontSize="23"
+                   TextColor="Gray"
+                   HorizontalOptions="Start"
+                   Margin="-5,5,0,0" />
         </VerticalStackLayout>
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" Margin="0,0,0,0">
-            <Button Text="⏮️" Command="{Binding PreviousCommand}" BackgroundColor="Transparent" />
+        <Label Text="{Binding CurrentTime}" 
+               FontSize="18" 
+               TextColor="White" 
+               HorizontalTextAlignment="Center"
+               Margin="0,-3,0,-15"
+               />
+        <Slider Minimum="0" Maximum="{Binding SongDuration}" 
+                Value="{Binding CurrentPosition}">
+            <Slider.Behaviors>
+                <local:EventToCommandBehavior Command="{Binding SliderValueChangedCommand}" />
+            </Slider.Behaviors>
+        </Slider>
+
+        
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" Margin="0,-20,0,0">
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" Spacing="20" Margin="0,0,-40,0">
+                <Button Text="🔉" Command="{Binding VolumeDownCommand}" BackgroundColor="Transparent" Margin="0,0,0,-20" />
+                <Slider Minimum="0" Maximum="1" 
+            Value="{Binding Volume}" />
+                <Button Text="🔊" Command="{Binding VolumeUpCommand}" BackgroundColor="Transparent" Margin="0,-20,0,0"/>
+            </StackLayout>
+            <Button Text="-5s  ⏪" Command="{Binding RewindCommand}" BackgroundColor="Transparent" TextColor="Gray" />
             <Button Text="{Binding PlayPauseButtonText}"
                     BackgroundColor="Transparent"
                     Command="{Binding PlayPauseCommand}"
@@ -39,8 +56,11 @@
                     CornerRadius="25"
                     WidthRequest="80"
                     HeightRequest="80" />
-            <Button Text="⏭️" Command="{Binding NextCommand}" BackgroundColor="Transparent" />
+            <Button Text="⏩  +5s" Command="{Binding ForwardCommand}" BackgroundColor="Transparent" TextColor="Gray" />
+            
         </StackLayout>
+
+        
 
     </VerticalStackLayout>
 </ContentPage>

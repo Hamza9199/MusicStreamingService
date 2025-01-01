@@ -17,7 +17,7 @@ namespace MusicStreamingService
 		}
 		private async void SetInitialRoute()
 		{
-			await Shell.Current.GoToAsync("//Aut");
+			await Shell.Current.GoToAsync("//MainTabs");
 		}
 		
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using The49.Maui.BottomSheet;
+using MusicStreamingService.Services;
+using MusicStreamingService.Views;
 
 namespace MusicStreamingService
 {
@@ -23,8 +25,14 @@ namespace MusicStreamingService
 				fonts.AddFont("Free-Regular-400.ttf", "FAR");
 				fonts.AddFont("Free-Solid-900.ttf", "FAS");
 			}).UseMauiCommunityToolkit().UseBottomSheet();
+
+            builder.Services.AddSingleton<ILoginRepository, LoginService>();
+			builder.Services.AddSingleton<MainPage>();
+			builder.Services.AddSingleton<Login>();
+			builder.Services.AddSingleton<Register>();
+			builder.Services.AddSingleton<Postavke>();
 #if DEBUG
-            builder.Logging.AddDebug();
+			builder.Logging.AddDebug();
 #endif
             return builder.Build();
         }

@@ -4,26 +4,80 @@ using MusicStreamingService.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Threading;
+using System;
+using System.Timers;
+
 
 public class AudioPlayerViewModel : INotifyPropertyChanged
 {
+
 	public Pjesma CurrentSong { get; private set; }
 	public ICommand PlayPauseCommand { get; }
-	public ICommand NextCommand { get; }
-	public ICommand PreviousCommand { get; }
+	public ICommand RewindCommand { get; }
+	public ICommand ForwardCommand { get; }
+	public ICommand VolumeUpCommand { get; }
+	public ICommand VolumeDownCommand { get; }
+
+	public Command<double> SliderValueChangedCommand { get; }
 
 	private bool isPlaying;
-
+	private System.Threading.Timer timer;
+	private double currentPosition;
+	private double volume = 0.5;
 	public string PlayPauseButtonText => isPlaying ? "⏸️" : "▶️";
 
+
+	public double CurrentPosition
+	{
+		get => currentPosition;
+		set
+		{
+			currentPosition = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public string CurrentTime => TimeSpan.FromSeconds(currentPosition).ToString(@"mm\:ss");
+
+	public double SongDuration { get; private set; }
+	public string SongDurationString => TimeSpan.FromSeconds(SongDuration).ToString(@"mm\:ss");
+
+	public double Volume
+	{
+		get => volume;
+		set
+		{
+			volume = value;
+			CrossMediaManager.Current.Volume.CurrentVolume = (int)volume;
+			OnPropertyChanged();
+		}
+	}
 
 	public AudioPlayerViewModel(Pjesma pjesma)
 	{
 		CurrentSong = pjesma;
 		PlayPauseCommand = new Command(OnPlayPause);
-		//NextCommand = new Command(OnNext);
-		//PreviousCommand = new Command(OnPrevious);
+		RewindCommand = new Command(() => Seek(-5));
+		ForwardCommand = new Command(() => Seek(5));
+		VolumeUpCommand = new Command(() => Volume += 0.1);
+		VolumeDownCommand = new Command(() => Volume -= 0.1);
+		SliderValueChangedCommand = new Command<double>((newValue) =>
+		{
+			CrossMediaManager.Current.SeekTo(TimeSpan.FromSeconds(newValue));
+		});
+
+		timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+
 		OnPropertyChanged(nameof(CurrentSong));
+	}
+
+	private void TimerCallback(object state)
+	{
+		CurrentPosition = CrossMediaManager.Current.Position.TotalSeconds;
+		SongDuration = CrossMediaManager.Current.Duration.TotalSeconds;
+		OnPropertyChanged(nameof(CurrentTime));
+		OnPropertyChanged(nameof(SongDurationString));
 	}
 
 	private string GetAudioPath(Pjesma pjesma)
@@ -81,15 +135,16 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 		OnPropertyChanged(nameof(PlayPauseButtonText));
 	}
 
-
-	private void OnNext()
+	private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
 	{
-		
+		var newPosition = e.NewValue;
+
+		CrossMediaManager.Current.SeekTo(TimeSpan.FromSeconds(newPosition));
 	}
 
-	private void OnPrevious()
+	private void Seek(int seconds)
 	{
-		
+		CrossMediaManager.Current.SeekTo(TimeSpan.FromSeconds(CurrentPosition + seconds));
 	}
 
 	public event PropertyChangedEventHandler PropertyChanged;
