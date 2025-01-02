@@ -128,10 +128,10 @@
                Margin="0,30,0,0"    
                    />
 
-            <CollectionView ItemsSource="{Binding Songs}" 
+            <CollectionView ItemsSource="{Binding Albumi}" 
         SelectionMode="Single" 
-        SelectedItem="{Binding nista, Mode=TwoWay}"
-        SelectionChangedCommand="{Binding SelectSongCommand}">
+        SelectedItem="{Binding CurrentAlbum, Mode=TwoWay}"
+        SelectionChangedCommand="{Binding SelectAlbumCommand}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
@@ -148,11 +148,7 @@
                FontSize="16"
                HorizontalOptions="Center"
                TextColor="White" />
-                            <Label Text="{Binding opis}"
-               FontSize="12"
-               TextColor="Gray"
-               HorizontalOptions="Center" />
-
+                           
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -225,17 +221,17 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="Poularni albumi"
+            <Label Text="Poularne playliste"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
        Margin="0,30,0,0"    
            />
 
-            <CollectionView ItemsSource="{Binding Songs}" 
+            <CollectionView ItemsSource="{Binding playListe}" 
 SelectionMode="Single" 
-SelectedItem="{Binding nista, Mode=TwoWay}"
-SelectionChangedCommand="{Binding SelectSongCommand}">
+SelectedItem="{Binding CurrentPlaylista, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
@@ -252,10 +248,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="16"
        HorizontalOptions="Center"
        TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                           
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -277,7 +270,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularni albumi"
+            <Label Text="Poularni pjesme"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -336,10 +329,10 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        Margin="0,30,0,0"    
            />
 
-            <CollectionView ItemsSource="{Binding Songs}" 
-SelectionMode="Single" 
-SelectedItem="{Binding nista, Mode=TwoWay}"
-SelectionChangedCommand="{Binding SelectSongCommand}">
+            <CollectionView ItemsSource="{Binding korisnici}" 
+            SelectionMode="Single" 
+            SelectedItem="{Binding CurrentKorisnik, Mode=TwoWay}"
+            SelectionChangedCommand="{Binding SelectKorisnikCommand}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
@@ -349,16 +342,16 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                         <StackLayout Padding="10" WidthRequest="150" Margin="5">
                             <Frame CornerRadius="100" WidthRequest="150"
                                     HeightRequest="150">
-                                <Image Source="{Binding putanjaSlika}"
+                                <Image Source="{Binding putanjaProfilneSlike}"
                                    WidthRequest="150"
                                    HeightRequest="150"
                                    Aspect="AspectFill" />
                             </Frame>
                             
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                            <Label Text="{Binding prezime}"
+                               FontSize="13"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -380,6 +373,55 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
             <Label Text="Poularni albumi"
+       FontAttributes="Bold"
+       FontSize="22"
+       TextColor="White"
+       Margin="0,30,0,0"    
+           />
+
+            <CollectionView ItemsSource="{Binding Albumi}" 
+SelectionMode="Single" 
+SelectedItem="{Binding nista, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectSongCommand}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" WidthRequest="150" Margin="20,0,0,0">
+                            <Image Source="{Binding putanjaSlika}"
+       WidthRequest="150"
+       HeightRequest="150"
+       Aspect="AspectFill" />
+                            <Label Text="{Binding naziv}"
+       FontAttributes="Bold" 
+       FontSize="16"
+       HorizontalOptions="Center"
+       TextColor="White" />
+                            
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Label Text="Poularne pjesme"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -431,14 +473,14 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularni albumi"
+            <Label Text="Poularne playliste"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
        Margin="0,30,0,0"    
            />
 
-            <CollectionView ItemsSource="{Binding Songs}" 
+            <CollectionView ItemsSource="{Binding playListe}" 
 SelectionMode="Single" 
 SelectedItem="{Binding nista, Mode=TwoWay}"
 SelectionChangedCommand="{Binding SelectSongCommand}">
@@ -458,62 +500,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="16"
        HorizontalOptions="Center"
        TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="Black"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="Black"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-
-            <Label Text="Poularni albumi"
-       FontAttributes="Bold"
-       FontSize="22"
-       TextColor="White"
-       Margin="0,30,0,0"    
-           />
-
-            <CollectionView ItemsSource="{Binding Songs}" 
-SelectionMode="Single" 
-SelectedItem="{Binding nista, Mode=TwoWay}"
-SelectionChangedCommand="{Binding SelectSongCommand}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10" WidthRequest="150" Margin="20,0,0,0">
-                            <Image Source="{Binding putanjaSlika}"
-       WidthRequest="150"
-       HeightRequest="150"
-       Aspect="AspectFill" />
-                            <Label Text="{Binding naziv}"
-       FontAttributes="Bold" 
-       FontSize="16"
-       HorizontalOptions="Center"
-       TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                            
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -542,7 +529,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        Margin="0,30,0,0"    
            />
 
-            <CollectionView ItemsSource="{Binding Songs}" 
+            <CollectionView ItemsSource="{Binding korisnici}" 
 SelectionMode="Single" 
 SelectedItem="{Binding nista, Mode=TwoWay}"
 SelectionChangedCommand="{Binding SelectSongCommand}">
@@ -555,15 +542,15 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                         <StackLayout Padding="10" WidthRequest="150" Margin="5">
                             <Frame CornerRadius="100" WidthRequest="150"
                                     HeightRequest="150">
-                                <Image Source="{Binding putanjaSlika}"
+                                <Image Source="{Binding putanjaProfilneSlike}"
                                    WidthRequest="150"
                                    HeightRequest="150"
                                    Aspect="AspectFill" />
                             </Frame>
 
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
+                            <Label Text="{Binding ime}"
+       FontSize="13"
+       TextColor="white"
        HorizontalOptions="Center" />
 
                             <VisualStateManager.VisualStateGroups>

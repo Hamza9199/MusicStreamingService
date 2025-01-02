@@ -27,11 +27,11 @@ namespace MusicStreamingService.ViewModels
 
 		public ObservableCollection<HistorijaSlusanja> historijeSlusanja { get; set; }
 
-		public ObservableCollection<Korisnik> korisnici { get; set; }
+		public ObservableCollection<Models.Korisnik> korisnici { get; set; }
 
 		public ObservableCollection<Komentar> komentari { get; set; }
 
-		public ObservableCollection<PlayLista> playListe { get; set; }
+		public ObservableCollection<Models.PlayLista> playListe { get; set; }
 
 		public ObservableCollection<Pretplata> pretplate { get; set; }
 
@@ -64,14 +64,25 @@ namespace MusicStreamingService.ViewModels
 		//public ICommand PreviousCommand { get; }
 
 		public ICommand SelectSongCommand { get; }
+		public ICommand SelectAlbumCommand { get; }
+		public ICommand SelectPlaylistaCommand { get; }
+		public ICommand SelectKorisnikCommand { get; }
+
+
 
 
 		//public string PlayPauseButtonText => IsPlaying ? "⏸️" : "▶️"; 
 
 		private Pjesma _currentSong;
 
-			
-		
+		private Models.Album _currentAlbum;
+
+		private Models.PlayLista _currentPlayLista;
+
+		private Models.Korisnik _currentKorisnik;
+
+
+
 
 		public Pjesma SelectedSong
 		{
@@ -96,6 +107,36 @@ namespace MusicStreamingService.ViewModels
 			set
 			{
 				_currentSong = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Models.Album CurrentAlbum
+		{
+			get => _currentAlbum;
+			set
+			{
+				_currentAlbum = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Models.PlayLista CurrentPlaylista
+		{
+			get => _currentPlayLista;
+			set
+			{
+				_currentPlayLista = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Models.Korisnik CurrentKorisnik
+		{
+			get => _currentKorisnik;
+			set
+			{
+				_currentKorisnik = value;
 				OnPropertyChanged();
 			}
 		}
@@ -126,7 +167,7 @@ namespace MusicStreamingService.ViewModels
 			historijeSlusanja = new ObservableCollection<HistorijaSlusanja>();
 			korisnici = new ObservableCollection<Korisnik>();
 			komentari = new ObservableCollection<Komentar>();
-			playListe = new ObservableCollection<PlayLista>();
+			playListe = new ObservableCollection<Models.PlayLista>();
 			pretplate = new ObservableCollection<Pretplata>();
 			zanrovi = new ObservableCollection<Zanr>();
 			statistikeReprodukcije = new ObservableCollection<StatistikaReprodukcije>();
@@ -146,14 +187,19 @@ namespace MusicStreamingService.ViewModels
 			NextCommand = new Command(OnNext);
 			PreviousCommand = new Command(OnPrevious);*/
 			SelectSongCommand = new Command(OnSongSelected);
+			SelectAlbumCommand = new Command(OnAlbumSelected);
+			SelectPlaylistaCommand = new Command(OnPlayListaSelected);
+			SelectKorisnikCommand = new Command(OnKorisnikSelected);
+
 
 
 			//LoadSongs();
-			LoadSongsAsync();
-			LoadAlbums();
-			LoadKorisnike();
+			_ = LoadSongsAsync();
+			_ = LoadAlbums();
+			_ = LoadKorisnike();
+			_ = LoadPlayListe();
 
-			
+
 		}
 
 		/*private void LoadSongs()
@@ -186,6 +232,30 @@ namespace MusicStreamingService.ViewModels
 
 			}
 
+		}
+
+		private async void OnAlbumSelected()
+		{
+			if (CurrentAlbum != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new Views.Album(CurrentAlbum));
+			}
+		}
+
+		private async void OnPlayListaSelected()
+		{
+			if (CurrentPlaylista != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new Views.Playlista(CurrentPlaylista));
+			}
+		}
+
+		private async void OnKorisnikSelected()
+		{
+			if (CurrentKorisnik != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new PregledIzvodaca(CurrentKorisnik));
+			}
 		}
 
 		private async Task LoadSongsAsync()
@@ -236,7 +306,7 @@ namespace MusicStreamingService.ViewModels
 				});
 				if (albumi != null)
 				{
-					Albumi.Clear();
+					//Albumi.Clear();
 					foreach (var album in albumi)
 					{
 						Debug.WriteLine($"Naziv: {album.naziv}, Opis: {album.opis}");
@@ -264,26 +334,31 @@ namespace MusicStreamingService.ViewModels
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var korisnici = System.Text.Json.JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
+
+				var korisnici2 = System.Text.Json.JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
-				if (korisnici != null)
+
+				if (korisnici2 != null && korisnici2.Any())
 				{
-					korisnici.Clear();
-					foreach (var korisnik in korisnici)
+					foreach (var korisnik in korisnici2)
 					{
-						Debug.WriteLine($"Naziv: {korisnik.korisnickoIme}, Opis: {korisnik.email}");
+						Debug.WriteLine($"Naziv: {korisnik.ime}, Opis: {korisnik.prezime}");
 						korisnici.Add(korisnik);
 					}
+				}
+				else
+				{
+					Debug.WriteLine("Lista korisnika je prazna ili null.");
 				}
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja korisnika: {ex.Message}");
+				Debug.WriteLine($"Greška prilikom učitavanja korisnika: {ex.Message}");
 			}
-
 		}
+
 
 		private async Task LoadKomentare()
 		{
@@ -291,6 +366,30 @@ namespace MusicStreamingService.ViewModels
 
 		private async Task LoadPlayListe()
 		{
+			try
+			{
+				var response = await _httpClient.GetAsync("api/PlaylistaControllerAPI");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+				var playListe2 = System.Text.Json.JsonSerializer.Deserialize<List<Models.PlayLista>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+				if (playListe2 != null)
+				{
+					//playListe.Clear();
+					foreach (var playLista in playListe2)
+					{
+						Debug.WriteLine($"Naziv: {playLista.naziv}, Opis: {playLista.opis}");
+						playListe.Add(playLista);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja play liste: {ex.Message}");
+			}
 		}
 
 		private async Task LoadPretplate()

@@ -11,16 +11,20 @@ namespace MusicStreamingService.Views
 			InitializeComponent();
 			BindingContext = new KreirajPjesmuViewModel();
 		}
-		
-		private void OnSelectImageClicked(object sender, EventArgs e)
+
+		private async void OnSelectImageClicked(object sender, EventArgs e)
 		{
 			if (this.BindingContext is KreirajPjesmuViewModel viewModel)
 			{
-				viewModel.ImageUpload();
+				viewModel.SelectImage();
 			}
-			else
+		}
+
+		private async void OnUploadImageClicked(object sender, EventArgs e)
+		{
+			if (this.BindingContext is KreirajPjesmuViewModel viewModel)
 			{
-				Debug.WriteLine("BindingContext is not of type KreirajPjesmuViewModel");
+				viewModel.UploadImage();
 			}
 		}
 
@@ -28,12 +32,17 @@ namespace MusicStreamingService.Views
 		{
 			if (this.BindingContext is KreirajPjesmuViewModel viewModel)
 			{
-				viewModel.AudioUpload();
-			}
-			else
-			{
-				Debug.WriteLine("BindingContext is not of type KreirajPjesmuViewModel");
+				viewModel.SelectAudio();
 			}
 		}
+
+		private void OnUploadAudioClicked(object sender, EventArgs e)
+		{
+			if (this.BindingContext is KreirajPjesmuViewModel viewModel)
+			{
+				viewModel.UploadAudio();
+			}
+		}
+
 	}
 }

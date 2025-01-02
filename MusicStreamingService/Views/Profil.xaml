@@ -23,12 +23,28 @@
             <Frame CornerRadius="10" Padding="15" BackgroundColor="#333333">
                 <VerticalStackLayout>
                     <Label Text="Moje pjesme" FontSize="20" FontAttributes="Bold"/>
-                    <CollectionView ItemsSource="{Binding MojePjesme}" Margin="0,10,0,0">
+                    <CollectionView ItemsSource="{Binding MojePjesme}" Margin="0,10,0,0" SelectionMode="Single" 
+                        SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding SelectSongCommand}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Orientation="Horizontal" Spacing="10">
                                     <Image Source="{Binding putanjaSlika}" HeightRequest="50" WidthRequest="50"/>
                                     <Label Text="{Binding naziv}" FontSize="16" VerticalOptions="Center"/>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#333"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Black"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -39,12 +55,61 @@
             <Frame CornerRadius="10" Padding="15" BackgroundColor="#333333">
                 <VerticalStackLayout>
                     <Label Text="Moji albumi" FontSize="20" FontAttributes="Bold"/>
-                    <CollectionView ItemsSource="{Binding MojiAlbumi}" Margin="0,10,0,0">
+                    <CollectionView ItemsSource="{Binding MojiAlbumi}" Margin="0,10,0,0" SelectionMode="Single" 
+                        SelectedItem="{Binding CurrentAlbum, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding SelectAlbumCommand}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Orientation="Horizontal" Spacing="10">
                                     <Image Source="{Binding putanjaSlika}" HeightRequest="50" WidthRequest="50"/>
                                     <Label Text="{Binding naziv}" FontSize="16" VerticalOptions="Center"/>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#333"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Black"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="#333333">
+                <VerticalStackLayout>
+                    <Label Text="Moje playliste" FontSize="20" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding MojePlayliste}" Margin="0,10,0,0" SelectionMode="Single" 
+                        SelectedItem="{Binding CurrentPlaylista, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal" Spacing="10">
+                                    <Image Source="{Binding putanjaSlika}" HeightRequest="50" WidthRequest="50"/>
+                                    <Label Text="{Binding naziv}" FontSize="16" VerticalOptions="Center"/>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#333"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Black"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

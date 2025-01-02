@@ -4,10 +4,10 @@ namespace MusicStreamingService.Views;
 
 public partial class Playlista : ContentPage
 {
-	public Playlista()
+	public Playlista(Models.PlayLista odabranaPlaylista)
 	{
 		InitializeComponent();
-		BindingContext = new PlaylistaViewModel();
+		BindingContext = new PlaylistaViewModel(odabranaPlaylista);
 
 	}
 }

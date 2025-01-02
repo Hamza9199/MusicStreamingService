@@ -32,10 +32,10 @@ public partial class Login : ContentPage
 
 	private async void OnLoginButtonClicked(object sender, EventArgs e)
 	{
-		string? username = UsernameEntry.Text?.Trim();
+		string? korisnickoIme = KorisnickoImeEntry.Text?.Trim();
 		string? password = PasswordEntry.Text?.Trim();
 
-		if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+		if (string.IsNullOrEmpty(korisnickoIme) || string.IsNullOrEmpty(password))
 		{
 			await DisplayAlert("Error", "Please enter both username and password.", "OK");
 			return;
@@ -43,12 +43,13 @@ public partial class Login : ContentPage
 
 		Korisnik korisnik = new Korisnik
 		{
-			korisnickoIme = username,
+			KorisnickoIme = korisnickoIme,
 			lozinka = password
 		};
 
 		var error = _loginRepository.Login(korisnik);
 		Debug.WriteLine(error);
+
 		/*
 		if (error != null)
 		{
@@ -61,13 +62,12 @@ public partial class Login : ContentPage
 			MessagingCenter.Send<Login>(this, "admin");
 			if (Application.Current != null)
 			{
-				//Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
 				await Shell.Current.GoToAsync("//MainTabs");
 			}
 		}*/
 
 
-		if (username == "h" && password == "h")
+		if (korisnickoIme == "h" && password == "h")
 		{
 			await DisplayAlert("Success", "Login successful!", "Ok");
 			MessagingCenter.Send<Login>(this, "admin");
@@ -82,6 +82,6 @@ public partial class Login : ContentPage
 		else
 		{
 			await DisplayAlert("Error", "Invalid username or password.", "OK");
-		}
+		} 
 	}
 }

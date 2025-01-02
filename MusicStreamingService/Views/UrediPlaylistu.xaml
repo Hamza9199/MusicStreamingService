@@ -2,11 +2,70 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.Views.UrediPlaylistu"
-             Title="UrediPlaylistu">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Uredi Playlistu">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Naziv Plejliste:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <Entry Placeholder="Unesite naziv plejliste"
+               Text="{Binding PlayLista.naziv}" />
+
+            <Label Text="Opis Plejliste:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <Editor Placeholder="Unesite opis plejliste"
+                HeightRequest="100"
+                Text="{Binding PlayLista.opis}" />
+
+            <Label Text="Datum Kreiranja:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <DatePicker Date="{Binding PlayLista.kreiranDatumVrijeme}" />
+
+            <Label Text="Javno:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <Switch IsToggled="{Binding PlayLista.javno}" />
+
+            <Label Text="Odaberi sliku plejliste:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <Image x:Name="SelectedPlaylistaImage"
+            Source="{Binding PlayLista.putanjaSlika}"
+            HeightRequest="200"
+            Aspect="AspectFit"
+            Margin="0,10" />
+            <Button Text="Izaberi Sliku"
+             Clicked="OnSelectImageClicked"
+             Margin="0,10" />
+            <Button Text="Upload Sliku"
+             Clicked="OnUploadImageClicked"
+             Margin="0,10" />
+
+            <Label Text="Odaberi GIF plejliste:"
+               FontSize="Medium"
+               FontAttributes="Bold" />
+            <Image x:Name="SelectedPlaylistaGif"
+            Source="{Binding PlayLista.putanjaGif}"
+            HeightRequest="200"
+            Aspect="AspectFit"
+            Margin="0,10" />
+            <Button Text="Izaberi GIF"
+             Clicked="OnSelectGifClicked"
+             Margin="0,10" />
+            <Button Text="Upload GIF"
+             Clicked="OnUploadGifClicked"
+             Margin="0,10" />
+
+            <Button Text="Spremi Promjene"
+                Command="{Binding UpdatePlayListaCommand}"
+                BackgroundColor="Green"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="10" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

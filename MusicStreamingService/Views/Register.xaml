@@ -21,15 +21,27 @@
                 TextColor="Gray" />
 
             <Entry 
-                x:Name="UsernameEntry"
+                x:Name="ImeEntry"
                 PlaceholderColor="Black"
-                Placeholder="Username" 
+                Placeholder="Ime" 
                 Keyboard="Text"
                 TextColor="Black"
                 BackgroundColor="LightGray"
                 Margin="0,10,0,0"
                 HeightRequest="40"
                 HorizontalOptions="FillAndExpand" />
+
+            <Entry
+                  x:Name="PrezimeEntry"
+                  PlaceholderColor="Black"
+                  Placeholder="Prezime" 
+                  Keyboard="Text"
+                  TextColor="Black"
+                  BackgroundColor="LightGray"
+                  Margin="0,10,0,0"
+                  HeightRequest="40"
+                  HorizontalOptions="FillAndExpand"
+                />
 
             <Entry 
                 x:Name="EmailEntry"

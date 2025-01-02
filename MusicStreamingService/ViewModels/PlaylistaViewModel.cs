@@ -13,9 +13,11 @@ namespace MusicStreamingService.ViewModels
 	public class PlaylistaViewModel : INotifyPropertyChanged
 	{
 		private readonly HttpClient _httpClient;
+		public Models.PlayLista CurrentPlaylista { get; set; }
 
-		public PlaylistaViewModel()
+		public PlaylistaViewModel(Models.PlayLista odabranaPlaylista)
 		{
+			CurrentPlaylista = odabranaPlaylista;
 			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")

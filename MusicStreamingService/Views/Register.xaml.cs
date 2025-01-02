@@ -1,3 +1,4 @@
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using MusicStreamingService.Models;
 using MusicStreamingService.Services;
@@ -24,13 +25,15 @@ public partial class Register : ContentPage
 
 	private async void OnRegisterButtonClicked(object sender, EventArgs e)
 	{
-		string? username = UsernameEntry.Text?.Trim();
 		string? email = EmailEntry.Text?.Trim();
 		string? password = PasswordEntry.Text?.Trim();
 		string? confirmPassword = ConfirmPasswordEntry.Text?.Trim();
+		string? ime = ImeEntry.Text?.Trim();
+		string? prezime = PrezimeEntry.Text?.Trim();
 
-		if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) ||
-			string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+
+		if (string.IsNullOrEmpty(ime) || string.IsNullOrEmpty(email) ||
+			string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(prezime)) 
 		{
 			await DisplayAlert("Error", "All fields are required.", "OK");
 			return;
@@ -42,13 +45,25 @@ public partial class Register : ContentPage
 			return;
 		}
 
-		//Korisnik newUser = new Korisnik(username, email, password);
+		Korisnik newUser = new Korisnik { prezime = prezime, ime = ime, email = email, lozinka = password };
 
-		await DisplayAlert("Success", $"De si Hamza!", "OK");
 
-		if (Application.Current != null)
+		var error = await _loginRepository.Registracija(newUser);
+		if (error != null)
 		{
-			Application.Current.MainPage = new Login(_loginRepository);
+			await DisplayAlert("Error", error, "OK");
+			return;
 		}
+		else
+		{
+			await DisplayAlert("Success", "Registration successful!", "Ok");
+
+			if (Application.Current != null)
+			{
+				await Shell.Current.GoToAsync("//Aut/Login");
+			}
+		}
+
+		
 	}
 }

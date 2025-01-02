@@ -71,7 +71,7 @@
     </FlyoutItem>
 
     
-    <!-- Bit ce obrisano -->
+    <!-- Bit ce obrisano 
     <FlyoutItem Title="Pregled Izvodaca" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Pregled Izvodaca" Icon="Images/dotnet_bot.png" Route="PregledIzvodaca" ContentTemplate="{DataTemplate views:PregledIzvodaca}" />
     </FlyoutItem>
@@ -83,10 +83,10 @@
     <FlyoutItem Title="Album" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Album" Icon="Images/dotnet_bot.png" Route="Album" ContentTemplate="{DataTemplate views:Album}" />
     </FlyoutItem>
-    <!-- za pregled -->
+    za pregled -->
 
 
-    <!-- Bit ce obrisano -->
+    <!-- Ostat ce -->
     <FlyoutItem Title="KreirajPjesmu" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="KreirajPjesmu" Icon="Images/dotnet_bot.png" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
     </FlyoutItem>
@@ -99,7 +99,7 @@
     <!-- za kreiranje -->
 
     
-    <!-- Bit ce obrisano -->
+    <!-- Bit ce obrisano 
     <FlyoutItem Title="UrediPjesmu" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="UrediPjesmu" Icon="Images/dotnet_bot.png" Route="UrediPjesmu" ContentTemplate="{DataTemplate views:UrediPjesmu}" />
     </FlyoutItem>
@@ -109,7 +109,7 @@
     <FlyoutItem Title="UrediPlaylistu" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="UrediPlaylistu" Icon="Images/dotnet_bot.png" Route="UrediPlaylistu" ContentTemplate="{DataTemplate views:UrediPlaylistu}" />
     </FlyoutItem>
-    <!-- za uredivanje -->
+    za uredivanje -->
 
 
     <TabBar Route="Aut">

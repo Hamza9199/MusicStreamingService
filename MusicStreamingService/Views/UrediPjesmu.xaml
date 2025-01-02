@@ -1,12 +1,121 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MusicStreamingService.Views.UrediPjesmu"
-             Title="UrediPjesmu">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Uredi Pjesmu">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+
+            <Label Text="Naziv Pjesme"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Entry Text="{Binding Pjesma2.naziv}"
+                   Placeholder="Naziv Pjesme"
+                   FontSize="18"
+                   Margin="0,10"
+                   Keyboard="Default" />
+
+            <Label Text="Opis Pjesme"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Editor Text="{Binding Pjesma2.opis}"
+                    Placeholder="Opis Pjesme"
+                    FontSize="18"
+                    Margin="0,10" />
+
+            <Label Text="Audio Putanja"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Label Text="{Binding Pjesma2.putanjaAudio}"
+                   FontSize="16"
+                   Margin="0,10"
+                   TextColor="White" />
+
+            <toolkit:MediaElement x:Name="AudioPlayer"
+                                  Source="{Binding Pjesma2.putanjaAudio}"
+                                  HeightRequest="50"
+                                  Margin="0,10" />
+
+            <Button Text="Izaberi Audio"
+                    Clicked="OnSelectAudioClicked"
+                    Margin="0,10" />
+
+            <Button Text="Upload Audio"
+                    Clicked="OnUploadAudioClicked"
+                    Margin="0,20" />
+
+            <Label Text="Datum Izdavanja"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <DatePicker Date="{Binding Pjesma2.datumIzdavanja}"
+                        Margin="0,10" />
+
+            <Label Text="Slika Pjesme"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Image x:Name="SelectedImage2"
+                   Source="{Binding Pjesma2.putanjaSlika}"
+                   Aspect="AspectFit"
+                   HeightRequest="200"
+                   Margin="0,10" />
+
+            <Button Text="Izaberi Sliku"
+                    Clicked="OnSelectImageClicked"
+                    Margin="0,10" />
+
+            <Button Text="Upload Sliku"
+                    Clicked="OnUploadImageClicked"
+                    Margin="0,20" />
+
+            <Label Text="Jezik Pjesme"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Entry Text="{Binding Pjesma2.jezikPjesme}"
+                   Placeholder="Jezik Pjesme"
+                   FontSize="18"
+                   Margin="0,10"
+                   Keyboard="Default" />
+
+            <Label Text="Trajanje Pjesme (Sekunde)"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Entry Text="{Binding Pjesma2.trajanjeSekunde}"
+                   Placeholder="Trajanje (Sekunde)"
+                   FontSize="18"
+                   Margin="0,10"
+                   Keyboard="Numeric" />
+
+            <Label Text="Eksplicitni Sadržaj"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,10" />
+
+            <Switch IsToggled="{Binding Pjesma2.eksplicitniSadrzaj}"
+                    Margin="0,10" />
+
+            <Button Text="Spremi Pjesmu"
+                    Command="{Binding SaveCommand}"
+                    Margin="0,20"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Padding="10" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

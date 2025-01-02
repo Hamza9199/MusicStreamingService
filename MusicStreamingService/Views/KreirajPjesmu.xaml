@@ -1,49 +1,55 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MusicStreamingService.Views.KreirajPjesmu"
              Title="KreirajPjesmu">
 
     <ScrollView>
-
         <VerticalStackLayout Padding="10">
-            
+
             <Entry Text="{Binding Pjesma.naziv}"
                    Placeholder="Naziv Pjesme"
                    FontSize="18"
                    Margin="0,10"
                    Keyboard="Default" />
-            
+
             <Editor Text="{Binding Pjesma.opis}"
                     Placeholder="Opis Pjesme"
                     FontSize="18"
                     Margin="0,10" />
 
             <Label Text="{Binding Pjesma.putanjaAudio}"
-                 FontSize="20"
-                 Margin="0,10"
-                   TextColor="White"
-                />
-            
+                   FontSize="20"
+                   Margin="0,10"
+                   TextColor="White" />
+
+            <toolkit:MediaElement x:Name="AudioPlayer"
+                                  Source="{Binding Pjesma.putanjaAudio}"
+                                  HeightRequest="50"
+                                  Margin="0,10" />
+
             <Button Text="Izaberi Audio"
-            Clicked="OnSelectAudioClicked"
-            Margin="0,20" />
+                    Clicked="OnSelectAudioClicked"
+                    Margin="0,10" />
+            <Button Text="Upload Audio"
+                    Clicked="OnUploadAudioClicked"
+                    Margin="0,20" />
 
-            <DatePicker
-                Date="{Binding Pjesma.datumIzdavanja}"
-                Margin="0,10" />
-
-            <!--
-            <Image x:Name="{Binding ImageLabel}" 
+            <DatePicker Date="{Binding Pjesma.datumIzdavanja}"
+                        Margin="0,10" />
+            
+            <Image x:Name="SelectedImage"
                    Source="{Binding Pjesma.putanjaSlika}"
-                   
                    Aspect="AspectFit"
                    HeightRequest="200"
-                   Margin="0,10" />  -->
-           
+                   Margin="0,10" />
+
             <Button Text="Izaberi Sliku"
-                Clicked="OnSelectImageClicked"
-                Margin="0,20" />
+                    Clicked="OnSelectImageClicked"
+                    Margin="0,10" />
+            <Button Text="Upload Sliku"
+                    Clicked="OnUploadImageClicked"
+                    Margin="0,20" />
 
             <Entry Text="{Binding Pjesma.jezikPjesme}"
                    Placeholder="Jezik Pjesme"
@@ -59,7 +65,7 @@
 
             <Switch IsToggled="{Binding Pjesma.eksplicitniSadrzaj}"
                     Margin="0,10" />
-            
+
             <Label Text="Eksplicitni sadržaj" 
                    VerticalOptions="Center" 
                    HorizontalOptions="StartAndExpand" />
@@ -67,9 +73,6 @@
             <Button Text="Spremi Pjesmu"
                     Command="{Binding SaveCommand}"
                     Margin="0,20" />
-            
         </VerticalStackLayout>
-
-    </ScrollView> 
-    
+    </ScrollView>
 </ContentPage>

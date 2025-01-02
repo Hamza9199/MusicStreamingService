@@ -13,9 +13,11 @@ namespace MusicStreamingService.ViewModels
 	public class PregledIzvodacaViewModel : INotifyPropertyChanged
 	{
 		private readonly HttpClient _httpClient;
+		public Korisnik CurrentKorisnik { get; set; }
 
-		public PregledIzvodacaViewModel()
+		public PregledIzvodacaViewModel(Korisnik odabraniKorisnik)
 		{
+			CurrentKorisnik = odabraniKorisnik;
 			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")

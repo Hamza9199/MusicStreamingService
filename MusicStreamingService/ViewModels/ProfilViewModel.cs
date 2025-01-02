@@ -1,4 +1,5 @@
 ﻿using MusicStreamingService.Models;
+using MusicStreamingService.Views;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -24,7 +26,46 @@ namespace MusicStreamingService.ViewModels
 		public Command UpdateProfileCommand { get; set; }
 
 		public ObservableCollection<Pjesma> MojePjesme { get; set; }
-		public ObservableCollection<Album> MojiAlbumi { get; set; }
+		public ObservableCollection<Models.Album> MojiAlbumi { get; set; }
+		public ObservableCollection<Models.PlayLista> MojePlayliste { get; set; }
+
+		public ICommand SelectSongCommand { get; }
+		public ICommand SelectAlbumCommand { get; }
+		public ICommand SelectPlaylistaCommand { get; }
+
+		private Pjesma _currentSong;
+		private Models.Album _currentAlbum;
+		private Models.PlayLista _currentPlaylista;
+
+		public Pjesma CurrentSong
+		{
+			get => _currentSong;
+			set
+			{
+				_currentSong = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Models.Album CurrentAlbum
+		{
+			get => _currentAlbum;
+			set
+			{
+				_currentAlbum = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public Models.PlayLista CurrentPlaylista
+		{
+			get => _currentPlaylista;
+			set
+			{
+				_currentPlaylista = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public ProfilViewModel()
 		{
@@ -36,12 +77,44 @@ namespace MusicStreamingService.ViewModels
 			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
 
 			MojePjesme = new ObservableCollection<Pjesma>();
-			MojiAlbumi = new ObservableCollection<Album>();
+			MojiAlbumi = new ObservableCollection<Models.Album>();
+			MojePlayliste = new ObservableCollection<Models.PlayLista>();
 
 			UpdateProfileCommand = new Command(UpdateProfile);
+			SelectSongCommand = new Command(OnSongSelected);
+			SelectAlbumCommand = new Command(OnAlbumSelected);
+			SelectPlaylistaCommand = new Command(OnPlaylistaSelected);
 
 			LoadMojePjesme();
 			LoadMojiAlbumi();
+			LoadMojePlayliste();
+		}
+
+		private async void OnSongSelected()
+		{
+
+			if (CurrentSong != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new UrediPjesmu(CurrentSong));
+
+			}
+
+		}
+
+		private async void OnAlbumSelected()
+		{
+			if (CurrentAlbum != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new UrediAlbum(CurrentAlbum));
+			}
+		}
+
+		private async void OnPlaylistaSelected()
+		{
+			if (CurrentPlaylista != null)
+			{
+				await Application.Current.MainPage.Navigation.PushAsync(new UrediPlaylistu(CurrentPlaylista));
+			}
 		}
 
 		private async void LoadMojePjesme()
@@ -85,7 +158,7 @@ namespace MusicStreamingService.ViewModels
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Album>>(json, new JsonSerializerOptions
+				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Models.Album>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
@@ -96,6 +169,34 @@ namespace MusicStreamingService.ViewModels
 					{
 						Debug.WriteLine($"Naziv: {album.naziv}, Opis: {album.opis}");
 						MojiAlbumi.Add(album);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja albuma: {ex.Message}");
+			}
+		}
+
+		public async void LoadMojePlayliste()
+		{
+			try
+			{
+				var response = await _httpClient.GetAsync("api/PlaylistaControllerAPI");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+				var albumi = System.Text.Json.JsonSerializer.Deserialize<List<Models.PlayLista>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+				if (albumi != null)
+				{
+					MojePlayliste.Clear();
+					foreach (var album in albumi)
+					{
+						Debug.WriteLine($"Naziv: {album.naziv}, Opis: {album.opis}");
+						MojePlayliste.Add(album);
 					}
 				}
 			}

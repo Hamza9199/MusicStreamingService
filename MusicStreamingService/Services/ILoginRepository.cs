@@ -12,6 +12,8 @@ namespace MusicStreamingService.Services
 		Task<string> Login(Korisnik korisnik);
 		Task<bool> isUserAuthenticated();
 
+		Task<string> Registracija(Korisnik korisnik);
+
 		void LogoutAsync();
 	}
 }

@@ -8,14 +8,14 @@
         <VerticalStackLayout Spacing="20" Padding="20">
             <Frame BackgroundColor="#1E1E1E" CornerRadius="15" Padding="10" HasShadow="True">
                 <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Image Source="{Binding putanjaProfilneSlike}" 
+                    <Image Source="{Binding CurrentKorisnik.putanjaProfilneSlike}" 
                            WidthRequest="150" 
                            HeightRequest="150" 
                            Aspect="AspectFill" 
                            HorizontalOptions="Center" 
                            VerticalOptions="Center" />
 
-                    <Label Text="{Binding korisnickoIme}" 
+                    <Label Text="{Binding CurrentKorisnik.ime}" 
                            FontSize="24" 
                            TextColor="White" 
                            FontAttributes="Bold" 

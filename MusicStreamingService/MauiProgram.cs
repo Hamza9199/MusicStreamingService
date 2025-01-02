@@ -14,6 +14,7 @@ namespace MusicStreamingService
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+			    .UseMauiCommunityToolkitMediaElement()
                 .UseBottomSheet()
 				.ConfigureFonts(fonts =>
             {

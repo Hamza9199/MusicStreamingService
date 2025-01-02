@@ -14,8 +14,9 @@ namespace MusicStreamingService.ViewModels
 	{
 		private readonly HttpClient _httpClient;
 
-		public AlbumViewModel()
+		public AlbumViewModel(Models.Album odabraniAlbum)
 		{
+
 			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")

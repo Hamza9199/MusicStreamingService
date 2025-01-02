@@ -17,7 +17,7 @@ namespace MusicStreamingService.Models
 
 		public string? bio { get; set; }
 
-		public string? korisnickoIme { get; set; }
+		public string? KorisnickoIme { get; set; }
 
 		public string? email { get; set; }
 

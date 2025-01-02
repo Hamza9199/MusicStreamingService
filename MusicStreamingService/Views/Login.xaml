@@ -23,10 +23,9 @@
                 TextColor="Gray" />
 
             <Entry 
-                x:Name="UsernameEntry"
-                Placeholder="Username" 
-                               PlaceholderColor="Black"
-
+                x:Name="KorisnickoImeEntry"
+                Placeholder="Korisnicko Ime" 
+                PlaceholderColor="Black"
                 Keyboard="Text"
                 TextColor="Black"
                 BackgroundColor="LightGray"
@@ -37,8 +36,7 @@
             <Entry 
                 x:Name="PasswordEntry"
                 Placeholder="Password" 
-                               PlaceholderColor="Black"
-
+                PlaceholderColor="Black"
                 IsPassword="True"
                 TextColor="Black"
                 BackgroundColor="LightGray"

@@ -1,14 +1,15 @@
+using MusicStreamingService.Models;
 using MusicStreamingService.ViewModels;
 
 namespace MusicStreamingService.Views;
 
 public partial class PregledIzvodaca : ContentPage
 {
-	public PregledIzvodaca()
+	public PregledIzvodaca(Korisnik odabraniKorisnik)
 	{
 		InitializeComponent();
 
-		BindingContext = new PregledIzvodacaViewModel();
+		BindingContext = new PregledIzvodacaViewModel(odabraniKorisnik);
 
 	}
 }

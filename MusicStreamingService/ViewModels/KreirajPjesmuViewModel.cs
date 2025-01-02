@@ -46,6 +46,127 @@ namespace MusicStreamingService.ViewModels
 
 		public ICommand SaveCommand { get; }
 
+
+
+		public async void SelectAudio()
+		{
+			try
+			{
+				var response1 = await FilePicker.PickAsync(new PickOptions
+				{
+					PickerTitle = "Izaberite Audio Fajl",
+					FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+					{
+						{ DevicePlatform.iOS, new[] { "public.audio" } },
+						{ DevicePlatform.Android, new[] { "audio/*" } },
+						{ DevicePlatform.WinUI, new[] { ".mp3", ".wav", ".m4a" } }
+					})
+				});
+
+				if (response1 != null)
+				{
+					Pjesma.putanjaAudio = response1.FullPath;
+					OnPropertyChanged(nameof(Pjesma.putanjaAudio));
+					OnPropertyChanged(nameof(Pjesma));
+					Application.Current.MainPage.DisplayAlert("Uspješno odabran audio fajl", "Audio fajl je uspješno odabran", "OK");
+				}
+				else
+				{
+					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira audio fajla", "OK");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira audio fajla", "OK");
+			}
+		}
+
+		public async void UploadAudio()
+		{
+			if (string.IsNullOrEmpty(Pjesma.putanjaAudio))
+			{
+				Debug.WriteLine("No audio file selected.");
+				return;
+			}
+
+			try
+			{
+				using var fileStream = File.OpenRead(Pjesma.putanjaAudio);
+				var firebaseStorage = new FirebaseStoreService();
+				var audioUrl = await firebaseStorage.UploadFie(fileStream, Path.GetFileName(Pjesma.putanjaAudio));
+				Pjesma.putanjaAudio = audioUrl;
+
+				OnPropertyChanged(nameof(Pjesma.putanjaAudio));
+				OnPropertyChanged(nameof(Pjesma));
+				Application.Current.MainPage.DisplayAlert("Uspješno uploadan audio fajl", "Audio fajl je uspješno uploadan", "OK");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom uploada audio fajla", "OK");
+
+			}
+		}
+
+		public async void SelectImage()
+		{
+			try
+			{
+				var response2 = await FilePicker.PickAsync(new PickOptions
+				{
+					PickerTitle = "Izaberite Sliku",
+					FileTypes = FilePickerFileType.Images
+				});
+
+				if (response2 != null)
+				{
+					Pjesma.putanjaSlika = response2.FullPath;
+					OnPropertyChanged(nameof(Pjesma.putanjaSlika));
+					OnPropertyChanged(nameof(Pjesma));
+
+					Application.Current.MainPage.DisplayAlert("Uspješno odabrana slika", "Slika je uspješno odabrana", "OK");
+
+				}
+				else
+				{
+					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira slike", "OK");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira slike", "OK");
+			}
+		}
+
+		public async void UploadImage()
+		{
+			if (string.IsNullOrEmpty(Pjesma.putanjaSlika))
+			{
+				Debug.WriteLine("No image selected.");
+				return;
+			}
+
+			try
+			{
+				using var fileStream = File.OpenRead(Pjesma.putanjaSlika);
+				var firebaseStorage = new FirebaseStoreService();
+				var imageUrl = await firebaseStorage.UploadFie(fileStream, Path.GetFileName(Pjesma.putanjaSlika));
+				Pjesma.putanjaSlika = imageUrl;
+
+				OnPropertyChanged(nameof(Pjesma.putanjaSlika));
+				OnPropertyChanged(nameof(Pjesma));
+				Application.Current.MainPage.DisplayAlert("Uspješno uploadana slika", "Slika je uspješno uploadana", "OK");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom uploada slike", "OK");
+			}
+		}
+
+
 		public async void AudioUpload()
 		{
 			try
@@ -71,12 +192,20 @@ namespace MusicStreamingService.ViewModels
 						var firebaseStorage = new FirebaseStoreService();
 						var audioUrl = await firebaseStorage.UploadFie(fileStream, file.FileName);
 						Pjesma.putanjaAudio = audioUrl;
+
+						OnPropertyChanged(nameof(Pjesma.putanjaAudio));
+						Application.Current.MainPage.DisplayAlert("Uspješno odabran audio fajl", "Audio fajl je uspješno odabran", "OK");
 					}
+				}
+				else
+				{
+					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira audio fajla", "OK");
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira audio fajla", "OK");
 			}
 		}
 
@@ -101,16 +230,24 @@ namespace MusicStreamingService.ViewModels
 						var imageUrl = await firebaseStorage.UploadFie(fileStream, file.FileName);
 						Debug.WriteLine(imageUrl);
 						Pjesma.putanjaSlika = imageUrl;
+
+						OnPropertyChanged(nameof(Pjesma.putanjaSlika));
+						Application.Current.MainPage.DisplayAlert("Uspješno uploadana slika", "Slika je uspješno uploadana", "OK");
 					}
 
 					var stream = await file.OpenReadAsync();
 					ImageLabel.Source = ImageSource.FromStream(() => stream);
 
 				}
+				else
+				{
+					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira slike", "OK");
+				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom odabira slike", "OK");
 			}
 		}
 
@@ -131,15 +268,18 @@ namespace MusicStreamingService.ViewModels
 				{
 					var createdPjesma = await response.Content.ReadFromJsonAsync<Pjesma>();
 					ResetFields();
+					Application.Current.MainPage.DisplayAlert("Uspješno kreirana pjesma", "Pjesma je uspješno kreirana", "OK");
 				}
 				else
 				{
 					Console.WriteLine("Error: " + response.ReasonPhrase);
+					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja pjesme", "OK");
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Exception: " + ex.Message);
+				Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja pjesme", "OK");
 			}
 		}
 
