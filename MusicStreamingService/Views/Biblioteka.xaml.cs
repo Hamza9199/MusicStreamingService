@@ -17,7 +17,6 @@ public partial class Biblioteka : ContentPage
 		var viewModel = BindingContext as BibliotekaViewModel;
 		if (viewModel != null)
 		{
-			viewModel.CurrentSong = null;
 			var mediaManager = CrossMediaManager.Current;
 			mediaManager.Stop();
 		}
@@ -32,7 +31,6 @@ public partial class Biblioteka : ContentPage
 		var viewModel = BindingContext as BibliotekaViewModel;
 		if (viewModel != null)
 		{
-			viewModel.CurrentSong = null;
 			var mediaManager = CrossMediaManager.Current;
 			mediaManager.Stop();
 		}

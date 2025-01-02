@@ -1,4 +1,5 @@
-﻿using MusicStreamingService.Models;
+﻿using MediaManager;
+using MusicStreamingService.Models;
 using MusicStreamingService.Services;
 using MusicStreamingService.ViewModels;
 using MusicStreamingService.Views;
@@ -34,6 +35,12 @@ public partial class MainPage : ContentPage
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
+
+		var viewModel = BindingContext as MainPageViewModel;
+		if (viewModel != null)
+		{
+			viewModel.CurrentSong = null;
+		}
 
 		Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
 	}

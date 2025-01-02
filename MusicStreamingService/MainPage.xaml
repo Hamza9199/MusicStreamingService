@@ -20,7 +20,7 @@
     <ScrollView>
         <StackLayout Padding="10" Spacing="10" Margin="5,0,0,5">
 
-            <Label Text="DECIBEL" Style="{x:StaticResource GoogleFont}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" FontSize="23" Padding="0,10,0,0"></Label>
+            <Label Text="DECIBEL" Style="{x:StaticResource GoogleFont}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" FontSize="23" Padding="0,0,0,0"></Label>
         <!--    <Label Text="{Static icon:IconFont.Wifi}" Style="{x:StaticResource GoogleFont}"/> -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                 <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,10,10,10" WidthRequest="170" HeightRequest="85">

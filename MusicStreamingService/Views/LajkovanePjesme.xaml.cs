@@ -22,7 +22,6 @@ public partial class LajkovanePjesme : ContentPage
 		var viewModel = BindingContext as LajkovanePjesmeViewModel;
 		if (viewModel != null)
 		{
-			viewModel.CurrentSong = null;
 			var mediaManager = CrossMediaManager.Current;
 			mediaManager.Stop();
 		}
@@ -37,7 +36,6 @@ public partial class LajkovanePjesme : ContentPage
 		var viewModel = BindingContext as LajkovanePjesmeViewModel;
 		if (viewModel != null)
 		{
-			viewModel.CurrentSong = null;
 			var mediaManager = CrossMediaManager.Current;
 			mediaManager.Stop();
 		}

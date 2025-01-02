@@ -4,25 +4,29 @@
              xmlns:local="clr-namespace:MusicStreamingService.Behaviors"
              x:Class="MusicStreamingService.Views.AudioPlayer"
              BackgroundColor="Black">
-    <VerticalStackLayout Spacing="20" Padding="20" HorizontalOptions="Center">
+    <VerticalStackLayout Spacing="20" Padding="10,0,10,0" HorizontalOptions="Center">
 
         <Image Source="{Binding CurrentSong.putanjaSlika}"
                WidthRequest="300"
-               HeightRequest="330"
+               HeightRequest="300"
                Aspect="AspectFill"
                VerticalOptions="Center" />
 
-        <VerticalStackLayout VerticalOptions="Center" Spacing="5" HorizontalOptions="Center">
+        <VerticalStackLayout VerticalOptions="Center"  HorizontalOptions="Center">
             <Label Text="{Binding CurrentSong.naziv}"
                    FontSize="25"
                    FontAttributes="Bold"
                    TextColor="Gray"
-                   Margin="10,5,0,0" />
+                   Margin="0,5,0,0" />
+            
+        </VerticalStackLayout>
+
+        <VerticalStackLayout  VerticalOptions="Center" HorizontalOptions="Center">
             <Label Text="{Binding CurrentSong.opis}"
-                   FontSize="23"
-                   TextColor="Gray"
-                   HorizontalOptions="Start"
-                   Margin="-5,5,0,0" />
+               FontSize="23"
+               TextColor="Gray"
+               HorizontalOptions="Start"
+               Margin="0,5,0,0" />
         </VerticalStackLayout>
 
         <Label Text="{Binding CurrentTime}" 
@@ -32,22 +36,24 @@
                Margin="0,-3,0,-15"
                />
         <Slider Minimum="0" Maximum="{Binding SongDuration}" 
-                Value="{Binding CurrentPosition}">
-            <Slider.Behaviors>
-                <local:EventToCommandBehavior Command="{Binding SliderValueChangedCommand}" />
-            </Slider.Behaviors>
+                Value="{Binding CurrentPosition, Mode=TwoWay}"
+                ValueChanged="Slider_ValueChanged"
+                DragStarted="Slider_DragStarted"
+                DragCompleted="Slider_DragCompleted"
+                >
+            
         </Slider>
 
-        
 
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,-12,0,0">
+            <Label Text="🔊" Margin="10,0,-10,0"/>
+            <Slider Minimum="0" Maximum="1" WidthRequest="130" 
+                Value="{Binding Volume}" />
+        </StackLayout>
+        
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" Margin="0,-20,0,0">
-            <StackLayout Orientation="Vertical" HorizontalOptions="Center" Spacing="20" Margin="0,0,-40,0">
-                <Button Text="🔉" Command="{Binding VolumeDownCommand}" BackgroundColor="Transparent" Margin="0,0,0,-20" />
-                <Slider Minimum="0" Maximum="1" 
-            Value="{Binding Volume}" />
-                <Button Text="🔊" Command="{Binding VolumeUpCommand}" BackgroundColor="Transparent" Margin="0,-20,0,0"/>
-            </StackLayout>
-            <Button Text="-5s  ⏪" Command="{Binding RewindCommand}" BackgroundColor="Transparent" TextColor="Gray" />
+            
+            <Button Text="-5s  ⏪" Command="{Binding RewindCommand}" BackgroundColor="Transparent" TextColor="Gray" Margin="0,0,-30,0" />
             <Button Text="{Binding PlayPauseButtonText}"
                     BackgroundColor="Transparent"
                     Command="{Binding PlayPauseCommand}"
@@ -56,7 +62,7 @@
                     CornerRadius="25"
                     WidthRequest="80"
                     HeightRequest="80" />
-            <Button Text="⏩  +5s" Command="{Binding ForwardCommand}" BackgroundColor="Transparent" TextColor="Gray" />
+            <Button Text="⏩  +5s" Command="{Binding ForwardCommand}" BackgroundColor="Transparent" TextColor="Gray" Margin="-30,0,0,0" />
             
         </StackLayout>
 

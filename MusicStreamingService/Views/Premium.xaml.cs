@@ -9,4 +9,10 @@ public partial class Premium : ContentPage
 		InitializeComponent();
 		BindingContext = new PremiumViewModel();
 	}
+
+	private void IdiNaPretplatu(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new KreirajPretplatu());
+
+	}
 }

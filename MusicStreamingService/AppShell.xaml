@@ -70,6 +70,48 @@
         <ShellContent Title="Profil" Icon="Images/dotnet_bot.png" Route="Profil" ContentTemplate="{DataTemplate views:Profil}" />
     </FlyoutItem>
 
+    
+    <!-- Bit ce obrisano -->
+    <FlyoutItem Title="Pregled Izvodaca" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Pregled Izvodaca" Icon="Images/dotnet_bot.png" Route="PregledIzvodaca" ContentTemplate="{DataTemplate views:PregledIzvodaca}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Playlista" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Playlista" Icon="Images/dotnet_bot.png" Route="Playlista" ContentTemplate="{DataTemplate views:Playlista}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Album" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Album" Icon="Images/dotnet_bot.png" Route="Album" ContentTemplate="{DataTemplate views:Album}" />
+    </FlyoutItem>
+    <!-- za pregled -->
+
+
+    <!-- Bit ce obrisano -->
+    <FlyoutItem Title="KreirajPjesmu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="KreirajPjesmu" Icon="Images/dotnet_bot.png" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
+    </FlyoutItem>
+    <FlyoutItem Title="KreirajAlbum" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="KreirajAlbum" Icon="Images/dotnet_bot.png" Route="KreirajAlbum" ContentTemplate="{DataTemplate views:KreirajAlbum}" />
+    </FlyoutItem>
+    <FlyoutItem Title="KreirajPlaylistu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="KreirajPlaylistu" Icon="Images/dotnet_bot.png" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
+    </FlyoutItem>
+    <!-- za kreiranje -->
+
+    
+    <!-- Bit ce obrisano -->
+    <FlyoutItem Title="UrediPjesmu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="UrediPjesmu" Icon="Images/dotnet_bot.png" Route="UrediPjesmu" ContentTemplate="{DataTemplate views:UrediPjesmu}" />
+    </FlyoutItem>
+    <FlyoutItem Title="UrediAlbum" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="UrediAlbum" Icon="Images/dotnet_bot.png" Route="UrediAlbum" ContentTemplate="{DataTemplate views:UrediAlbum}" />
+    </FlyoutItem>
+    <FlyoutItem Title="UrediPlaylistu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="UrediPlaylistu" Icon="Images/dotnet_bot.png" Route="UrediPlaylistu" ContentTemplate="{DataTemplate views:UrediPlaylistu}" />
+    </FlyoutItem>
+    <!-- za uredivanje -->
+
+
     <TabBar Route="Aut">
         <Tab Title="Login" Icon="Images/dotnet_bot.png">
             <ShellContent
