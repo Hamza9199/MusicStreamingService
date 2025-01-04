@@ -57,6 +57,11 @@ namespace MusicStreamingService.ViewModels
 
 		public ObservableCollection<IzvodjacPjesma> izvodjaciPjesme { get; set; }
 
+		public Pjesma pjesma1 { get; set; }
+
+		public Pjesma pjesma2 { get; set; }
+
+		public Pjesma pjesma3 { get; set; }
 
 		//public ICommand SearchCommand { get; } 
 		//public ICommand PlayPauseCommand { get; }
@@ -282,7 +287,22 @@ namespace MusicStreamingService.ViewModels
 						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
 						Songs.Add(pjesma);
 					}
-					
+					var random = new Random();
+					var uniqueIndexes = new HashSet<int>();
+					while (uniqueIndexes.Count < 3 && uniqueIndexes.Count < Songs.Count)
+					{
+						uniqueIndexes.Add(random.Next(Songs.Count));
+					}
+
+					var selectedIndexes = uniqueIndexes.ToList();
+					pjesma1 = Songs[selectedIndexes[0]];
+					pjesma2 = Songs[selectedIndexes[1]];
+					pjesma3 = Songs[selectedIndexes[2]];
+
+					Debug.WriteLine(pjesma1);
+					Debug.WriteLine(pjesma2);
+					Debug.WriteLine(pjesma3);
+
 				}
 			}
 			catch (Exception ex)

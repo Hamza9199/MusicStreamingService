@@ -21,7 +21,9 @@ namespace MusicStreamingService.Models
 
 		public string? email { get; set; }
 
-		public string? lozinka { get; set; }
+		public string? password { get; set; }
+
+		public string? ConfirmPassword { get; set; }
 
 		public KorisnikStatusEnum statusKorisnika { get; set; }
 
@@ -34,6 +36,10 @@ namespace MusicStreamingService.Models
 		public UInt64 brojPratilaca { get; set; }
 
 		public bool obrisan { get; set; }
+
+		public bool? emailConfirmed { get; set; }
+
+		public string? ReturnUrl { get; set; }
 
 
 		public ICollection<PlayLista>? PlayLista { get; set; }

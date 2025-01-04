@@ -24,7 +24,7 @@
 
             <Entry 
                 x:Name="KorisnickoImeEntry"
-                Placeholder="Korisnicko Ime" 
+                Placeholder="Email" 
                 PlaceholderColor="Black"
                 Keyboard="Text"
                 TextColor="Black"

@@ -41,7 +41,7 @@
                     <HorizontalStackLayout>
                         <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="Label 3" TextColor="White" />
+                            <Label Text="{Binding pjesma1.naziv}" TextColor="White" />
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>
@@ -53,7 +53,7 @@
                     <HorizontalStackLayout>
                         <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="Label 5" TextColor="White" />
+                            <Label Text="{Binding pjesma2.naziv}" TextColor="White" />
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>
@@ -65,7 +65,7 @@
                     <HorizontalStackLayout>
                         <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="Label 7" TextColor="White" />
+                            <Label Text="{Binding pjesma3.naziv}" TextColor="White" />
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>
@@ -348,7 +348,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                                    Aspect="AspectFill" />
                             </Frame>
                             
-                            <Label Text="{Binding prezime}"
+                            <Label Text="{Binding KorisnickoIme}"
                                FontSize="13"
                                TextColor="White"
                                HorizontalOptions="Center" />
@@ -548,7 +548,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                                    Aspect="AspectFill" />
                             </Frame>
 
-                            <Label Text="{Binding ime}"
+                            <Label Text="{Binding KorisnickoIme}"
        FontSize="13"
        TextColor="white"
        HorizontalOptions="Center" />

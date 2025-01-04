@@ -21,6 +21,17 @@
                 TextColor="Gray" />
 
             <Entry 
+                x:Name="KorisnickoImeEntry"
+                 PlaceholderColor="Black"
+                 Placeholder="Korisnicko Ime" 
+                 Keyboard="Text"
+                 TextColor="Black"
+                 BackgroundColor="LightGray"
+                 Margin="0,10,0,0"
+                 HeightRequest="40"
+                 HorizontalOptions="FillAndExpand"/>
+
+            <Entry 
                 x:Name="ImeEntry"
                 PlaceholderColor="Black"
                 Placeholder="Ime" 

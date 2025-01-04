@@ -35,6 +35,8 @@ public partial class Login : ContentPage
 		string? korisnickoIme = KorisnickoImeEntry.Text?.Trim();
 		string? password = PasswordEntry.Text?.Trim();
 
+		Debug.WriteLine("Email: " + korisnickoIme);
+		Debug.WriteLine("Password: " + password);
 		if (string.IsNullOrEmpty(korisnickoIme) || string.IsNullOrEmpty(password))
 		{
 			await DisplayAlert("Error", "Please enter both username and password.", "OK");
@@ -43,45 +45,28 @@ public partial class Login : ContentPage
 
 		Korisnik korisnik = new Korisnik
 		{
-			KorisnickoIme = korisnickoIme,
-			lozinka = password
+			email = korisnickoIme,
+			password = password
 		};
-
-		var error = _loginRepository.Login(korisnik);
+		Debug.WriteLine("Korisnik: " + korisnik);
+		var error = await _loginRepository.Login(korisnik);
 		Debug.WriteLine(error);
 
-		/*
-		if (error != null)
+
+		if (string.IsNullOrEmpty(error)) 
 		{
-			await DisplayAlert("Error", await error, "OK");
-			return;
-		}
-		else
-		{
-			await DisplayAlert("Success", "Login successful!", "Ok");
+			await DisplayAlert("Success", "Login successful!", "OK");
 			MessagingCenter.Send<Login>(this, "admin");
 			if (Application.Current != null)
 			{
 				await Shell.Current.GoToAsync("//MainTabs");
 			}
-		}*/
-
-
-		if (korisnickoIme == "h" && password == "h")
-		{
-			await DisplayAlert("Success", "Login successful!", "Ok");
-			MessagingCenter.Send<Login>(this, "admin");
-			await SecureStorage.SetAsync("token", korisnik.ToString());
-			if (Application.Current != null)
-			{
-				//Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-				await Shell.Current.GoToAsync("//MainTabs");
-
-			}
 		}
 		else
 		{
-			await DisplayAlert("Error", "Invalid username or password.", "OK");
-		} 
+			await DisplayAlert("Error", error, "OK");
+		}
+
+
 	}
 }

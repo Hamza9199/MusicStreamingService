@@ -30,6 +30,7 @@ public partial class Register : ContentPage
 		string? confirmPassword = ConfirmPasswordEntry.Text?.Trim();
 		string? ime = ImeEntry.Text?.Trim();
 		string? prezime = PrezimeEntry.Text?.Trim();
+		string? korisnickoIme = KorisnickoImeEntry.Text?.Trim();
 
 
 		if (string.IsNullOrEmpty(ime) || string.IsNullOrEmpty(email) ||
@@ -45,16 +46,12 @@ public partial class Register : ContentPage
 			return;
 		}
 
-		Korisnik newUser = new Korisnik { prezime = prezime, ime = ime, email = email, lozinka = password };
+		Korisnik newUser = new Korisnik { prezime = prezime, ime = ime, email = email, password = password , ConfirmPassword = confirmPassword, KorisnickoIme = korisnickoIme, ReturnUrl = "/"};
 
 
 		var error = await _loginRepository.Registracija(newUser);
-		if (error != null)
-		{
-			await DisplayAlert("Error", error, "OK");
-			return;
-		}
-		else
+
+		if ((string.IsNullOrEmpty(error)))
 		{
 			await DisplayAlert("Success", "Registration successful!", "Ok");
 
@@ -62,6 +59,11 @@ public partial class Register : ContentPage
 			{
 				await Shell.Current.GoToAsync("//Aut/Login");
 			}
+		}
+		else
+		{
+			await DisplayAlert("Error", error, "OK");
+			return;
 		}
 
 		
