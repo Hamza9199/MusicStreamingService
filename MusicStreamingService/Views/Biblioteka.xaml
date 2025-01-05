@@ -10,8 +10,10 @@
             
            
             <HorizontalStackLayout Margin="20,20,0,0">
-                <Button Text="Playliste" BackgroundColor="#333" TextColor="White" BorderColor="Black" BorderWidth="1.1"></Button>
-                <Button Text="Izvođači" Margin="10,0,0,0" BackgroundColor="#333" TextColor="White" BorderColor="Black" BorderWidth="1.1"></Button>
+                <Button Text="Playliste" Command="{Binding SwitchToPlaylistsCommand}" BackgroundColor="#333" TextColor="White" BorderColor="Black" BorderWidth="1.1"></Button>
+                <Button Text="Izvođači"  Command="{Binding SwitchToArtistsCommand}" Margin="10,0,0,0" BackgroundColor="#333" TextColor="White" BorderColor="Black" BorderWidth="1.1"></Button>
+                <Button Text="Sve"  Command="{Binding SwitchToDefaultCommand}" Margin="10,0,0,0" BackgroundColor="#333" TextColor="White" BorderColor="Black" BorderWidth="1.1"></Button>
+
             </HorizontalStackLayout>
 
 
@@ -55,10 +57,11 @@ VerticalOptions="Center">
             
 
             <CollectionView
-                 ItemsSource="{Binding Pjesme}"
+                 ItemsSource="{Binding Playliste}"
+                 IsVisible="{Binding ShowPlaylists}"
                  SelectionMode="Single"
-                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
-                 SelectionChangedCommand="{Binding PlayPauseCommand}"
+                 SelectedItem="{Binding CurrentPlaylista, Mode=TwoWay}"
+                 SelectionChangedCommand="{Binding OnPlaylista}"
                  BackgroundColor="#333"
                 Margin="0,-4,0,0"
                 
@@ -84,10 +87,7 @@ VerticalOptions="Center">
                      Text="{Binding naziv}"
                      FontSize="16"
                      FontAttributes="Bold"/>
-                                    <Label
-                     Text="{Binding opis}"
-                     FontSize="14"
-                     TextColor="Gray"/>
+                                   
 
 
                                 
@@ -108,6 +108,63 @@ VerticalOptions="Center">
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
                         
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <CollectionView
+                 ItemsSource="{Binding Korisnici}"
+                 SelectionMode="Single"
+                 IsVisible="{Binding ShowArtists}"
+                 SelectedItem="{Binding CurrentKorisnik, Mode=TwoWay}"
+                 SelectionChangedCommand="{Binding OnKorisnik}"
+                 BackgroundColor="#333"
+                Margin="0,-4,0,0"
+                
+ >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="30,10,0,0" BackgroundColor="#333"
+>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image
+                 Grid.Column="0"
+                 Source="{Binding putanjaSlika}"
+                 HeightRequest="120"
+                 WidthRequest="80"/>
+                            <StackLayout
+                 Grid.Column="1"
+                 Padding="10"
+                 VerticalOptions="Center">
+                                <Label
+                     Text="{Binding KorisnickoIme}"
+                     FontSize="16"
+                     FontAttributes="Bold"/>
+
+
+
+
+                            </StackLayout>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 

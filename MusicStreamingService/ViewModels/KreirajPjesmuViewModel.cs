@@ -6,6 +6,8 @@ using Microsoft.Maui.Controls;
 using System.Net.Http.Json;
 using MusicStreamingService.Services;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -273,6 +275,9 @@ namespace MusicStreamingService.ViewModels
 				else
 				{
 					Console.WriteLine("Error: " + response.ReasonPhrase);
+					Debug.WriteLine(response);
+					var responseContent = await response.Content.ReadAsStringAsync();
+					Debug.WriteLine(responseContent);
 					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja pjesme", "OK");
 				}
 			}

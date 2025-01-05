@@ -6,18 +6,21 @@ using Microsoft.Maui.Controls;
 using System.Net.Http.Json;
 using MusicStreamingService.Services;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MusicStreamingService.ViewModels
 {
 	public class UrediPjesmuViewModel : INotifyPropertyChanged
 	{
 		private Pjesma _pjesma2;
+		private Pjesma _novaPjesma;
 		private HttpClient _httpClient;
 
 		public UrediPjesmuViewModel(Pjesma odabranaPjesma)
 		{
 			_pjesma2 = odabranaPjesma;
-
+			_novaPjesma = new Pjesma();
 			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")
@@ -38,6 +41,16 @@ namespace MusicStreamingService.ViewModels
 			{
 				_pjesma2 = value;
 				OnPropertyChanged(nameof(Pjesma2));
+			}
+		}
+
+		public Pjesma NovaPjesma
+		{
+			get => _novaPjesma;
+			set
+			{
+				_novaPjesma = value;
+				OnPropertyChanged(nameof(NovaPjesma));
 			}
 		}
 
@@ -169,8 +182,22 @@ namespace MusicStreamingService.ViewModels
 
 			try
 			{
-				var response = await _httpClient.PutAsJsonAsync($"api/PjesmaControllerAPI/{Pjesma2.id}", Pjesma2);
+				Debug.WriteLine(Pjesma2);
+				foreach (var prop in Pjesma2.GetType().GetProperties())
+				{
+					Debug.WriteLine(prop.Name + ": " + prop.GetValue(Pjesma2));
+				}
 
+
+			  
+				//var jsonString = new StringContent(JsonConvert.SerializeObject(Pjesma2), Encoding.UTF8, "application/json");
+				
+
+				var response = await _httpClient.PutAsJsonAsync($"api/PjesmaControllerAPI/{Pjesma2.id}", Pjesma2);
+				Debug.WriteLine("Response: " + response.StatusCode);
+				Debug.WriteLine("Response: " + response);
+				string responseContent = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine("Response content: " + responseContent);
 				if (response.IsSuccessStatusCode)
 				{
 					var updatedPjesma = await response.Content.ReadFromJsonAsync<Pjesma>();

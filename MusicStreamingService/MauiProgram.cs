@@ -3,6 +3,8 @@ using CommunityToolkit.Maui;
 using The49.Maui.BottomSheet;
 using MusicStreamingService.Services;
 using MusicStreamingService.Views;
+using Plugin.LocalNotification;
+using CommunityToolkit.Maui.Storage;
 
 namespace MusicStreamingService
 {
@@ -14,7 +16,8 @@ namespace MusicStreamingService
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-			    .UseMauiCommunityToolkitMediaElement()
+                .UseLocalNotification()
+				.UseMauiCommunityToolkitMediaElement()
                 .UseBottomSheet()
 				.ConfigureFonts(fonts =>
             {
@@ -32,6 +35,10 @@ namespace MusicStreamingService
 			builder.Services.AddSingleton<Login>();
 			builder.Services.AddSingleton<Register>();
 			builder.Services.AddSingleton<Postavke>();
+            builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
+			builder.Services.AddTransient<MainPage>();
+			builder.Services.AddTransient<AudioPlayer>();
+
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif

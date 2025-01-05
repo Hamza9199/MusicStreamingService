@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using MusicStreamingService.Views;
 using Newtonsoft.Json;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -27,7 +29,7 @@ namespace MusicStreamingService.ViewModels
 
 		public ObservableCollection<HistorijaSlusanja> historijeSlusanja { get; set; }
 
-		public ObservableCollection<Models.Korisnik> korisnici { get; set; }
+		public ObservableCollection<Models.DobiveniKorisnik> korisnici { get; set; }
 
 		public ObservableCollection<Komentar> komentari { get; set; }
 
@@ -73,6 +75,14 @@ namespace MusicStreamingService.ViewModels
 		public ICommand SelectPlaylistaCommand { get; }
 		public ICommand SelectKorisnikCommand { get; }
 
+		public ICommand OpenSomethingCommand1 { get; }
+
+		public ICommand OpenSomethingCommand2 { get; }
+
+		public ICommand OpenSomethingCommand3 { get; }
+
+		public ICommand OpenSomethingCommand4{ get; }
+
 
 
 
@@ -84,7 +94,7 @@ namespace MusicStreamingService.ViewModels
 
 		private Models.PlayLista _currentPlayLista;
 
-		private Models.Korisnik _currentKorisnik;
+		private Models.DobiveniKorisnik _currentKorisnik;
 
 
 
@@ -136,7 +146,7 @@ namespace MusicStreamingService.ViewModels
 			}
 		}
 
-		public Models.Korisnik CurrentKorisnik
+		public Models.DobiveniKorisnik CurrentKorisnik
 		{
 			get => _currentKorisnik;
 			set
@@ -170,7 +180,7 @@ namespace MusicStreamingService.ViewModels
 			Songs = new ObservableCollection<Pjesma>();
 			Albumi = new ObservableCollection<Models.Album>();
 			historijeSlusanja = new ObservableCollection<HistorijaSlusanja>();
-			korisnici = new ObservableCollection<Korisnik>();
+			korisnici = new ObservableCollection<DobiveniKorisnik>();
 			komentari = new ObservableCollection<Komentar>();
 			playListe = new ObservableCollection<Models.PlayLista>();
 			pretplate = new ObservableCollection<Pretplata>();
@@ -195,6 +205,10 @@ namespace MusicStreamingService.ViewModels
 			SelectAlbumCommand = new Command(OnAlbumSelected);
 			SelectPlaylistaCommand = new Command(OnPlayListaSelected);
 			SelectKorisnikCommand = new Command(OnKorisnikSelected);
+			OpenSomethingCommand1 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma1)));
+			OpenSomethingCommand2 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma2)));
+			OpenSomethingCommand3 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma3)));
+			OpenSomethingCommand4 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new LajkovanePjesme()));
 
 
 
@@ -227,6 +241,8 @@ namespace MusicStreamingService.ViewModels
 				));
 		
 		}*/
+
+		
 
 		private async void OnSongSelected()
 		{
@@ -300,8 +316,24 @@ namespace MusicStreamingService.ViewModels
 					pjesma3 = Songs[selectedIndexes[2]];
 
 					Debug.WriteLine(pjesma1);
+					foreach (var prop in pjesma1.GetType().GetProperties())
+					{
+						Debug.WriteLine(prop.Name + ": " + prop.GetValue(pjesma1));
+					}
 					Debug.WriteLine(pjesma2);
+					foreach (var prop in pjesma2.GetType().GetProperties())
+					{
+						Debug.WriteLine(prop.Name + ": " + prop.GetValue(pjesma2));
+					}
+
 					Debug.WriteLine(pjesma3);
+					foreach (var prop in pjesma3.GetType().GetProperties())
+					{
+						Debug.WriteLine(prop.Name + ": " + prop.GetValue(pjesma3));
+					}
+					OnPropertyChanged(nameof(pjesma1));
+					OnPropertyChanged(nameof(pjesma2));
+					OnPropertyChanged(nameof(pjesma3));
 
 				}
 			}
@@ -355,7 +387,7 @@ namespace MusicStreamingService.ViewModels
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
 
-				var korisnici2 = System.Text.Json.JsonSerializer.Deserialize<List<Korisnik>>(json, new JsonSerializerOptions
+				var korisnici2 = System.Text.Json.JsonSerializer.Deserialize<List<DobiveniKorisnik>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
@@ -364,7 +396,7 @@ namespace MusicStreamingService.ViewModels
 				{
 					foreach (var korisnik in korisnici2)
 					{
-						Debug.WriteLine($"Naziv: {korisnik.ime}, Opis: {korisnik.prezime}");
+						Debug.WriteLine($"Naziv: {korisnik.Ime}, Opis: {korisnik.Prezime}, id { korisnik.Id}");
 						korisnici.Add(korisnik);
 					}
 				}

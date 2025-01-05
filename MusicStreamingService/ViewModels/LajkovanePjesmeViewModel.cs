@@ -23,6 +23,8 @@ namespace MusicStreamingService.ViewModels
 		public ObservableCollection<Pjesma> LajkovanePjesme { get; set; }
 		public ICommand PlayPauseCommand { get; }
 
+		public DobiveniKorisnik Korisnik { get; set; }
+
 		private bool isPlaying;
 
 		private Pjesma _currentSong;
@@ -39,6 +41,8 @@ namespace MusicStreamingService.ViewModels
 
 		public LajkovanePjesmeViewModel()
 		{
+			Korisnik = new DobiveniKorisnik();
+
 			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")
@@ -52,6 +56,7 @@ namespace MusicStreamingService.ViewModels
 
 			LoadSongsAsync();
 			LoadLajkovanePjesme();
+			LoadTokenData();
 
 		}
 
@@ -102,30 +107,77 @@ namespace MusicStreamingService.ViewModels
 
 		}
 
-		private async Task LoadLajkovanePjesme()
+		private async void LoadTokenData()
 		{
 			try
 			{
-				var response = await _httpClient.GetAsync("api/KorisnikPjesmaControllerAPI");
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						Korisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
+		}
+
+		private async Task LoadLajkovanePjesme()
+		{
+			
+			try
+			{
+				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
+				LoadTokenData();
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
-				var korisnikPjesme = System.Text.Json.JsonSerializer.Deserialize<List<KorisnikPjesma>>(json, new JsonSerializerOptions
+
+				var korisnikPjesma = await _httpClient.GetAsync($"api/KorisnikPjesmaControllerAPI");
+				korisnikPjesma.EnsureSuccessStatusCode();
+				var korisnikPjesmaJson = await korisnikPjesma.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {korisnikPjesmaJson}");
+
+
+				var pjesme = System.Text.Json.JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
-				if (korisnikPjesme != null)
+
+				var korisnikPjesmaList = System.Text.Json.JsonSerializer.Deserialize<List<KorisnikPjesma>>(korisnikPjesmaJson, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+
+				if (pjesme != null)
 				{
 					LajkovanePjesme.Clear();
-					foreach (var korisnikPjesma in korisnikPjesme)
+
+					foreach (var pjesma in pjesme)
 					{
-						Debug.WriteLine($"Korisnik: {korisnikPjesma.korisnikID}, Pjesma: {korisnikPjesma.pjesmaID}");
-						var pjesma = Pjesme.FirstOrDefault(p => p.id == korisnikPjesma.pjesmaID);
-						if (pjesma != null)
+						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
+						var povezanaPjesma = korisnikPjesmaList.FirstOrDefault(kp => kp.pjesmaID == pjesma.id && kp.korisnikID == Korisnik.Id);
+
+						if (povezanaPjesma != null)
 						{
 							LajkovanePjesme.Add(pjesma);
 						}
 					}
+
 				}
 			}
 			catch (Exception ex)

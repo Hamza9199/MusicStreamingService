@@ -16,12 +16,12 @@
                />
 
             <StackLayout>
-                <Label Text="Korisničko ime"
+                <Label Text="{Binding KorisnickoIme}"
                          Padding="10,0,0,0"
                          FontAttributes="Bold"
                          FontSize="14"
                        />
-                <Label Text="Korisnik"
+                <Label Text="{Binding Ime}"
                        Padding="10,5,0,0"
                         FontAttributes="Bold"
                         FontSize="14"

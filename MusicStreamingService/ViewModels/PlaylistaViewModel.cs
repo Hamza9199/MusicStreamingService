@@ -1,12 +1,15 @@
-﻿using MusicStreamingService.Models;
+﻿using MediaManager;
+using MusicStreamingService.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -14,7 +17,21 @@ namespace MusicStreamingService.ViewModels
 	{
 		private readonly HttpClient _httpClient;
 		public Models.PlayLista CurrentPlaylista { get; set; }
+		public ICommand PlayPauseCommand { get; }
 
+		private bool isPlaying;
+
+		private Pjesma _currentSong;
+
+		public Pjesma CurrentSong
+		{
+			get => _currentSong;
+			set
+			{
+				_currentSong = value;
+				OnPropertyChanged2();
+			}
+		}
 		public PlaylistaViewModel(Models.PlayLista odabranaPlaylista)
 		{
 			CurrentPlaylista = odabranaPlaylista;
@@ -30,6 +47,9 @@ namespace MusicStreamingService.ViewModels
 			naziv = "Najbolje pjesme";
 			KreiraoKorisnik = "Hamza";
 			putanjaSlika = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUWPPJeKqMFiZdty1MgpNIUzPE0NYsz0Y0NA&s";
+			PlayPauseCommand = new Command(OnPlayPause);
+			OnPropertyChanged(nameof(CurrentSong));
+
 			LoadSongsAsync();
 		}
 
@@ -66,13 +86,61 @@ namespace MusicStreamingService.ViewModels
 			}
 		}
 
-		
 
+		private string GetAudioPath(Pjesma pjesma)
+		{
+			if (pjesma == null)
+			{
+				System.Diagnostics.Debug.WriteLine("Greška: Nije selektovana nijedna pjesma.");
+				return string.Empty;
+			}
+
+			return pjesma.putanjaAudio;
+		}
+
+		private async void OnPlayPause()
+		{
+
+			if (CurrentSong == null)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
+				return;
+			}
+
+			var mediaManager = CrossMediaManager.Current;
+			await mediaManager.Stop();
+
+
+			string audioPath = GetAudioPath(CurrentSong);
+			try
+			{
+				System.Diagnostics.Debug.WriteLine($"Pokušaj reprodukcije: {audioPath}");
+
+
+				await mediaManager.Play(audioPath);
+
+
+
+				isPlaying = true;
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom reprodukcije: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+			}
+
+
+		}
 		public ObservableCollection<Pjesma> Pjesme { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		protected virtual void OnPropertyChanged2([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
@@ -84,8 +152,19 @@ namespace MusicStreamingService.ViewModels
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
 
+				var pjesmaPlaylista = await _httpClient.GetAsync($"api/PjesmaPlaylistaControllerAPI");
+				pjesmaPlaylista.EnsureSuccessStatusCode();
+
+
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
+
+				var pjesmaPlaylistaJson = await pjesmaPlaylista.Content.ReadAsStringAsync();
+
+				var pjesmaPlaylistaList = JsonSerializer.Deserialize<List<PjesmaPlayLista>>(pjesmaPlaylistaJson, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
 
 				var pjesme = JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
 				{
@@ -98,8 +177,8 @@ namespace MusicStreamingService.ViewModels
 
 					foreach (var pjesma in pjesme)
 					{
-						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
-						Pjesme.Add(pjesma);
+						var povezanaPjesma = pjesmaPlaylistaList.Find(p => p.pjesmaID == pjesma.id && p.playlistaID == CurrentPlaylista.id);
+					    Pjesme.Add(pjesma);
 					}
 				}
 			}

@@ -10,7 +10,7 @@ namespace MusicStreamingService.Models
 {
 	public class Korisnik
 	{
-		public Int64 korisnikID { get; set; }
+		public string korisnikID { get; set; }
 		public string? ime { get; set; }
 
 		public string? prezime { get; set; }
@@ -41,7 +41,7 @@ namespace MusicStreamingService.Models
 
 		public string? ReturnUrl { get; set; }
 
-
+		public AspNetUser AspNetUser { get; set; }
 		public ICollection<PlayLista>? PlayLista { get; set; }
 
 		public ICollection<KorisnikPjesma>? KorisnikPjesma { get; set; }

@@ -43,7 +43,7 @@
 
                 <CollectionView
                 x:Name="collectionView" 
-                ItemsSource="{Binding Pjesme}"
+                ItemsSource="{Binding LajkovanePjesme}"
                 SelectionMode="Single"
                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
                 SelectionChangedCommand="{Binding PlayPauseCommand}"

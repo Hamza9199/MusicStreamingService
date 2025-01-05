@@ -5,7 +5,7 @@ namespace MusicStreamingService.Views;
 
 public partial class PregledIzvodaca : ContentPage
 {
-	public PregledIzvodaca(Korisnik odabraniKorisnik)
+	public PregledIzvodaca(DobiveniKorisnik odabraniKorisnik)
 	{
 		InitializeComponent();
 

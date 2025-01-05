@@ -24,7 +24,9 @@
         <!--    <Label Text="{Static icon:IconFont.Wifi}" Style="{x:StaticResource GoogleFont}"/> -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                 <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,10,10,10" WidthRequest="170" HeightRequest="85">
-                   
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand4}" />
+                    </Frame.GestureRecognizers>
                     <HorizontalStackLayout>
                         <ImageButton Source="Images/like.bmp" HeightRequest="60" WidthRequest="60" Clicked="ImageButton_Clicked" Margin="0,0,10,0" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
@@ -36,22 +38,22 @@
 
                 <Frame BackgroundColor="#333333" Grid.Row="0" Grid.Column="1" BorderColor="Black" CornerRadius="5" Padding="10" Margin="10,10,10,10" WidthRequest="170" HeightRequest="85">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand1}" />
                     </Frame.GestureRecognizers>
                     <HorizontalStackLayout>
-                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <Image Source="{Binding pjesma1.putanjaSlika}" HeightRequest="60" WidthRequest="60" Margin="0,0,10,0"/>
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="{Binding pjesma1.naziv}" TextColor="White" />
+                            <Label Text="{Binding pjesma1.naziv}" TextColor="White"/>
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>
 
                 <Frame BackgroundColor="#333333" Grid.Row="1" Grid.Column="0" BorderColor="Black" CornerRadius="5" Padding="10" Margin="0,0,10,10" WidthRequest="170" HeightRequest="85">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand2}" />
                     </Frame.GestureRecognizers>
                     <HorizontalStackLayout>
-                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <Image Source="{Binding pjesma2.putanjaSlika}" HeightRequest="60" WidthRequest="60" Margin="0,0,10,0"/>
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="{Binding pjesma2.naziv}" TextColor="White" />
                         </StackLayout>
@@ -60,10 +62,10 @@
 
                 <Frame BackgroundColor="#333333"  Grid.Row="1" Grid.Column="1" BorderColor="Black" CornerRadius="5" Padding="10" Margin="10,0,10,10" WidthRequest="170" HeightRequest="85">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand}" />
+                        <TapGestureRecognizer Command="{Binding OpenSomethingCommand3}" />
                     </Frame.GestureRecognizers>
                     <HorizontalStackLayout>
-                        <Image Source="Images/dotnet_bot.png" HeightRequest="80" WidthRequest="80" />
+                        <Image Source="{Binding pjesma3.putanjaSlika}" HeightRequest="60" WidthRequest="60" Margin="0,0,10,0" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="{Binding pjesma3.naziv}" TextColor="White" />
                         </StackLayout>
@@ -121,7 +123,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="Poularni albumi"
+            <Label Text="Popularni albumi"
                FontAttributes="Bold"
                FontSize="22"
                TextColor="White"
@@ -221,7 +223,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="Poularne playliste"
+            <Label Text="Popularne playliste"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -270,7 +272,7 @@ SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularni pjesme"
+            <Label Text="Popularne pjesme"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -322,7 +324,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularni izvodaci"
+            <Label Text="Popularni izvodaci"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -372,7 +374,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="Poularni albumi"
+            <Label Text="Popularni albumi"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -421,7 +423,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularne pjesme"
+            <Label Text="Popularne pjesme"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -473,7 +475,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularne playliste"
+            <Label Text="Popularne playliste"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"
@@ -522,7 +524,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
             </CollectionView>
 
 
-            <Label Text="Poularni izvodaci"
+            <Label Text="Popularni izvodaci"
        FontAttributes="Bold"
        FontSize="22"
        TextColor="White"

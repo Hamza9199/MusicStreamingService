@@ -65,6 +65,7 @@ namespace MusicStreamingService.ViewModels
 
 			try
 			{
+
 				var response = await _httpClient.PutAsJsonAsync($"api/PlaylistaControllerAPI/{PlayLista.id}", PlayLista);
 
 				if (response.IsSuccessStatusCode)

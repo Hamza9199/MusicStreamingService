@@ -1,4 +1,5 @@
 ﻿using MusicStreamingService.Views;
+using Plugin.LocalNotification;
 
 namespace MusicStreamingService
 {
@@ -7,7 +8,6 @@ namespace MusicStreamingService
 		public App()
 		{
 			InitializeComponent();
-
 			MainPage = new AppShell();
 
 			Routing.RegisterRoute("LajkovanePjesme", typeof(LajkovanePjesme));

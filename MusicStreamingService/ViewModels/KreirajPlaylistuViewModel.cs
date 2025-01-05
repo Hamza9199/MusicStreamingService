@@ -73,6 +73,8 @@ namespace MusicStreamingService.ViewModels
 				else
 				{
 					Console.WriteLine("Error: " + response.ReasonPhrase);
+					var responseContent = await response.Content.ReadAsStringAsync();
+					Debug.WriteLine(responseContent);
 					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja playliste", "OK");
 				}
 			}

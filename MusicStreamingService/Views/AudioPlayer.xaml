@@ -8,7 +8,7 @@
 
         <Image Source="{Binding CurrentSong.putanjaSlika}"
                WidthRequest="300"
-               HeightRequest="300"
+               HeightRequest="280"
                Aspect="AspectFill"
                VerticalOptions="Center" />
 
@@ -21,13 +21,28 @@
             
         </VerticalStackLayout>
 
-        <VerticalStackLayout  VerticalOptions="Center" HorizontalOptions="Center">
+        <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <Label Text="{Binding CurrentSong.opis}"
                FontSize="23"
                TextColor="Gray"
                HorizontalOptions="Start"
-               Margin="0,5,0,0" />
-        </VerticalStackLayout>
+                />
+           
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Margin="0,0,10,0">
+            <ImageButton
+                Source="Images/dotnet_bot.png"
+                Clicked="DownloadSong"
+                WidthRequest="30"
+                HeightRequest="30"
+                HorizontalOptions="Start"
+                Margin="10,0,10,0"
+                />
+            <Button HorizontalOptions="End"
+            Text="Like"
+            Command="{Binding Like}"
+            />
+        </HorizontalStackLayout>
 
         <Label Text="{Binding CurrentTime}" 
                FontSize="18" 

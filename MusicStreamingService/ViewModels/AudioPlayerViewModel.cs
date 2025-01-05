@@ -7,10 +7,18 @@ using System.Windows.Input;
 using System.Threading;
 using System;
 using System.Timers;
+using System.Text;
+using System.Net.Http.Json;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Text.Json;
 
 
 public class AudioPlayerViewModel : INotifyPropertyChanged
 {
+	public readonly HttpClient _httpClient;
+
+	public DobiveniKorisnik Korisnik { get; set; }
 
 	public Pjesma CurrentSong { get; set; }
 	public ICommand PlayPauseCommand { get; }
@@ -19,6 +27,7 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 	public ICommand VolumeUpCommand { get; }
 	public ICommand VolumeDownCommand { get; }
 
+	public ICommand Like { get; }
 
 	private bool isPlaying;
 	public bool IsUserInteracting { get; set; }
@@ -75,19 +84,101 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 
 	public AudioPlayerViewModel(Pjesma pjesma)
 	{
+		_httpClient = new HttpClient
+		{
+			BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")
+		};
+
+		_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+			"Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
+
 		CurrentSong = pjesma;
 		PlayPauseCommand = new Command(OnPlayPause);
 		RewindCommand = new Command(() => Seek(-5));
 		ForwardCommand = new Command(() => Seek(5));
 		VolumeUpCommand = new Command(() => Volume += 0.1);
 		VolumeDownCommand = new Command(() => Volume -= 0.1);
-
-
-
-
+		Like = new Command(OnLike);
+		Korisnik = new DobiveniKorisnik();
 		timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
 		OnPropertyChanged(nameof(CurrentSong));
+		LoadTokenData();
+
+	}
+
+	private async void LoadTokenData()
+	{
+		try
+		{
+			var tokenJson = await SecureStorage.GetAsync("token");
+			if (!string.IsNullOrEmpty(tokenJson))
+			{
+				var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+
+				if (token != null)
+				{
+					foreach (var claim in token.GetType().GetProperties())
+					{
+						Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+					}
+
+					Korisnik.Id = token.Id;
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+		}
+	}
+
+	private async void OnLike()
+	{
+		LoadTokenData();
+
+		if (CurrentSong == null)
+		{
+			await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
+			return;
+		}
+
+		KorisnikPjesma korisnikPjesma = new KorisnikPjesma
+		{
+			korisnikID = Korisnik.Id,
+			pjesmaID = CurrentSong.id,
+		};
+		try
+		{
+			var response = await _httpClient.PostAsJsonAsync("api/KorisnikPjesmaControllerAPI", korisnikPjesma);
+			Debug.WriteLine(response);
+			var responseContent = await response.Content.ReadAsStringAsync();
+			Debug.WriteLine(responseContent);
+			if (response.IsSuccessStatusCode)
+			{
+				CurrentSong.brojLajkova++;
+				OnPropertyChanged(nameof(CurrentSong));
+				await App.Current.MainPage.DisplayAlert("Upjeh", "Pjesma lajkovana.", "U redu");
+
+			}
+			else
+			{
+				Debug.WriteLine(response);
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu lajkovati pjesmu.", "U redu");
+			}
+		}
+		catch (Exception ex)
+		{
+			
+
+			Debug.WriteLine($"Greška prilikom lajkovanja: {ex.Message}");
+			await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu lajkovati pjesmu.", "U redu");
+
+		}
+
 	}
 
 

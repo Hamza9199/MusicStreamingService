@@ -19,9 +19,9 @@ namespace MusicStreamingService.ViewModels
 		private readonly HttpClient _httpClient;
 
 		public string ProfilnaSlika { get; set; } = "Images/dotnet_bot.png"; 
-		public string Ime { get; set; } = "Hamza";
-		public string Prezime { get; set; } = "Gačić";
-		public string Email { get; set; } = "hamza.gacic@example.com";
+		public string Ime { get; set; } 
+		public string Prezime { get; set; } 
+		public string Email { get; set; } 
 
 		public Command UpdateProfileCommand { get; set; }
 
@@ -88,6 +88,42 @@ namespace MusicStreamingService.ViewModels
 			LoadMojePjesme();
 			LoadMojiAlbumi();
 			LoadMojePlayliste();
+			LoadTokenData();
+		}
+
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						Ime = token.Ime;
+						Prezime = token.Prezime;
+						Email = token.AspNetUser?.Email;
+
+						OnPropertyChanged(nameof(Ime));
+						OnPropertyChanged(nameof(Prezime));
+						OnPropertyChanged(nameof(Email));
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
 		}
 
 		private async void OnSongSelected()

@@ -18,23 +18,64 @@ namespace MusicStreamingService.ViewModels
 	public class BibliotekaViewModel : INotifyPropertyChanged
 	{
 		private readonly HttpClient _httpClient;
-		public ObservableCollection<Pjesma> Pjesme { get; set; }
+		public ObservableCollection<Models.PlayLista> Playliste { get; set; }
+		public ObservableCollection<DobiveniKorisnik> Korisnici { get; set; }
 
-		public ICommand PlayPauseCommand { get; }
+		public ICommand OnPlaylista { get; }
 
-		private Pjesma _currentSong;
+		public ICommand OnKorisnik { get; }
 
-		private bool isPlaying;
+		public PlayLista CurrentPlaylista { get; set; }
 
-		public Pjesma CurrentSong
+		public DobiveniKorisnik CurrentKorisnik { get; set; }
+
+		private bool _showPlaylists = true;
+		private bool _showArtists = true;
+
+		public bool ShowPlaylists
 		{
-			get => _currentSong;
+			get => _showPlaylists;
 			set
 			{
-				_currentSong = value;
-				OnPropertyChanged();
+				if (_showPlaylists != value)
+				{
+					_showPlaylists = value;
+					OnPropertyChanged();
+				}
 			}
 		}
+
+		public bool ShowArtists
+		{
+			get => _showArtists;
+			set
+			{
+				if (_showArtists != value)
+				{
+					_showArtists = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public ICommand SwitchToDefaultCommand => new Command(() =>
+		{
+			ShowPlaylists = true;
+			ShowArtists = true;
+		});
+
+		public ICommand SwitchToPlaylistsCommand => new Command(() =>
+		{
+			ShowPlaylists = true;
+			ShowArtists = false;
+		});
+
+		public ICommand SwitchToArtistsCommand => new Command(() =>
+		{
+			ShowPlaylists = false;
+			ShowArtists = true;
+		});
+
 
 		public BibliotekaViewModel()
 		{
@@ -45,82 +86,76 @@ namespace MusicStreamingService.ViewModels
 
 			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial")));
 
-			Pjesme = new ObservableCollection<Pjesma>();
-			PlayPauseCommand = new Command(OnPlayPause);
 
-			OnPropertyChanged(nameof(CurrentSong));
+			Playliste = new ObservableCollection<PlayLista>();
+			Korisnici = new ObservableCollection<DobiveniKorisnik>();
+			OnPlaylista = new Command(onPlaylista);
+			OnKorisnik = new Command(onKorisnik);
 
-			LoadSongsAsync();
+			LoadPlaylisteasync();
+			LoadKorisniciAsync();
 		}
 
-		private string GetAudioPath(Pjesma pjesma)
+		private void onKorisnik()
 		{
-			if (pjesma == null)
-			{
-				System.Diagnostics.Debug.WriteLine("Greška: Nije selektovana nijedna pjesma.");
-				return string.Empty;
-			}
-
-			return pjesma.putanjaAudio;
+			Application.Current.MainPage.Navigation.PushAsync(new PregledIzvodaca(CurrentKorisnik));
 		}
 
-		private async void OnPlayPause()
+		private void onPlaylista()
 		{
+			Application.Current.MainPage.Navigation.PushAsync(new Playlista(CurrentPlaylista));
+		}
 
-			if (CurrentSong == null)
-			{
-				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
-				return;
-			}
-
-			var mediaManager = CrossMediaManager.Current;
-			await mediaManager.Stop();
-
-
-			string audioPath = GetAudioPath(CurrentSong);
+		private async Task LoadKorisniciAsync()
+		{
 			try
 			{
-				System.Diagnostics.Debug.WriteLine($"Pokušaj reprodukcije: {audioPath}");
-
-
-				await mediaManager.Play(audioPath);
-
-
-
-				isPlaying = true;
+				var response = await _httpClient.GetAsync("api/KorisnikControllerAPI");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json}");
+				var korisnici = System.Text.Json.JsonSerializer.Deserialize<List<DobiveniKorisnik>>(json, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+				if (korisnici != null)
+				{
+					Korisnici.Clear();
+					foreach (var korisnik in korisnici)
+					{
+						Korisnici.Add(korisnik);
+					}
+				}
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"Greška prilikom reprodukcije: {ex.Message}");
-				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja korisnika: {ex.Message}");
 			}
-
-
 		}
 
-		private async Task LoadSongsAsync()
+		private async Task LoadPlaylisteasync()
 		{
 			try
 			{
-				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
+				var response = await _httpClient.GetAsync("api/PlaylistaControllerAPI");
 				response.EnsureSuccessStatusCode();
 
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
 
-				var pjesme = System.Text.Json.JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
+				var playliste = System.Text.Json.JsonSerializer.Deserialize<List<PlayLista>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
 
-				if (pjesme != null)
+				if (playliste != null)
 				{
-					Pjesme.Clear();
+					Playliste.Clear();
 
-					foreach (var pjesma in pjesme)
+					foreach (var playlista in playliste)
 					{
-						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
-						Pjesme.Add(pjesma);
+						Playliste.Add(playlista);
+
 					}
 
 				}

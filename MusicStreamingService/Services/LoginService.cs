@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net.Http.Json;
 
 
 namespace MusicStreamingService.Services
@@ -43,7 +44,38 @@ namespace MusicStreamingService.Services
 
 				if (!string.IsNullOrWhiteSpace(responseContent))
 				{
-					var token = JsonConvert.SerializeObject(korisnik);
+					var encodedEmail = Uri.EscapeDataString(korisnik.email);
+					Debug.WriteLine("Encoded Email: " + encodedEmail);
+					var response2 = await _httpClient.GetAsync("api/KorisnikControllerAPI/Email/" + encodedEmail);
+
+					string responseContent2 = await response2.Content.ReadAsStringAsync();
+					Debug.WriteLine("Response Content: " + responseContent2);
+
+					var korisnikResponse = JsonConvert.DeserializeObject<Dictionary<string, DobiveniKorisnik>>(responseContent2);
+
+					var citavKorisnik = korisnikResponse;
+					Debug.WriteLine("Citav Korisnik: " + citavKorisnik);
+					foreach (var item in citavKorisnik)
+					{
+						Debug.WriteLine("Item: " + item);
+					}
+					await SecureStorage.SetAsync("citavKorisnik", JsonConvert.SerializeObject(citavKorisnik));
+
+					DobiveniKorisnik korisnik2 = korisnikResponse["korisnik"];
+					//AspNetUser aspKorisnik = korisnikResponse[""]
+					Debug.WriteLine("Korisnik2: " + korisnik2);
+
+					var Korisnik = korisnikResponse["korisnik"];
+					Debug.WriteLine("Korisnik: " + Korisnik);
+					
+					for(int i = 0; i < korisnikResponse.Count; i++)
+					{
+						Debug.WriteLine("Korisnik: " + korisnikResponse.ElementAt(i));
+					}
+
+					await SecureStorage.SetAsync("korisnik", Korisnik.ToString());
+
+					var token = JsonConvert.SerializeObject(korisnik2);
 					Debug.WriteLine("Token: " + token);
 					await SecureStorage.SetAsync("token", token);
 					return null;
@@ -141,6 +173,9 @@ namespace MusicStreamingService.Services
 		public void LogoutAsync()
 		{
 			SecureStorage.Default.Remove("token");
+			SecureStorage.Default.Remove("citavKorisnik");
+			SecureStorage.Default.Remove("korisnik");
+
 		}
 
 	}

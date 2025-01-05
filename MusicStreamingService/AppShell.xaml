@@ -87,14 +87,14 @@
 
 
     <!-- Ostat ce -->
-    <FlyoutItem Title="KreirajPjesmu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="KreirajPjesmu" Icon="Images/dotnet_bot.png" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
+    <FlyoutItem Title="Kreiraj Pjesmu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Kreiraj Pjesmu" Icon="Images/dotnet_bot.png" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
     </FlyoutItem>
-    <FlyoutItem Title="KreirajAlbum" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="KreirajAlbum" Icon="Images/dotnet_bot.png" Route="KreirajAlbum" ContentTemplate="{DataTemplate views:KreirajAlbum}" />
+    <FlyoutItem Title="Kreiraj Album" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Kreiraj Album" Icon="Images/dotnet_bot.png" Route="KreirajAlbum" ContentTemplate="{DataTemplate views:KreirajAlbum}" />
     </FlyoutItem>
-    <FlyoutItem Title="KreirajPlaylistu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="KreirajPlaylistu" Icon="Images/dotnet_bot.png" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
+    <FlyoutItem Title="Kreiraj Playlistu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Kreiraj Playlistu" Icon="Images/dotnet_bot.png" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
     </FlyoutItem>
     <!-- za kreiranje -->
 
