@@ -61,9 +61,9 @@ namespace MusicStreamingService.ViewModels
 
 		public Pjesma pjesma1 { get; set; }
 
-		public Pjesma pjesma2 { get; set; }
+		public Models.Album pjesma2 { get; set; }
 
-		public Pjesma pjesma3 { get; set; }
+		public Models.PlayLista pjesma3 { get; set; }
 
 		//public ICommand SearchCommand { get; } 
 		//public ICommand PlayPauseCommand { get; }
@@ -201,16 +201,20 @@ namespace MusicStreamingService.ViewModels
 			/*PlayPauseCommand = new Command(OnPlayPause);
 			NextCommand = new Command(OnNext);
 			PreviousCommand = new Command(OnPrevious);*/
+			pjesma1 = new Pjesma();
+			pjesma2 = new Models.Album();
+			pjesma3 = new Models.PlayLista();
+
 			SelectSongCommand = new Command(OnSongSelected);
 			SelectAlbumCommand = new Command(OnAlbumSelected);
 			SelectPlaylistaCommand = new Command(OnPlayListaSelected);
 			SelectKorisnikCommand = new Command(OnKorisnikSelected);
 			OpenSomethingCommand1 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma1)));
-			OpenSomethingCommand2 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma2)));
-			OpenSomethingCommand3 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(pjesma3)));
+			OpenSomethingCommand2 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new Views.Album(pjesma2)));
+			OpenSomethingCommand3 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new Views.Playlista(pjesma3)));
 			OpenSomethingCommand4 = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new LajkovanePjesme()));
 
-
+			
 
 			//LoadSongs();
 			_ = LoadSongsAsync();
@@ -311,9 +315,8 @@ namespace MusicStreamingService.ViewModels
 					}
 
 					var selectedIndexes = uniqueIndexes.ToList();
-					pjesma1 = Songs[selectedIndexes[0]];
-					pjesma2 = Songs[selectedIndexes[1]];
-					pjesma3 = Songs[selectedIndexes[2]];
+					pjesma1 = Songs[0];
+					
 
 					Debug.WriteLine(pjesma1);
 					foreach (var prop in pjesma1.GetType().GetProperties())
@@ -364,6 +367,15 @@ namespace MusicStreamingService.ViewModels
 						Debug.WriteLine($"Naziv: {album.naziv}, Opis: {album.opis}");
 						Albumi.Add(album);
 					}
+					var random = new Random();
+					var uniqueIndexes = new HashSet<int>();
+					while (uniqueIndexes.Count < 3 && uniqueIndexes.Count < Albumi.Count)
+					{
+						uniqueIndexes.Add(random.Next(Albumi.Count));
+					}
+
+					var selectedIndexes = uniqueIndexes.ToList();
+					pjesma2 = Albumi[1];
 				}
 			}
 			catch (Exception ex)
@@ -436,6 +448,16 @@ namespace MusicStreamingService.ViewModels
 						Debug.WriteLine($"Naziv: {playLista.naziv}, Opis: {playLista.opis}");
 						playListe.Add(playLista);
 					}
+					var random = new Random();
+					var uniqueIndexes = new HashSet<int>();
+					while (uniqueIndexes.Count < 3 && uniqueIndexes.Count < playListe.Count)
+					{
+						uniqueIndexes.Add(random.Next(playListe.Count));
+					}
+
+					var selectedIndexes = uniqueIndexes.ToList();
+					pjesma3 = playListe[0];
+
 				}
 			}
 			catch (Exception ex)

@@ -27,7 +27,7 @@ namespace MusicStreamingService.ViewModels
 
 		public PlayLista CurrentPlaylista { get; set; }
 
-		public DobiveniKorisnik CurrentKorisnik { get; set; }
+		public DobiveniKorisnik CurrentKorisnik { get; set; } 
 
 		private bool _showPlaylists = true;
 		private bool _showArtists = true;
@@ -91,9 +91,40 @@ namespace MusicStreamingService.ViewModels
 			Korisnici = new ObservableCollection<DobiveniKorisnik>();
 			OnPlaylista = new Command(onPlaylista);
 			OnKorisnik = new Command(onKorisnik);
+			CurrentKorisnik = new DobiveniKorisnik();
 
 			LoadPlaylisteasync();
 			LoadKorisniciAsync();
+			LoadTokenData();
+		}
+
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						CurrentKorisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
 		}
 
 		private void onKorisnik()
@@ -112,16 +143,44 @@ namespace MusicStreamingService.ViewModels
 			{
 				var response = await _httpClient.GetAsync("api/KorisnikControllerAPI");
 				response.EnsureSuccessStatusCode();
+
+				var response2 = await _httpClient.GetAsync($"api/PratilacKorisnikControllerAPI");
+				response2.EnsureSuccessStatusCode();
+
 				var json = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine($"Response content: {json}");
+
+				var json2 = await response2.Content.ReadAsStringAsync();
+				Debug.WriteLine($"Response content: {json2}");
+
 				var korisnici = System.Text.Json.JsonSerializer.Deserialize<List<DobiveniKorisnik>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
 				});
+
+				var pratilacKorisnici = System.Text.Json.JsonSerializer.Deserialize<List<PratilacKorisnik>>(json2, new JsonSerializerOptions
+				{
+					PropertyNameCaseInsensitive = true
+				});
+
+				LoadTokenData();
+				Debug.WriteLine(CurrentKorisnik.Id);
+
 				if (korisnici != null)
 				{
 					Korisnici.Clear();
+					var filtriraniKorisnici = new List<DobiveniKorisnik>();
+
 					foreach (var korisnik in korisnici)
+					{
+						var zapraceniIzvodac = pratilacKorisnici.FirstOrDefault(kp => kp.pratilacID == CurrentKorisnik.Id && kp.korisnikID == korisnik.Id);
+						if (zapraceniIzvodac != null)
+						{
+							filtriraniKorisnici.Add(korisnik);
+						}
+					}
+
+					foreach (var korisnik in filtriraniKorisnici)
 					{
 						Korisnici.Add(korisnik);
 					}

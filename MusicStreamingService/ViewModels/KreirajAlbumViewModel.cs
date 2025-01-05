@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using MusicStreamingService.Services;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace MusicStreamingService.ViewModels
 {
@@ -19,6 +20,8 @@ namespace MusicStreamingService.ViewModels
 	{
 		private Album _album;
 		private HttpClient _httpClient;
+		public DobiveniKorisnik Korisnik { get; set; }
+
 
 
 		public event PropertyChangedEventHandler? PropertyChanged;
@@ -39,6 +42,8 @@ namespace MusicStreamingService.ViewModels
 			);
 
 			SaveCommand = new Command(CreateAlbum);
+			Korisnik = new DobiveniKorisnik();
+			LoadTokenData();
 			PropertyChanged = delegate { };
 		}
 
@@ -60,6 +65,35 @@ namespace MusicStreamingService.ViewModels
 			Album = new Album();
 		}
 
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						Korisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
+		}
+
 		private async void CreateAlbum()
 		{
 			if (string.IsNullOrEmpty(Album.naziv) || string.IsNullOrEmpty(Album.putanjaSlika))
@@ -68,9 +102,12 @@ namespace MusicStreamingService.ViewModels
 				Console.WriteLine(Album.putanjaSlika);
 				return;
 			}
+			LoadTokenData();
 
 			try
 			{
+				Album.korisnikid = Korisnik.Id;
+
 				var response = await _httpClient.PostAsJsonAsync("api/AlbumControllerAPI", Album);
 
 				if (response.IsSuccessStatusCode)

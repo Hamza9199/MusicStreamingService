@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,6 +17,7 @@ namespace MusicStreamingService.ViewModels
 	{
 		private PlayLista _playlista;
 		private HttpClient _httpClient;
+		public DobiveniKorisnik Korisnik { get; set; }
 		public KreirajPlaylistuViewModel()
 		{
 			_playlista = new PlayLista();
@@ -31,6 +33,8 @@ namespace MusicStreamingService.ViewModels
 			);
 
 			SaveCommand = new Command(CreatePlaylista);
+			Korisnik = new DobiveniKorisnik();
+			LoadTokenData();
 			PropertyChanged = delegate { };
 		}
 		public PlayLista PlayLista
@@ -51,6 +55,35 @@ namespace MusicStreamingService.ViewModels
 			PlayLista = new PlayLista();
 		}
 
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						Korisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
+		}
+
 		private async void CreatePlaylista()
 		{
 			if (string.IsNullOrEmpty(PlayLista.naziv) || string.IsNullOrEmpty(PlayLista.putanjaSlika))
@@ -59,9 +92,10 @@ namespace MusicStreamingService.ViewModels
 				Console.WriteLine(PlayLista.putanjaSlika);
 				return;
 			}
-
+			LoadTokenData();
 			try
 			{
+				PlayLista.korisnikID = Korisnik.Id;
 				var response = await _httpClient.PostAsJsonAsync("api/PlaylistaControllerAPI", PlayLista);
 
 				if (response.IsSuccessStatusCode)
