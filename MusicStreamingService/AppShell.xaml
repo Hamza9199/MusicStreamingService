@@ -60,7 +60,9 @@
         </Tab>
     </FlyoutItem>
 
-   
+    <FlyoutItem Title="Offline Muzika" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Offline Muzika" Icon="Images/dotnet_bot.png" Route="OfflineMuzika" ContentTemplate="{DataTemplate views:OfflineMuzika}" />
+    </FlyoutItem>
 
     <FlyoutItem Title="Postavke" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Postavke" Icon="Images/dotnet_bot.png" Route="Postavke" ContentTemplate="{DataTemplate views:Postavke}" />

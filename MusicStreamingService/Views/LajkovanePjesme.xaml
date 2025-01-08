@@ -75,10 +75,20 @@
                                     Text="{Binding naziv}"
                                     FontSize="16"
                                     FontAttributes="Bold"/>
-                                        <Label
+                                        <HorizontalStackLayout>
+                                            <Label
                                     Text="{Binding opis}"
                                     FontSize="14"
                                     TextColor="Gray"/>
+                                        <Button
+                                        Text="Obrisi lajk"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ObrisiLajk}"
+
+                                        CommandParameter="{Binding .}"
+
+                                        />
+                                        </HorizontalStackLayout>
+                                        
                                     </StackLayout>
                                 </Grid>
                             </Frame>

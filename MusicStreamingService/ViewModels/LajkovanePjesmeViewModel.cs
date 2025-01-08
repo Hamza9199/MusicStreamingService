@@ -23,11 +23,24 @@ namespace MusicStreamingService.ViewModels
 		public ObservableCollection<Pjesma> LajkovanePjesme { get; set; }
 		public ICommand PlayPauseCommand { get; }
 
+		public ICommand ObrisiLajk { get; }
+
 		public DobiveniKorisnik Korisnik { get; set; }
 
 		private bool isPlaying;
 
 		private Pjesma _currentSong;
+
+		private bool isLoading;
+		public bool IsLoading
+		{
+			get => isLoading;
+			set
+			{
+				isLoading = value;
+				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
 
 		public Pjesma CurrentSong
 		{
@@ -53,11 +66,17 @@ namespace MusicStreamingService.ViewModels
 			Pjesme = new ObservableCollection<Pjesma>();
 			LajkovanePjesme = new ObservableCollection<Pjesma>();
 			PlayPauseCommand = new Command<Pjesma>(OnPlayPause);
+			ObrisiLajk = new Command(OnObrisiLajk);
 
 			LoadSongsAsync();
 			LoadLajkovanePjesme();
 			LoadTokenData();
 
+		}
+
+		private async void OnObrisiLajk()
+		{
+			await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma obrisana iz lajkovanih pjesama", "U redu");
 		}
 
 		private string GetAudioPath(Pjesma pjesma)
@@ -141,6 +160,7 @@ namespace MusicStreamingService.ViewModels
 			
 			try
 			{
+				isLoading = true;
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
 				LoadTokenData();
@@ -184,12 +204,17 @@ namespace MusicStreamingService.ViewModels
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
+			finally
+			{
+				isLoading = false;
+			}
 		}
 
 		private async Task LoadSongsAsync()
 		{
 			try
 			{
+				isLoading = true;
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
 
@@ -216,6 +241,10 @@ namespace MusicStreamingService.ViewModels
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
+			}
+			finally
+			{
+				isLoading = false;
 			}
 		}
 

@@ -1,4 +1,5 @@
-﻿using MusicStreamingService.Models;
+﻿using Android.Content.Res;
+using MusicStreamingService.Models;
 using MusicStreamingService.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -162,7 +163,7 @@ namespace MusicStreamingService.ViewModels
 		{
 			if (CurrentSong != null)
 			{
-				await Shell.Current.GoToAsync("//MainTabs");
+				await Shell.Current.GoToAsync($"//MainTabs");
 			}
 		}
 

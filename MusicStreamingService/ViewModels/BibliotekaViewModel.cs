@@ -25,12 +25,25 @@ namespace MusicStreamingService.ViewModels
 
 		public ICommand OnKorisnik { get; }
 
+		public ICommand Otprati { get; }
+
 		public PlayLista CurrentPlaylista { get; set; }
 
 		public DobiveniKorisnik CurrentKorisnik { get; set; } 
 
 		private bool _showPlaylists = true;
 		private bool _showArtists = true;
+
+		private bool isLoading;
+		public bool IsLoading
+		{
+			get => isLoading;
+			set
+			{
+				isLoading = value;
+				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
 
 		public bool ShowPlaylists
 		{
@@ -92,10 +105,16 @@ namespace MusicStreamingService.ViewModels
 			OnPlaylista = new Command(onPlaylista);
 			OnKorisnik = new Command(onKorisnik);
 			CurrentKorisnik = new DobiveniKorisnik();
+			Otprati = new Command(OnOtprati);
 
 			LoadPlaylisteasync();
 			LoadKorisniciAsync();
 			LoadTokenData();
+		}
+
+		private async void OnOtprati()
+		{
+			await App.Current.MainPage.DisplayAlert("Obavijest", "Korisnik otpraćen", "OK");
 		}
 
 		private async void LoadTokenData()
@@ -190,6 +209,10 @@ namespace MusicStreamingService.ViewModels
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja korisnika: {ex.Message}");
 			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 
 		private async Task LoadPlaylisteasync()
@@ -222,6 +245,10 @@ namespace MusicStreamingService.ViewModels
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
+			}
+			finally
+			{
+				IsLoading = false;
 			}
 		}
 

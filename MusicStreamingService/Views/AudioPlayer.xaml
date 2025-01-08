@@ -30,18 +30,27 @@
            
         </HorizontalStackLayout>
         <HorizontalStackLayout Margin="0,0,10,0">
-            <ImageButton
-                Source="Images/dotnet_bot.png"
-                Clicked="DownloadSong"
-                WidthRequest="30"
-                HeightRequest="30"
-                HorizontalOptions="Start"
-                Margin="10,0,10,0"
-                />
+           
             <Button HorizontalOptions="End"
             Text="Like"
             Command="{Binding Like}"
             />
+            <Button 
+                Text="Ponavaljaj"
+                Command="{Binding Ponavljaj}"
+                />
+
+            <Button
+                Text="Skini"
+                Command="{Binding Download}"
+                CommandParameter="{Binding .}"
+                />
+            <Button
+                 Text="Dodaj u playlistu"
+                 Command="{Binding Dodaj}"
+                 CommandParameter="{Binding .}"
+                 />
+
         </HorizontalStackLayout>
 
         <Label Text="{Binding CurrentTime}" 

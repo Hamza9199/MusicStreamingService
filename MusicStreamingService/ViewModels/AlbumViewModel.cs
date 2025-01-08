@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 
 namespace MusicStreamingService.ViewModels
@@ -17,12 +18,60 @@ namespace MusicStreamingService.ViewModels
 	{
 		private readonly HttpClient _httpClient;
 		public Models.Album CurrentAlbum { get; set; }
-
+		private int CurrentSongIndex { get; set; } = 1;
 		public ICommand PlayPauseCommand { get; }
-
+		public ICommand Play { get; }
+		public ICommand Ponavljaj { get; }
+		public ICommand Random { get; }
+		private bool ponavljaj = false;
 		private bool isPlaying;
-
 		private Pjesma _currentSong;
+
+		private System.Threading.Timer timer;
+		private double currentPosition;
+		private bool isLoading;
+		public bool IsLoading
+		{
+			get => isLoading;
+			set
+			{
+				isLoading = value;
+				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
+
+		public double CurrentPosition
+		{
+			get => currentPosition;
+			set
+			{
+				if (value >= 0 && value <= SongDuration && Math.Abs(currentPosition - value) > 0.1)
+				{
+					currentPosition = value;
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(CurrentTime));
+				}
+			}
+		}
+
+		private double songDuration;
+
+		public double SongDuration
+		{
+			get => songDuration;
+			private set
+			{
+				songDuration = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(SongDurationString));
+			}
+		}
+
+		public string SongDurationString => TimeSpan.FromSeconds(SongDuration).ToString(@"mm\:ss");
+
+
+
+		public string CurrentTime => TimeSpan.FromSeconds(currentPosition).ToString(@"mm\:ss");
 
 		public Pjesma CurrentSong
 		{
@@ -30,11 +79,9 @@ namespace MusicStreamingService.ViewModels
 			set
 			{
 				_currentSong = value;
-				OnPropertyChanged2();
+				OnPropertyChanged();
 			}
 		}
-
-		
 
 		public AlbumViewModel(Models.Album odabraniAlbum)
 		{
@@ -53,9 +100,78 @@ namespace MusicStreamingService.ViewModels
 			Izvodjac = "Hamza";
 			putanjaSlika = CurrentAlbum.putanjaSlika;
 			PlayPauseCommand = new Command(OnPlayPause);
-			OnPropertyChanged(nameof(CurrentSong));
+			Play = new Command(OnPlayAlbum);
+			Ponavljaj = new Command(OnPonavljaj);
+			Random = new Command(OnRandom);
+
+			//CurrentSong = Pjesme[CurrentSongIndex];
+
+
+			timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+
 			LoadAlbumAsync();
+			//SubscribeToMediaManagerEvents();
 		}
+
+		private async void TimerCallback(object state)
+		{
+			if (CrossMediaManager.Current.IsPlaying())
+			{
+				var position = CrossMediaManager.Current.Position;
+				var duration = CrossMediaManager.Current.Duration;
+
+				if ((position >= duration && duration > TimeSpan.Zero) ||
+				(duration - position <= TimeSpan.FromSeconds(1) && duration > TimeSpan.Zero))
+				{
+					isPlaying = false;
+					CurrentPosition = 0;
+					CurrentSongIndex++;
+					if(CurrentSongIndex >= Pjesme.Count)
+					{
+						CurrentSongIndex = 0;
+					}
+					if(CurrentSongIndex < Pjesme.Count)
+					{
+						CurrentSong = Pjesme[CurrentSongIndex];
+					}
+					if(CurrentSong == null)
+					{
+						return;
+					}
+					if(CurrentSongIndex == null)
+					{
+						return;
+					}
+					Thread.Sleep(1000);
+					await PlaySongAtIndex(CurrentSongIndex);
+					if (ponavljaj)
+					{
+						string audioPath = GetAudioPath(CurrentSong);
+						CrossMediaManager.Current.Play(audioPath);
+						isPlaying = true;
+					}
+					return;
+				}
+
+				if (position != TimeSpan.Zero && duration != TimeSpan.Zero)
+				{
+					CurrentPosition = position.TotalSeconds;
+					SongDuration = duration.TotalSeconds;
+				}
+
+
+
+				OnPropertyChanged(nameof(CurrentTime));
+				OnPropertyChanged(nameof(SongDurationString));
+			}
+
+		}
+
+		private void Seek(int seconds)
+		{
+			CrossMediaManager.Current.SeekTo(TimeSpan.FromSeconds(CurrentPosition + seconds));
+		}
+
 
 		private string _naziv;
 		public string naziv
@@ -64,7 +180,7 @@ namespace MusicStreamingService.ViewModels
 			set
 			{
 				_naziv = value;
-				OnPropertyChanged(nameof(naziv));
+				OnPropertyChanged();
 			}
 		}
 
@@ -75,7 +191,7 @@ namespace MusicStreamingService.ViewModels
 			set
 			{
 				_izvodjac = value;
-				OnPropertyChanged(nameof(Izvodjac));
+				OnPropertyChanged();
 			}
 		}
 
@@ -86,7 +202,7 @@ namespace MusicStreamingService.ViewModels
 			set
 			{
 				_putanjaSlika = value;
-				OnPropertyChanged(nameof(putanjaSlika));
+				OnPropertyChanged();
 			}
 		}
 
@@ -94,6 +210,10 @@ namespace MusicStreamingService.ViewModels
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		
+
+		
+	
 		private string GetAudioPath(Pjesma pjesma)
 		{
 			if (pjesma == null)
@@ -116,7 +236,7 @@ namespace MusicStreamingService.ViewModels
 
 			var mediaManager = CrossMediaManager.Current;
 			await mediaManager.Stop();
-
+			CurrentSongIndex = Pjesme.IndexOf(CurrentSong);
 
 			string audioPath = GetAudioPath(CurrentSong);
 			try
@@ -132,33 +252,124 @@ namespace MusicStreamingService.ViewModels
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"Greška prilikom reprodukcije: {ex.Message}");
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom reprodukcije u OnPlayPause: {ex.Message}");
 				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
 			}
 
 
 		}
 
-		protected virtual void OnPropertyChanged(string propertyName)
+
+		private async void OnPlayAlbum()
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			if (Pjesme.Count == 0)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Album ne sadrži pjesme.", "U redu");
+				return;
+			}
+
+			try
+			{
+				Thread.Sleep(1000);
+				CurrentSongIndex = 0;
+				await PlaySongAtIndex(CurrentSongIndex);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška prilikom reprodukcije u OnPlayAlbum: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+			}
 		}
 
-		protected virtual void OnPropertyChanged2([CallerMemberName] string propertyName = "")
+		private async void OnPonavljaj()
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			ponavljaj = !ponavljaj;
+			
+		}
+
+		private async Task PlaySongAtIndex(int index)
+		{
+			try
+			{
+				if (index < 0 || index >= Pjesme.Count)
+				{
+					if (ponavljaj)
+					{
+						CurrentSongIndex = 0;
+						await PlaySongAtIndex(CurrentSongIndex);
+					}
+
+					return;
+				}
+
+
+				Thread.Sleep(1000);
+				CurrentSong = Pjesme[index];
+
+				await PlaySongWithTimer(CurrentSong);
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška prilikom reprodukcije u SongIndex: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+			}
+		}
+
+		private async Task PlaySongWithTimer(Pjesma song)
+		{
+			if (song == null)
+			{
+				Debug.WriteLine("Greška: Pjesma je null.");
+				return;
+			}
+
+			try
+			{
+				var mediaManager = CrossMediaManager.Current;
+				/*Thread.Sleep(1000);
+				await mediaManager.Stop(); */
+				string audioPath = GetAudioPath(song);
+				Thread.Sleep(1000);
+
+				await mediaManager.Play(audioPath);
+				Debug.WriteLine($"Reprodukcija pjesme: {audioPath}");
+
+				isPlaying = true;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška prilikom reprodukcije u SongTImer: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+			}
+		}
+
+		
+
+		
+
+		private async void OnRandom()
+		{
+			if (Pjesme.Count == 0)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Album ne sadrži pjesme.", "U redu");
+				return;
+			}
+
+			var random = new Random();
+			var randomIndex = random.Next(Pjesme.Count);
+			CurrentSong = Pjesme[randomIndex];
 		}
 
 		private async Task LoadAlbumAsync()
 		{
 			try
 			{
+				isLoading = true;
+
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
 
 				var json = await response.Content.ReadAsStringAsync();
-				Debug.WriteLine($"Response content: {json}");
-
 				var pjesme = JsonSerializer.Deserialize<List<Pjesma>>(json, new JsonSerializerOptions
 				{
 					PropertyNameCaseInsensitive = true
@@ -181,6 +392,15 @@ namespace MusicStreamingService.ViewModels
 			{
 				Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
+			finally
+			{
+				IsLoading = false;
+			}
+		}
+
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

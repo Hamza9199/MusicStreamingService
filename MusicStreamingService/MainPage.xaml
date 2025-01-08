@@ -20,6 +20,9 @@
     <ScrollView>
         <StackLayout Padding="10" Spacing="10" Margin="5,0,0,5">
 
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+
             <Label Text="DECIBEL" Style="{x:StaticResource GoogleFont}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" FontSize="23" Padding="0,0,0,0"></Label>
         <!--    <Label Text="{Static icon:IconFont.Wifi}" Style="{x:StaticResource GoogleFont}"/> -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
@@ -81,6 +84,10 @@
 
             <CollectionView ItemsSource="{Binding Songs}" 
                 SelectionMode="Single" 
+                            ItemsUpdatingScrollMode="KeepItemsInView"
+                             Margin="20,0,20,0"
+                            
+                           
                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
                 SelectionChangedCommand="{Binding SelectSongCommand}">
                 <CollectionView.ItemsLayout>
@@ -89,7 +96,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" WidthRequest="150" Margin="20,0,0,0">
+                        <StackLayout Padding="10" WidthRequest="150" Margin="10,0,10,0">
                             <Image Source="{Binding putanjaSlika}"
                        WidthRequest="150"
                        HeightRequest="150"
@@ -99,10 +106,7 @@
                        FontSize="16"
                        HorizontalOptions="Center"
                        TextColor="White" />
-                            <Label Text="{Binding opis}"
-                       FontSize="12"
-                       TextColor="Gray"
-                       HorizontalOptions="Center" />
+                            
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -171,7 +175,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
             <Label Text="Nedavno"
        FontAttributes="Bold"
        FontSize="20"
@@ -199,10 +202,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="14"
        HorizontalOptions="Center"
        TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="11"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                           
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -299,10 +299,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="16"
        HorizontalOptions="Center"
        TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                            
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -450,10 +447,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        FontSize="16"
        HorizontalOptions="Center"
        TextColor="White" />
-                            <Label Text="{Binding opis}"
-       FontSize="12"
-       TextColor="Gray"
-       HorizontalOptions="Center" />
+                           
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>

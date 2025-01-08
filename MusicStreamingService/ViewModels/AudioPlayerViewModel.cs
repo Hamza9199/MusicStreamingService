@@ -29,6 +29,14 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 
 	public ICommand Like { get; }
 
+	public ICommand Ponavljaj { get; }
+
+	public ICommand Download { get; }
+
+	public ICommand Dodaj { get; }
+
+	private bool ponavljaj = false;
+
 	private bool isPlaying;
 	public bool IsUserInteracting { get; set; }
 
@@ -100,12 +108,58 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 		VolumeDownCommand = new Command(() => Volume -= 0.1);
 		Like = new Command(OnLike);
 		Korisnik = new DobiveniKorisnik();
+		ponavljaj = false;
+		IsUserInteracting = false;
+		Ponavljaj = new Command(() =>
+		{
+			ponavljaj = !ponavljaj;
+			OnPropertyChanged(nameof(ponavljaj));
+		});
+		Download = new Command(OnDownload);
 		timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+		Dodaj = new Command(OnDodajUPlaylistu);
 
 		OnPropertyChanged(nameof(CurrentSong));
 		LoadTokenData();
 
 	}
+
+	private async void OnDodajUPlaylistu() { 
+		await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma dodana u playlistu", "U redu");
+	}
+
+	private async void OnDownload()
+	{
+		try
+		{
+			string localPath = Path.Combine(FileSystem.AppDataDirectory, CurrentSong.naziv + ".mp3");
+			if (File.Exists(localPath))
+			{
+				Debug.WriteLine("Pjesma je već skinuta.");
+				return;
+			}
+
+			var response = await _httpClient.GetAsync(CurrentSong.putanjaAudio);
+			response.EnsureSuccessStatusCode();
+
+			using (var fileStream = File.Create(localPath))
+			{
+				await response.Content.CopyToAsync(fileStream);
+			}
+
+			Debug.WriteLine($"Pjesma je uspješno skinuta: {localPath}");
+			await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma uspjesno skinuta.", "U redu");
+
+
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Greška prilikom preuzimanja pjesme: {ex.Message}");
+			await App.Current.MainPage.DisplayAlert("Greška", "Pjesma nije skinuta.", "U redu");
+
+		}
+	}
+
 
 	private async void LoadTokenData()
 	{
@@ -190,10 +244,19 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 			var position = CrossMediaManager.Current.Position;
 			var duration = CrossMediaManager.Current.Duration;
 
-			if (position >= duration && duration > TimeSpan.Zero)
+			if ((position >= duration && duration > TimeSpan.Zero) ||
+			(duration - position <= TimeSpan.FromSeconds(1) && duration > TimeSpan.Zero))
 			{
 				isPlaying = false;
 				OnPropertyChanged(nameof(PlayPauseButtonText));
+
+				if (ponavljaj)
+				{
+					string audioPath = GetAudioPath(CurrentSong);
+					CrossMediaManager.Current.Play(audioPath);
+					isPlaying = true;
+					OnPropertyChanged(nameof(PlayPauseButtonText));
+				}
 				return;
 			}
 
@@ -202,6 +265,8 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 				CurrentPosition = position.TotalSeconds;
 				SongDuration = duration.TotalSeconds;
 			}
+
+			
 
 			OnPropertyChanged(nameof(CurrentTime));
 			OnPropertyChanged(nameof(SongDurationString));

@@ -28,8 +28,24 @@
                         VerticalOptions="Start" 
                         HorizontalOptions="Center" />
 
+                
             </HorizontalStackLayout>
 
+            <HorizontalStackLayout>
+                 <Button
+    Text="Play"
+    Command="{Binding Play}"
+    />
+            <Button
+Text="Ponavljaj"
+Command="{Binding Ponavljaj}"
+/>
+            <Button
+Text="Random"
+Command="{Binding Random}"
+/>
+            </HorizontalStackLayout>
+           
 
 
 
