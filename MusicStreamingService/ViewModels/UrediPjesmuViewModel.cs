@@ -187,13 +187,11 @@ namespace MusicStreamingService.ViewModels
 				{
 					Debug.WriteLine(prop.Name + ": " + prop.GetValue(Pjesma2));
 				}
-
-
 			  
 				//var jsonString = new StringContent(JsonConvert.SerializeObject(Pjesma2), Encoding.UTF8, "application/json");
 				
 
-				var response = await _httpClient.PutAsJsonAsync($"api/PjesmaControllerAPI/{Pjesma2.id}", Pjesma2);
+				var response = await _httpClient.PutAsJsonAsync($"api/PjesmaControllerAPI/PutPjesmaAPI/{Pjesma2.id}", Pjesma2);
 				Debug.WriteLine("Response: " + response.StatusCode);
 				Debug.WriteLine("Response: " + response);
 				string responseContent = await response.Content.ReadAsStringAsync();

@@ -29,7 +29,19 @@ namespace MusicStreamingService.ViewModels
 
 		public PlayLista CurrentPlaylista { get; set; }
 
-		public DobiveniKorisnik CurrentKorisnik { get; set; } 
+		public DobiveniKorisnik _currentKorisnik;
+
+		public DobiveniKorisnik CurrentKorisnik
+		{
+			get => _currentKorisnik;
+			set
+			{
+				_currentKorisnik = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DobiveniKorisnik CurrentKorisnik2 { get; set; }
 
 		private bool _showPlaylists = true;
 		private bool _showArtists = true;
@@ -105,16 +117,49 @@ namespace MusicStreamingService.ViewModels
 			OnPlaylista = new Command(onPlaylista);
 			OnKorisnik = new Command(onKorisnik);
 			CurrentKorisnik = new DobiveniKorisnik();
+			CurrentKorisnik2 = new DobiveniKorisnik();
 			Otprati = new Command(OnOtprati);
+
+			OnPropertyChanged(nameof(CurrentKorisnik));
+			OnPropertyChanged(nameof(CurrentKorisnik2));
 
 			LoadPlaylisteasync();
 			LoadKorisniciAsync();
 			LoadTokenData();
 		}
 
-		private async void OnOtprati()
+		private async void OnOtprati(object param)
 		{
-			await App.Current.MainPage.DisplayAlert("Obavijest", "Korisnik otpraćen", "OK");
+			//await App.Current.MainPage.DisplayAlert("Obavijest", "Korisnik otpraćen PratilacKorisnikControllerAPI/{korisnikID/pratilacID", "OK");
+			var CurrentKorisnikk = param as DobiveniKorisnik;
+
+			if (CurrentKorisnikk == null)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabran ni jedan korisnik.", "U redu");
+				return;
+			}
+
+			try
+			{
+				Debug.WriteLine($"api/PratilacKorisnikControllerAPI/{CurrentKorisnikk.Id}/{CurrentKorisnik2.Id}");
+				var response = await _httpClient.DeleteAsync($"api/PratilacKorisnikControllerAPI/{CurrentKorisnikk.Id}/{CurrentKorisnik2.Id}");
+
+				if (response.IsSuccessStatusCode)
+				{
+					await App.Current.MainPage.DisplayAlert("Obavijest", "Korisnik otpraćen", "OK");
+				}
+				else
+				{
+					await App.Current.MainPage.DisplayAlert("Greška", "Korisnik nije otpraćen", "OK");
+				}
+			}
+			catch
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Korisnik nije otpraćen", "OK");
+			}
+			
+
+			await LoadKorisniciAsync();
 		}
 
 		private async void LoadTokenData()
@@ -136,7 +181,7 @@ namespace MusicStreamingService.ViewModels
 							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
 						}
 
-						CurrentKorisnik.Id = token.Id;
+						CurrentKorisnik2.Id = token.Id;
 					}
 				}
 			}
@@ -183,7 +228,7 @@ namespace MusicStreamingService.ViewModels
 				});
 
 				LoadTokenData();
-				Debug.WriteLine(CurrentKorisnik.Id);
+				Debug.WriteLine(CurrentKorisnik2.Id);
 
 				if (korisnici != null)
 				{
@@ -192,7 +237,7 @@ namespace MusicStreamingService.ViewModels
 
 					foreach (var korisnik in korisnici)
 					{
-						var zapraceniIzvodac = pratilacKorisnici.FirstOrDefault(kp => kp.pratilacID == CurrentKorisnik.Id && kp.korisnikID == korisnik.Id);
+						var zapraceniIzvodac = pratilacKorisnici.FirstOrDefault(kp => kp.pratilacID == CurrentKorisnik2.Id && kp.korisnikID == korisnik.Id);
 						if (zapraceniIzvodac != null)
 						{
 							filtriraniKorisnici.Add(korisnik);

@@ -1,5 +1,4 @@
-﻿using Android.Content.Res;
-using MusicStreamingService.Models;
+﻿using MusicStreamingService.Models;
 using MusicStreamingService.Views;
 using System;
 using System.Collections.ObjectModel;

@@ -74,9 +74,36 @@ namespace MusicStreamingService.ViewModels
 
 		}
 
-		private async void OnObrisiLajk()
+		private async void OnObrisiLajk(object param)
 		{
-			await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma obrisana iz lajkovanih pjesama", "U redu");
+			//await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma obrisana iz lajkovanih pjesama api/KorisnikPjesmaControllerAPI/korisnikID/pjesmaID", "U redu");
+
+			var pjesma = param as Pjesma;
+			if (pjesma == null)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
+				return;
+			}
+
+			try
+			{
+				Debug.WriteLine($"api/KorisnikPjesmaControllerAPI/{Korisnik.Id}/{pjesma.id}");
+				var response = await _httpClient.DeleteAsync($"api/KorisnikPjesmaControllerAPI/{Korisnik.Id}/{pjesma.id}");
+				if (response.IsSuccessStatusCode)
+				{
+					await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma obrisana iz lajkovanih pjesama", "OK");
+					await LoadLajkovanePjesme();
+				}
+				else
+				{
+					await App.Current.MainPage.DisplayAlert("Greška", "Pjesma nije obrisana iz lajkovanih pjesama", "OK");
+				}
+			}
+			catch
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Pjesma nije obrisana iz lajkovanih pjesama", "OK");
+			}
+
 		}
 
 		private string GetAudioPath(Pjesma pjesma)

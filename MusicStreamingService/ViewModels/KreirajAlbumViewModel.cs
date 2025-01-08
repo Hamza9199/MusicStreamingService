@@ -108,7 +108,7 @@ namespace MusicStreamingService.ViewModels
 			{
 				Album.korisnikid = Korisnik.Id;
 
-				var response = await _httpClient.PostAsJsonAsync("api/AlbumControllerAPI", Album);
+				var response = await _httpClient.PostAsJsonAsync("api/AlbumControllerAPI/AlbumAPI", Album);
 
 				if (response.IsSuccessStatusCode)
 				{

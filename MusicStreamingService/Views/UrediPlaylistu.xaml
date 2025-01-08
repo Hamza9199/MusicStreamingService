@@ -60,7 +60,7 @@
              Margin="0,10" />
 
             <Button Text="Spremi Promjene"
-                Command="{Binding UpdatePlayListaCommand}"
+                Command="{Binding SaveCommand}"
                 BackgroundColor="Green"
                 TextColor="White"
                 CornerRadius="10"

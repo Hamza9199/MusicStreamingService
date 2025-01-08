@@ -64,7 +64,7 @@ namespace MusicStreamingService.ViewModels
 
 			try
 			{
-				var response = await _httpClient.PutAsJsonAsync($"api/AlbumControllerAPI/{Album.id}", Album);
+				var response = await _httpClient.PutAsJsonAsync($"api/AlbumControllerAPI/AlbumAPI/{Album.id}", Album);
 
 				if (response.IsSuccessStatusCode)
 				{

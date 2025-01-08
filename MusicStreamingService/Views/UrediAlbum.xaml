@@ -62,7 +62,7 @@
                     Margin="0,10" />
 
             <Button Text="Spremi promjene"
-                    Command="{Binding SaveAlbumCommand}"
+                    Command="{Binding SaveCommand}"
                     BackgroundColor="Green"
                     TextColor="White"
                     CornerRadius="10"

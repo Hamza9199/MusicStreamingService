@@ -60,7 +60,7 @@
              Margin="0,10" />
 
             <Button Text="Kreiraj Playlistu"
-                Command="{Binding CreatePlayListaCommand}"
+                Command="{Binding SaveCommand}"
                 BackgroundColor="Blue"
                 TextColor="White"
                 CornerRadius="10"

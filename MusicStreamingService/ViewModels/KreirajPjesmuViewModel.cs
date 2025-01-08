@@ -265,7 +265,7 @@ namespace MusicStreamingService.ViewModels
 			try
 			{
 			
-				var response = await _httpClient.PostAsJsonAsync("api/PjesmaControllerAPI", Pjesma);
+				var response = await _httpClient.PostAsJsonAsync("api/PjesmaControllerAPI/PostPjesmaAPI", Pjesma);
 
 				if (response.IsSuccessStatusCode)
 				{

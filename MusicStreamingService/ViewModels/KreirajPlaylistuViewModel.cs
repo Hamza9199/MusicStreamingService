@@ -96,7 +96,7 @@ namespace MusicStreamingService.ViewModels
 			try
 			{
 				PlayLista.korisnikID = Korisnik.Id;
-				var response = await _httpClient.PostAsJsonAsync("api/PlaylistaControllerAPI", PlayLista);
+				var response = await _httpClient.PostAsJsonAsync("api/PlaylistaControllerAPI/PlayListaAPI", PlayLista);
 
 				if (response.IsSuccessStatusCode)
 				{

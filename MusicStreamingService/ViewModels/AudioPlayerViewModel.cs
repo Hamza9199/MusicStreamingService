@@ -207,7 +207,7 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 		};
 		try
 		{
-			var response = await _httpClient.PostAsJsonAsync("api/KorisnikPjesmaControllerAPI", korisnikPjesma);
+			var response = await _httpClient.PostAsJsonAsync($"api/KorisnikPjesmaControllerAPI", korisnikPjesma);
 			Debug.WriteLine(response);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			Debug.WriteLine(responseContent);
