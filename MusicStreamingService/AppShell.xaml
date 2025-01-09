@@ -19,17 +19,12 @@
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout>
-            <Image Source="Images/dotnet_bot.png" HeightRequest="100" WidthRequest="100" />
-            <Label Text="Music Streaming Service" TextColor="White" FontSize="Large" />
+            <Image Source="Images/logoo.jpg" HeightRequest="110" WidthRequest="100" />
+            <Label Text="Music Streaming Service" TextColor="White" FontSize="Large" Margin="13,10,0,20" />
         </VerticalStackLayout>
     </Shell.FlyoutHeader>
 
-    <Shell.FlyoutFooter>
-        <VerticalStackLayout>
-            <Image Source="Images/dotnet_bot.png" HeightRequest="100" WidthRequest="100" />
-            <Label Text="Dobro Došli" TextColor="White" FontSize="Large" />
-        </VerticalStackLayout>
-    </Shell.FlyoutFooter>
+    
 
     <Shell.TabBarBackgroundColor
         x:TypeArguments="Color"
@@ -37,23 +32,23 @@
         Black
     </Shell.TabBarBackgroundColor>
 
-    <FlyoutItem Title="Home" Icon="Images/dotnet_bot.png">
-        <Tab Title="Pocetna" Icon="Images/dotnet_bot.png">
+    <FlyoutItem Title="Home" Icon="Images/home.svg">
+        <Tab Title="Pocetna"  Icon="Images/home.svg">
             <ShellContent
         Route="MainPage"
         ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
-        <Tab Title="Pretraga" Icon="Images/dotnet_bot.png">
+        <Tab Title="Pretraga" Icon="Images/search.svg">
             <ShellContent
         Route="Search"
         ContentTemplate="{DataTemplate views:Search}" />
         </Tab>
-        <Tab Title="Biblioteka" Icon="Images/dotnet_bot.png">
+        <Tab Title="Biblioteka" Icon="Images/biblioteka.svg">
             <ShellContent
          Route="Biblioteka"
          ContentTemplate="{DataTemplate views:Biblioteka}" />
         </Tab>
-        <Tab Title="Premium" Icon="Images/dotnet_bot.png">
+        <Tab Title="Premium" Icon="Images/premium.svg">
             <ShellContent
         Route="Premium"
         ContentTemplate="{DataTemplate views:Premium}" />
@@ -61,15 +56,15 @@
     </FlyoutItem>
 
     <FlyoutItem Title="Offline Muzika" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Offline Muzika" Icon="Images/dotnet_bot.png" Route="OfflineMuzika" ContentTemplate="{DataTemplate views:OfflineMuzika}" />
+        <ShellContent Title="Offline Muzika" Icon="Images/offlineslika.svg" Route="OfflineMuzika" ContentTemplate="{DataTemplate views:OfflineMuzika}" />
     </FlyoutItem>
 
     <FlyoutItem Title="Postavke" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Postavke" Icon="Images/dotnet_bot.png" Route="Postavke" ContentTemplate="{DataTemplate views:Postavke}" />
+        <ShellContent Title="Postavke" Icon="Images/settings.svg" Route="Postavke" ContentTemplate="{DataTemplate views:Postavke}" />
     </FlyoutItem>
 
     <FlyoutItem Title="Profil" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Profil" Icon="Images/dotnet_bot.png" Route="Profil" ContentTemplate="{DataTemplate views:Profil}" />
+        <ShellContent Title="Profil" Icon="Images/profile.svg" Route="Profil" ContentTemplate="{DataTemplate views:Profil}" />
     </FlyoutItem>
 
     
@@ -90,13 +85,13 @@
 
     <!-- Ostat ce -->
     <FlyoutItem Title="Kreiraj Pjesmu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Kreiraj Pjesmu" Icon="Images/dotnet_bot.png" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
+        <ShellContent Title="Kreiraj Pjesmu" Icon="Images/pjesmanapravi.svg" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
     </FlyoutItem>
     <FlyoutItem Title="Kreiraj Album" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Kreiraj Album" Icon="Images/dotnet_bot.png" Route="KreirajAlbum" ContentTemplate="{DataTemplate views:KreirajAlbum}" />
+        <ShellContent Title="Kreiraj Album" Icon="Images/albumnapravi.svg" Route="KreirajAlbum" ContentTemplate="{DataTemplate views:KreirajAlbum}" />
     </FlyoutItem>
     <FlyoutItem Title="Kreiraj Playlistu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Kreiraj Playlistu" Icon="Images/dotnet_bot.png" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
+        <ShellContent Title="Kreiraj Playlistu" Icon="Images/playlistnapravi.svg" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
     </FlyoutItem>
     <!-- za kreiranje -->
 
@@ -128,25 +123,25 @@
     </TabBar>
 
     <TabBar Route="MainTabs">
-        <Tab Title="Pocetna" Icon="Images/dotnet_bot.png">
+        <Tab Title="Pocetna"  Icon="Images/home.svg">
             <ShellContent
-                Route="MainPage"
-                ContentTemplate="{DataTemplate local:MainPage}" />
+    Route="MainPage"
+    ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
-        <Tab Title="Pretraga" Icon="Images/dotnet_bot.png">
+        <Tab Title="Pretraga" Icon="Images/search.svg">
             <ShellContent
-                Route="Search"
-                ContentTemplate="{DataTemplate views:Search}" />
+    Route="Search"
+    ContentTemplate="{DataTemplate views:Search}" />
         </Tab>
-        <Tab Title="Biblioteka" Icon="Images/dotnet_bot.png">
+        <Tab Title="Biblioteka" Icon="Images/biblioteka.svg">
             <ShellContent
-                 Route="Biblioteka"
-                 ContentTemplate="{DataTemplate views:Biblioteka}" />
+     Route="Biblioteka"
+     ContentTemplate="{DataTemplate views:Biblioteka}" />
         </Tab>
-        <Tab Title="Premium" Icon="Images/dotnet_bot.png">
+        <Tab Title="Premium" Icon="Images/premium.svg">
             <ShellContent
-                Route="Premium"
-                ContentTemplate="{DataTemplate views:Premium}" />
+    Route="Premium"
+    ContentTemplate="{DataTemplate views:Premium}" />
         </Tab>
     </TabBar>
 

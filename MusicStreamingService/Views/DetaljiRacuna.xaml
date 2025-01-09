@@ -41,18 +41,19 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="Images/dotnet_bot.png" WidthRequest="70" Margin="20,0,0,0"                 
+                <Image Source="Images/premium.svg" WidthRequest="60" Margin="20,0,0,0"                 
                  Grid.Column="0"
                  HeightRequest="60"
                  Aspect="AspectFill"/>
                 <StackLayout Padding="0,10,70,0" WidthRequest="150" Grid.Column="1">
                
-                <Label Text="Paket" FontAttributes="Bold" 
+                <Label Text="Paket Student" FontAttributes="Bold" 
                     FontSize="16"
                     HorizontalOptions="Center"
                     TextColor="White"/>
-                <Label Text="Cijena" FontSize="12"
+                <Label Text="Cijena 20 KM" FontSize="12"
                     TextColor="Gray"
+                       FontAttributes="Bold"
                     HorizontalOptions="Center"/>
             </StackLayout>
             </Grid>

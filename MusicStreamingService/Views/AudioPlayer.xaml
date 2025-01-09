@@ -21,32 +21,45 @@
             
         </VerticalStackLayout>
 
-        <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-            <Label Text="{Binding CurrentSong.opis}"
-               FontSize="23"
-               TextColor="Gray"
-               HorizontalOptions="Start"
-                />
+      
            
-        </HorizontalStackLayout>
-        <HorizontalStackLayout Margin="0,0,10,0">
-           
-            <Button HorizontalOptions="End"
-            Text="Like"
+        <HorizontalStackLayout Margin="0,0,0,5" HorizontalOptions="Center">
+
+            <ImageButton HorizontalOptions="End"
+                Source="Images/like2.svg"
+WidthRequest="20"
+                                     Margin="0,0,30,0"
+Padding="7"
+HeightRequest="20"
             Command="{Binding Like}"
             />
-            <Button 
-                Text="Ponavaljaj"
-                Command="{Binding Ponavljaj}"
-                />
+            <ImageButton
+    Source="Images/playlistrepeat.svg"
+WidthRequest="20"
+                                     Margin="0,0,30,0"
+Padding="7"
 
-            <Button
-                Text="Skini"
+HeightRequest="20"
+Command="{Binding Ponavljaj}"
+/>
+
+            <ImageButton
+                    Source="Images/download.svg"
+WidthRequest="20"
+                                     Margin="0,0,30,0"
+Padding="7"
+
+HeightRequest="20"
                 Command="{Binding Download}"
                 CommandParameter="{Binding .}"
                 />
-            <Button
-                 Text="Dodaj u playlistu"
+            <ImageButton
+                     Source="Images/playlistadd.svg"
+WidthRequest="20"
+                                     Margin="0,0,10,0"
+Padding="7"
+
+HeightRequest="20"
                  Command="{Binding Dodaj}"
                  CommandParameter="{Binding .}"
                  />
@@ -54,7 +67,7 @@
         </HorizontalStackLayout>
 
         <Label Text="{Binding CurrentTime}" 
-               FontSize="18" 
+               FontSize="21" 
                TextColor="White" 
                HorizontalTextAlignment="Center"
                Margin="0,-3,0,-15"
@@ -69,28 +82,25 @@
         </Slider>
 
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,-12,0,0">
-            <Label Text="🔊" Margin="10,0,-10,0"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,0,0,0">
+            <Image Source="Images/volume.svg" WidthRequest="30" HeightRequest="30" />
             <Slider Minimum="0" Maximum="1" WidthRequest="130" 
                 Value="{Binding Volume}" />
         </StackLayout>
         
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" Margin="0,-20,0,0">
-            
-            <Button Text="-5s  ⏪" Command="{Binding RewindCommand}" BackgroundColor="Transparent" TextColor="Gray" Margin="0,0,-30,0" />
-            <Button Text="{Binding PlayPauseButtonText}"
-                    BackgroundColor="Transparent"
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" Margin="0,0,0,0">
+
+            <ImageButton Source="Images/lijevo.svg"  Command="{Binding RewindCommand}"  Margin="0,0,20,0" WidthRequest="30" HeightRequest="30" Padding="5"/>
+            <ImageButton Source="{Binding PlayPauseButtonText}"
                     Command="{Binding PlayPauseCommand}"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="25"
-                    WidthRequest="80"
-                    HeightRequest="80" />
-            <Button Text="⏩  +5s" Command="{Binding ForwardCommand}" BackgroundColor="Transparent" TextColor="Gray" Margin="-30,0,0,0" />
+                    WidthRequest="30"
+                         Padding="5"
+                    HeightRequest="30" />
+            <ImageButton  Source="Images/desno.svg" Command="{Binding ForwardCommand}"  Margin="20,0,0,0" WidthRequest="30" HeightRequest="30" Padding="5"/>
             
         </StackLayout>
 
-        
 
+       
     </VerticalStackLayout>
 </ContentPage>

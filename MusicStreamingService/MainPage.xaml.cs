@@ -83,7 +83,7 @@ public partial class MainPage : ContentPage
 				Title = "Album za Dušu",
 				Subtitle = "Album dana",
 				Image = new NotificationImage { FilePath = "AppIcon/ikona.jpg" },
-				Description = $"{viewModel.pjesma2.naziv} - {viewModel.pjesma2.opis}",
+				Description = $"{viewModel.pjesma2.naziv} ",
 				Schedule = new NotificationRequestSchedule
 				{
 					NotifyTime = DateTime.Now.AddSeconds(200),
@@ -127,7 +127,7 @@ public partial class MainPage : ContentPage
 				Title = "Playlista za Dušu",
 				Subtitle = "Playlista dana",
 				Image = new NotificationImage { FilePath = "AppIcon/ikona.jpg" },
-				Description = $"{viewModel.pjesma3.naziv} - {viewModel.pjesma3.opis}",
+				Description = $"{viewModel.pjesma3.naziv} ",
 				Schedule = new NotificationRequestSchedule
 				{
 					NotifyTime = DateTime.Now.AddSeconds(300),

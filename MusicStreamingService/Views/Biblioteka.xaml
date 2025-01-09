@@ -44,11 +44,15 @@ Grid.Column="1"
 Padding="10"
 VerticalOptions="Center">
                         <Label
+                                                                Margin="10,0,0,0"
+
     Text="Pjesme označene sa 'Sviđa mi se'"
     FontSize="16"
     FontAttributes="Bold"/>
                         <Label
-    Text="Broj pjesama: 2"
+                                                                Margin="10,0,0,0"
+
+    Text="Pogledaj svoje lajkovane pjesme"
     FontSize="14"
     TextColor="Gray"/>
                     </StackLayout>
@@ -85,6 +89,8 @@ VerticalOptions="Center">
                  Padding="10"
                  VerticalOptions="Center">
                                     <Label
+                                                                            Margin="10,0,0,0"
+
                      Text="{Binding naziv}"
                      FontSize="16"
                      FontAttributes="Bold"/>
@@ -144,9 +150,14 @@ VerticalOptions="Center">
                                 <Label
                      Text="{Binding KorisnickoIme}"
                      FontSize="16"
+                                    Margin="10,0,0,0"
                      FontAttributes="Bold"/>
-                                <Button
-                                    Text="Otprati"
+                                <ImageButton
+                                    Source="Images/unfollow.svg"
+                                    WidthRequest="30"
+                                    HeightRequest="30"
+                                    Padding="10"
+                                    Margin="120,-30,0,0"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Otprati}"
 
                                     CommandParameter="{Binding .}"

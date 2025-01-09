@@ -5,6 +5,7 @@ using MusicStreamingService.Services;
 using MusicStreamingService.Views;
 using Plugin.LocalNotification;
 using CommunityToolkit.Maui.Storage;
+using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace MusicStreamingService
 {
@@ -16,19 +17,20 @@ namespace MusicStreamingService
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .ConfigureSyncfusionToolkit()
                 .UseLocalNotification()
-				.UseMauiCommunityToolkitMediaElement()
+                .UseMauiCommunityToolkitMediaElement()
                 .UseBottomSheet()
-				.ConfigureFonts(fonts =>
+                .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFont("MaterialIcons-Regular.ttf", "GoogleMaterialFont");
+                fonts.AddFont("MaterialIcons-Regular.ttf", "GoogleMaterialFont");
 
-				fonts.AddFont("Brands-Regular-400.ttf", "FAB");
-				fonts.AddFont("Free-Regular-400.ttf", "FAR");
-				fonts.AddFont("Free-Solid-900.ttf", "FAS");
-			}).UseMauiCommunityToolkit().UseBottomSheet();
+                fonts.AddFont("Brands-Regular-400.ttf", "FAB");
+                fonts.AddFont("Free-Regular-400.ttf", "FAR");
+                fonts.AddFont("Free-Solid-900.ttf", "FAS");
+            }).UseMauiCommunityToolkit().UseBottomSheet().ConfigureSyncfusionToolkit();
 
             builder.Services.AddSingleton<ILoginRepository, LoginService>();
 			builder.Services.AddSingleton<MainPage>();

@@ -18,11 +18,20 @@ namespace MusicStreamingService.ViewModels
 	{
 		private readonly HttpClient _httpClient;
 
-		public string ProfilnaSlika { get; set; } = "Images/dotnet_bot.png"; 
+		public string ProfilnaSlika { get; set; } = ""; 
 		public string Ime { get; set; } 
 		public string Prezime { get; set; } 
-		public string Email { get; set; } 
-
+		public string Email { get; set; }
+		private bool isLoading;
+		public bool IsLoading
+		{
+			get => isLoading;
+			set
+			{
+				isLoading = value;
+				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
 		public Command UpdateProfileCommand { get; set; }
 
 		public ObservableCollection<Pjesma> MojePjesme { get; set; }
@@ -129,27 +138,49 @@ namespace MusicStreamingService.ViewModels
 		private async void OnSongSelected()
 		{
 
-			if (CurrentSong != null)
-			{
-				await Application.Current.MainPage.Navigation.PushAsync(new UrediPjesmu(CurrentSong));
 
+			try
+			{
+				if (CurrentSong != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new UrediPjesmu(CurrentSong));
+
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
 
 		}
 
 		private async void OnAlbumSelected()
 		{
-			if (CurrentAlbum != null)
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new UrediAlbum(CurrentAlbum));
+				if (CurrentAlbum != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new UrediAlbum(CurrentAlbum));
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
 		}
 
 		private async void OnPlaylistaSelected()
 		{
-			if (CurrentPlaylista != null)
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new UrediPlaylistu(CurrentPlaylista));
+				if (CurrentPlaylista != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new UrediPlaylistu(CurrentPlaylista));
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
 		}
 
@@ -157,6 +188,7 @@ namespace MusicStreamingService.ViewModels
 		{
 			try
 			{
+				isLoading = true;
 				var response = await _httpClient.GetAsync("api/PjesmaControllerAPI");
 				response.EnsureSuccessStatusCode();
 
@@ -184,12 +216,18 @@ namespace MusicStreamingService.ViewModels
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 
 		private async void LoadMojiAlbumi()
 		{
 			try
 			{
+				isLoading = true;
+
 				var response = await _httpClient.GetAsync("api/AlbumControllerAPI");
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
@@ -212,12 +250,18 @@ namespace MusicStreamingService.ViewModels
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja albuma: {ex.Message}");
 			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 
 		public async void LoadMojePlayliste()
 		{
 			try
 			{
+				isLoading = true;
+
 				var response = await _httpClient.GetAsync("api/PlaylistaControllerAPI");
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
@@ -240,11 +284,15 @@ namespace MusicStreamingService.ViewModels
 			{
 				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja albuma: {ex.Message}");
 			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 
 		private void UpdateProfile()
 		{
-
+			App.Current.MainPage.DisplayAlert("UPDAJTO SI PROFIL", "OZB", "OK");
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;

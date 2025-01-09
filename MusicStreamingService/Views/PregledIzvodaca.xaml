@@ -14,15 +14,19 @@
                            Aspect="AspectFill" 
                            HorizontalOptions="Center" 
                            VerticalOptions="Center" />
-                    <HorizontalStackLayout>
+                    <HorizontalStackLayout HorizontalOptions="Center">
                         <Label Text="{Binding CurrentKorisnik.KorisnickoIme}" 
                         FontSize="24" 
                         TextColor="White" 
                         FontAttributes="Bold" 
-                        HorizontalOptions="Center" Padding="0,0,20,0" />
-                        <Button 
-                            HorizontalOptions="End"
-                            Text="Follow"
+                               Margin="60,0,0,0"
+                        HorizontalOptions="Center"  />
+                        <ImageButton 
+                            Source="Images/follow.svg"
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            Margin="60,0,0,0"
+                            Padding="6"
                         Command="{Binding Follow}"
                         />
                     </HorizontalStackLayout>
@@ -35,7 +39,9 @@
                        FontSize="20" 
                        TextColor="White" 
                        FontAttributes="Bold" 
-                       Margin="0,10,0,5" />
+                       Margin="0,10,0,0" />
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
                 <CollectionView ItemsSource="{Binding Albums}" SelectionMode="Single" SelectedItem="{Binding CurrentAlbum, Mode=TwoWay}" SelectionChangedCommand="{Binding SelectAlbumCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -53,7 +59,9 @@
                        FontSize="20" 
                        TextColor="White" 
                        FontAttributes="Bold" 
-                       Margin="0,10,0,5" />
+                       Margin="0,10,0,0" />
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
                 <CollectionView ItemsSource="{Binding Playlists}" SelectionMode="Single" SelectedItem="{Binding CurrentPlaylista, Mode=TwoWay}" SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -71,7 +79,9 @@
                        FontSize="20" 
                        TextColor="White" 
                        FontAttributes="Bold" 
-                       Margin="0,10,0,5" />
+                       Margin="0,10,0,0" />
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
                 <CollectionView ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding CurrentSong, Mode=TwoWay}" SelectionChangedCommand="{Binding SelectSongCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

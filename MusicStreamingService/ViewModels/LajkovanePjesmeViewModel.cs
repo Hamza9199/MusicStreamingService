@@ -20,6 +20,10 @@ namespace MusicStreamingService.ViewModels
 	{
 		private readonly HttpClient _httpClient;
 		public ObservableCollection<Pjesma> Pjesme { get; set; }
+
+		public int counter = 0;
+
+		public string Counter { get; set; }
 		public ObservableCollection<Pjesma> LajkovanePjesme { get; set; }
 		public ICommand PlayPauseCommand { get; }
 
@@ -222,8 +226,14 @@ namespace MusicStreamingService.ViewModels
 						if (povezanaPjesma != null)
 						{
 							LajkovanePjesme.Add(pjesma);
+							counter++;
 						}
 					}
+					Counter = $"{counter} pjesama";
+					OnPropertyChanged(nameof(Counter));
+					OnPropertyChanged(nameof(LajkovanePjesme));
+					OnPropertyChanged(nameof(counter));
+				
 
 				}
 			}
@@ -233,6 +243,10 @@ namespace MusicStreamingService.ViewModels
 			}
 			finally
 			{
+				Counter = $"{counter} pjesama";
+				OnPropertyChanged(nameof(Counter));
+				OnPropertyChanged(nameof(LajkovanePjesme));
+				OnPropertyChanged(nameof(counter));
 				isLoading = false;
 			}
 		}

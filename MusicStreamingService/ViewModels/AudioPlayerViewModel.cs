@@ -12,6 +12,9 @@ using System.Net.Http.Json;
 using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Text.Json;
+using MusicStreamingService.Views;
+using The49.Maui.BottomSheet;
+using CommunityToolkit.Maui.Views;
 
 
 public class AudioPlayerViewModel : INotifyPropertyChanged
@@ -43,7 +46,7 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 	private System.Threading.Timer timer;
 	private double currentPosition;
 	private double volume = 0.5;
-	public string PlayPauseButtonText => isPlaying ? "⏸️" : "▶️";
+	public string PlayPauseButtonText => isPlaying ? "Images/resume.svg" : "Images/play.svg";
 
 
 	public double CurrentPosition
@@ -124,8 +127,19 @@ public class AudioPlayerViewModel : INotifyPropertyChanged
 
 	}
 
-	private async void OnDodajUPlaylistu() { 
-		await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma dodana u playlistu", "U redu");
+	private async void OnDodajUPlaylistu() {
+		//await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma dodana u playlistu AL OZB", "U redu");
+		
+		try
+		{
+			var popup = new Poopop(CurrentSong);
+			await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+		}
+		catch (Exception ex)
+		{
+			await App.Current.MainPage.DisplayAlert("Greška", ex.Message, "U redu");
+			Debug.WriteLine(ex.Message);
+		}
 	}
 
 	private async void OnDownload()

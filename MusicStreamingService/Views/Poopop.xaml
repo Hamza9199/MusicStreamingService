@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             VerticalOptions="Center"
+               HorizontalOptions="Center"
+               
+               x:Class="MusicStreamingService.Views.Poopop"
+             >
+    <ScrollView>
+        
+        <Frame BackgroundColor="#333" CornerRadius="0"  Padding="20,20,20,20">
+            <VerticalStackLayout>
+
+                <Label Text="Izaberi Playlistu" TextColor="White"  HorizontalOptions="Center" Margin="0,0,0,20" FontAttributes="Bold" FontSize="18"/>
+
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+                <CollectionView ItemsSource="{Binding Playliste}" 
+SelectionMode="Single" 
+SelectedItem="{Binding CurrentPlaylista, Mode=TwoWay}"
+SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Margin="0,0,0,0" Padding="20,10,20,10">
+                                <Image Source="{Binding putanjaSlika}" 
+            WidthRequest="55" 
+            HeightRequest="55" 
+            Aspect="AspectFill" />
+                                <Label Text="{Binding naziv}" 
+            VerticalOptions="Center" 
+                                       FontAttributes="Bold"
+                                       FontSize="16"
+            Padding="20,0" 
+            Margin="0,0,0,0" />
+                                
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Black" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
+            </VerticalStackLayout>
+        </Frame>
+
+    </ScrollView>
+</toolkit:Popup>

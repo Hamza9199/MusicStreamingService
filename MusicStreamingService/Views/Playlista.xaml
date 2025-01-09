@@ -32,16 +32,25 @@
             </HorizontalStackLayout>
 
             <HorizontalStackLayout>
-                 <Button
-    Text="Play"
+                 <ImageButton
+    Source="Images/playlist.svg"
     Command="{Binding Play}"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     Margin="0,0,10,0"
     />
-            <Button
-Text="Ponavljaj"
+            <ImageButton
+    Source="Images/playlistrepeat.svg"
+WidthRequest="30"
+                                     Margin="0,0,10,0"
+
+HeightRequest="30"
 Command="{Binding Ponavljaj}"
 />
-            <Button
-Text="Random"
+            <ImageButton
+    Source="Images/playlistshuffle.svg"
+WidthRequest="30"
+HeightRequest="30"
 Command="{Binding Random}"
 />
             </HorizontalStackLayout>

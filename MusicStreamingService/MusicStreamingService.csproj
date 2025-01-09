@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiAsset Include="Resources\AppIcon\app.svg" />
   </ItemGroup>
 
@@ -44,14 +48,16 @@
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.21" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.21" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.22" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.22" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.LocalNotification" Version="11.1.4" />
     <PackageReference Include="Plugin.MediaManager" Version="1.2.2" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
-    <PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
+    <PackageReference Include="Sm.Maui.BottomSheet" Version="0.1.6" />
+    <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.3" />
+	<PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,13 +94,13 @@
     <MauiXaml Update="Views\Login.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Views\MyBottomSheet.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
     <MauiXaml Update="Views\OfflineMuzika.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Playlista.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Poopop.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Postavke.xaml">
@@ -124,6 +130,18 @@
     <MauiXaml Update="Views\UrediPlaylistu.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+    <PackageReference Include="Xamarin.Google.Android.Material">
+      <Version>1.12.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\NewBottomSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -104,6 +104,7 @@
                             <Label Text="{Binding naziv}"
                        FontAttributes="Bold" 
                        FontSize="16"
+                                   Margin="0,10,0,0"
                        HorizontalOptions="Center"
                        TextColor="White" />
                             
@@ -151,6 +152,8 @@
                Aspect="AspectFill" />
                             <Label Text="{Binding naziv}"
                FontAttributes="Bold" 
+                                                                      Margin="0,10,0,0"
+
                FontSize="16"
                HorizontalOptions="Center"
                TextColor="White" />
@@ -199,6 +202,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
        Aspect="AspectFill" />
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
+                                                                      Margin="0,10,0,0"
+
        FontSize="14"
        HorizontalOptions="Center"
        TextColor="White" />
@@ -247,6 +252,8 @@ SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
        Aspect="AspectFill" />
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
+                                                                      Margin="0,10,0,0"
+
        FontSize="16"
        HorizontalOptions="Center"
        TextColor="White" />
@@ -297,6 +304,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
        FontSize="16"
+                                                                      Margin="0,10,0,0"
+
        HorizontalOptions="Center"
        TextColor="White" />
                             
@@ -349,6 +358,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             
                             <Label Text="{Binding KorisnickoIme}"
                                FontSize="13"
+                                                                      Margin="0,10,0,0"
+
                                TextColor="White"
                                HorizontalOptions="Center" />
 
@@ -396,6 +407,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
        FontSize="16"
+                                                                      Margin="0,10,0,0"
+
        HorizontalOptions="Center"
        TextColor="White" />
                             
@@ -441,10 +454,13 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             <Image Source="{Binding putanjaSlika}"
        WidthRequest="150"
        HeightRequest="150"
+
        Aspect="AspectFill" />
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
        FontSize="16"
+                                                                      Margin="0,10,0,0"
+
        HorizontalOptions="Center"
        TextColor="White" />
                            
@@ -494,6 +510,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             <Label Text="{Binding naziv}"
        FontAttributes="Bold" 
        FontSize="16"
+                                                                      Margin="0,10,0,0"
+
        HorizontalOptions="Center"
        TextColor="White" />
                             
@@ -546,6 +564,8 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
 
                             <Label Text="{Binding KorisnickoIme}"
        FontSize="13"
+                                                                      Margin="0,10,0,0"
+
        TextColor="white"
        HorizontalOptions="Center" />
 
@@ -590,6 +610,7 @@ SelectionChangedCommand="{Binding SelectSongCommand}">
                             <Label Text="{Binding naziv}"
                            FontSize="25"
                            TextColor="Gray"
+                                   
                            HorizontalOptions="Center" 
                                    Margin="0,10,0,0"/>
 

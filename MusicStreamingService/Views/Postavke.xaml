@@ -26,9 +26,10 @@
                     </Grid.ColumnDefinitions>
                     <Image
                      Grid.Column="0"
-                     Source="Images/dotnet_bot.png"
+                     Source="Images/profile.svg"
+                        
                      HeightRequest="120"
-                     WidthRequest="80"/>
+                     WidthRequest="60"/>
                     <StackLayout
                      Grid.Column="1"
                      Padding="10"
@@ -58,9 +59,9 @@
                     </Grid.ColumnDefinitions>
                     <Image
                       Grid.Column="0"
-                      Source="Images/dotnet_bot.png"
+                      Source="Images/info.svg"
                       HeightRequest="120"
-                      WidthRequest="80"/>
+                      WidthRequest="60"/>
                     <StackLayout
                       Grid.Column="1"
                       Padding="10"

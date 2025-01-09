@@ -1,4 +1,5 @@
-﻿using MusicStreamingService.Models;
+﻿using MediaManager.Library;
+using MusicStreamingService.Models;
 using MusicStreamingService.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -290,7 +291,10 @@ namespace MusicStreamingService.ViewModels
 
 					foreach (var album in albumi)
 					{
-						Albums.Add(album);
+						if (album.korisnikid == CurrentKorisnik.Id)
+						{
+							Albums.Add(album);
+						}
 					}
 				}
 			}
@@ -323,7 +327,11 @@ namespace MusicStreamingService.ViewModels
 
 					foreach (var playlist in playliste)
 					{
-						Playlists.Add(playlist);
+						if (playlist.korisnikID == CurrentKorisnik.Id)
+						{
+							Playlists.Add(playlist);
+						}
+								
 					}
 				}
 			}

@@ -10,34 +10,22 @@
             <VerticalStackLayout>
                 <StackLayout
                 Padding="10,20,100,0"
+                    Margin="5,20,0,0"
                 >
                     <Label 
             Text="Pjesme označene sa ´Sviđa mi se´"
             FontSize="21"
             FontAttributes="Bold"    
             />
-                    <Label
-                Text="20 pjesama"
+                    <Label 
+                Text="{Binding Counter}"
                 Padding="0,10,0,0"
                 TextColor="Gray"
+                        Margin="0,10,0,20"
                 />
                 </StackLayout>
 
-                <HorizontalStackLayout Margin="0,20,0,0">
-
-                    <ImageButton
-                    Source="Images/dotnet_bot.png" WidthRequest="30" HeightRequest="30" Margin="10,0,0,0" Clicked="ImageButton_Clicked"
-                   />
-
-                    <ImageButton
-                         Source="Images/dotnet_bot.png"  WidthRequest="30" HeightRequest="30" Margin="210,0,0,0"
-                        />
-
-                    <ImageButton
-                          Source="Images/dotnet_bot.png"  WidthRequest="30" HeightRequest="30"
-                         />
-
-                </HorizontalStackLayout>
+                
 
                
 
@@ -75,19 +63,25 @@
                                     Text="{Binding naziv}"
                                     FontSize="16"
                                     FontAttributes="Bold"/>
+                                        
                                         <HorizontalStackLayout>
                                             <Label
                                     Text="{Binding opis}"
                                     FontSize="14"
                                     TextColor="Gray"/>
-                                        <Button
-                                        Text="Obrisi lajk"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ObrisiLajk}"
-
-                                        CommandParameter="{Binding .}"
-
-                                        />
+                                        
                                         </HorizontalStackLayout>
+                                        <ImageButton
+    Margin="150,-40,0,0"
+Source="Images/like2.svg"
+    WidthRequest="30"
+    Padding="10"
+    HeightRequest="30"
+Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ObrisiLajk}"
+
+CommandParameter="{Binding .}"
+
+/>
                                         
                                     </StackLayout>
                                 </Grid>

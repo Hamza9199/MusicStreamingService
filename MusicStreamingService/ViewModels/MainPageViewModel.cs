@@ -262,44 +262,66 @@ namespace MusicStreamingService.ViewModels
 
 		private async void OnSongSelected()
 		{
-			if (IsLoading)
-				return;
 
-			if (CurrentSong != null) 
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
+				if (CurrentSong != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
 
+				}
 			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
+			}
+
 
 		}
 
 		private async void OnAlbumSelected()
 		{
-			if (IsLoading)
-				return;
-			if (CurrentAlbum != null)
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new Views.Album(CurrentAlbum));
+				if (CurrentAlbum != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new Views.Album(CurrentAlbum));
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
 		}
 
 		private async void OnPlayListaSelected()
 		{
-			if (IsLoading)
-				return;
-			if (CurrentPlaylista != null)
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new Views.Playlista(CurrentPlaylista));
+
+				if (CurrentPlaylista != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new Views.Playlista(CurrentPlaylista));
+				}
 			}
-		}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
+			}
+}
 
 		private async void OnKorisnikSelected()
 		{
-			if (IsLoading)
-				return;
-			if (CurrentKorisnik != null)
+			try
 			{
-				await Application.Current.MainPage.Navigation.PushAsync(new PregledIzvodaca(CurrentKorisnik));
+				if (CurrentKorisnik != null)
+				{
+					await Application.Current.MainPage.Navigation.PushAsync(new PregledIzvodaca(CurrentKorisnik));
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Greška prilikom učitavanja pjesama: {ex.Message}");
 			}
 		}
 

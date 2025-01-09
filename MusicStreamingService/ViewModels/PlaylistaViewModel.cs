@@ -384,7 +384,8 @@ namespace MusicStreamingService.ViewModels
 					foreach (var pjesma in pjesme)
 					{
 						var povezanaPjesma = pjesmaPlaylistaList.Find(p => p.pjesmaID == pjesma.id && p.playlistaID == CurrentPlaylista.id);
-					    Pjesme.Add(pjesma);
+						if (povezanaPjesma != null)
+							Pjesme.Add(pjesma);
 					}
 				}
 			}
