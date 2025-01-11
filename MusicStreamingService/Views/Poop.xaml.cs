@@ -4,12 +4,13 @@ using MusicStreamingService.ViewModels;
 
 namespace MusicStreamingService.Views;
 
-public partial class Poopop : Popup
+public partial class Poop : Popup
 {
-	public Poopop(Pjesma odabranaPjesma)
+	public Poop(Models.Album odabraniAlbum)
 	{
 		InitializeComponent();
-		BindingContext = new PoopopviewModel(odabranaPjesma);
+		BindingContext = new PoopviewModel(odabraniAlbum);
+
 	}
 
 	private void Button_Clicked(object sender, EventArgs e)

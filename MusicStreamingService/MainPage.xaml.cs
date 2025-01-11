@@ -168,7 +168,6 @@ public partial class MainPage : ContentPage
 		}
 	}
 
-	// ...
 
 	public async void pitaj()
 	{

@@ -15,6 +15,7 @@ namespace MusicStreamingService.ViewModels
 	{
 		private Pjesma _pjesma;
 		private HttpClient _httpClient;
+		public DobiveniKorisnik Korisnik { get; set; }
 
 		public KreirajPjesmuViewModel()
 		{
@@ -31,6 +32,9 @@ namespace MusicStreamingService.ViewModels
 			);
 
 			SaveCommand = new Command(SavePjesmaAsync);
+			Korisnik = new DobiveniKorisnik();
+			LoadTokenData();
+
 			PropertyChanged = delegate { };
 		}
 
@@ -48,6 +52,34 @@ namespace MusicStreamingService.ViewModels
 
 		public ICommand SaveCommand { get; }
 
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						Korisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
+		}
 
 
 		public async void SelectAudio()
@@ -264,10 +296,17 @@ namespace MusicStreamingService.ViewModels
 
 			try
 			{
-			
+				LoadTokenData();
+				IzvodjacPjesma izvodjacPjesma = new IzvodjacPjesma()
+				{
+					izvodjacid = Korisnik.Id,
+					pjesmaid = Pjesma.id,
+				};
 				var response = await _httpClient.PostAsJsonAsync("api/PjesmaControllerAPI/PostPjesmaAPI", Pjesma);
-
-				if (response.IsSuccessStatusCode)
+				var response2 = await _httpClient.PostAsJsonAsync("api/IzvodjacPjesmaContollerAPI", izvodjacPjesma);
+				Debug.WriteLine(response);
+				Debug.WriteLine(response2);
+				if (response.IsSuccessStatusCode )
 				{
 					var createdPjesma = await response.Content.ReadFromJsonAsync<Pjesma>();
 					ResetFields();
@@ -276,9 +315,13 @@ namespace MusicStreamingService.ViewModels
 				else
 				{
 					Console.WriteLine("Error: " + response.ReasonPhrase);
+					Console.WriteLine("Error: " + response2.ReasonPhrase);
 					Debug.WriteLine(response);
+					Debug.WriteLine(response2);
 					var responseContent = await response.Content.ReadAsStringAsync();
+					var responseContent2 = await response2.Content.ReadAsStringAsync();
 					Debug.WriteLine(responseContent);
+					Debug.WriteLine(responseContent2);
 					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja pjesme", "OK");
 				}
 			}

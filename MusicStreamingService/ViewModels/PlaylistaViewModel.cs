@@ -21,6 +21,23 @@ namespace MusicStreamingService.ViewModels
 
 		private int CurrentSongIndex { get; set; } = 0;
 
+		public bool _dozvoli = false;
+
+		
+		public bool Dozvoli
+		{
+			get => _dozvoli;
+			set
+			{
+				if (_dozvoli != value)
+				{
+					_dozvoli = value;
+					OnPropertyChanged(); 
+				}
+			}
+		} 
+
+
 		public ICommand PlayPauseCommand { get; }
 
 		public ICommand Play { get; }
@@ -28,6 +45,8 @@ namespace MusicStreamingService.ViewModels
 		public ICommand Ponavljaj { get; }
 
 		public ICommand Random { get; }
+
+		public ICommand ObrisiPjesmu { get; }
 
 		private bool ponavljaj = false;
 
@@ -80,6 +99,9 @@ namespace MusicStreamingService.ViewModels
 				OnPropertyChanged();
 			}
 		}
+
+		public DobiveniKorisnik CurrentKorisnik { get; set; }
+
 		public PlaylistaViewModel(Models.PlayLista odabranaPlaylista)
 		{
 			CurrentPlaylista = odabranaPlaylista;
@@ -93,18 +115,88 @@ namespace MusicStreamingService.ViewModels
 
 			Pjesme = new ObservableCollection<Pjesma>();
 			naziv = "Najbolje pjesme";
+			CurrentKorisnik = new DobiveniKorisnik();
 			KreiraoKorisnik = "Hamza";
 			putanjaSlika = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUWPPJeKqMFiZdty1MgpNIUzPE0NYsz0Y0NA&s";
 			PlayPauseCommand = new Command(OnPlayPause);
 			Play = new Command(OnPlayAlbum);
 			Ponavljaj = new Command(OnPonavljaj);
 			Random = new Command(OnRandom);
+			ObrisiPjesmu = new Command(OnObrisiPjesmu);
+
 			OnPropertyChanged(nameof(CurrentSong));
 
 
 			timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
 			LoadSongsAsync();
+			LoadTokenData();
+			UcitajDozvolu();
+		}
+
+		private async void OnObrisiPjesmu(object pat)
+		{
+			//var pat = new Pjesma();
+			if (CurrentSong == null)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
+				return;
+			}
+			
+			try
+			{
+				var response = await _httpClient.DeleteAsync($"/api/PjesmaPlayListaControllerAPI/ObrisiPjesmu/{CurrentSong.id}/{CurrentPlaylista.id}");
+				response.EnsureSuccessStatusCode();
+				await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma obrisana iz playliste.", "U redu");
+
+				await LoadSongsAsync();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška prilikom brisanja pjesme iz playliste: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu obrisati pjesmu iz playliste.", "U redu");
+			}
+		}
+
+		private void UcitajDozvolu()
+		{
+			if (CurrentPlaylista.korisnikID == CurrentKorisnik.Id)
+			{
+				Dozvoli = true;
+			}
+			else
+			{
+				Dozvoli = false;
+			}
+		}
+
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						CurrentKorisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
 		}
 
 		private async void TimerCallback(object state)
@@ -387,6 +479,15 @@ namespace MusicStreamingService.ViewModels
 						if (povezanaPjesma != null)
 							Pjesme.Add(pjesma);
 					}
+				}
+				 LoadTokenData();
+				if (CurrentPlaylista.korisnikID == CurrentKorisnik.Id)
+				{
+					Dozvoli = true;
+				}
+				else
+				{
+					Dozvoli = false;
 				}
 			}
 			catch (Exception ex)

@@ -14,11 +14,12 @@
             />
 
 
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
 
         <CollectionView ItemsSource="{Binding Pjesme}" Margin="20,30,20,0" SelectionMode="Single"
                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}" 
-                SelectionChangedCommand="{Binding PlayPauseCommand}">
+                SelectionChangedCommand="{Binding Odi}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="20,20" ColumnSpacing="10">

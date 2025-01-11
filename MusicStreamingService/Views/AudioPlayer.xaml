@@ -14,7 +14,7 @@
 
         <VerticalStackLayout VerticalOptions="Center"  HorizontalOptions="Center">
             <Label Text="{Binding CurrentSong.naziv}"
-                   FontSize="25"
+                   FontSize="28"
                    FontAttributes="Bold"
                    TextColor="Gray"
                    Margin="0,5,0,0" />

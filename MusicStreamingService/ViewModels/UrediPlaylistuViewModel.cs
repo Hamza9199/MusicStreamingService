@@ -67,18 +67,13 @@ namespace MusicStreamingService.ViewModels
 			{
 
 				var response = await _httpClient.PutAsJsonAsync($"api/PlaylistaControllerAPI/PlayListaAPI/{PlayLista.id}", PlayLista);
+				response.EnsureSuccessStatusCode();
 
-				if (response.IsSuccessStatusCode)
-				{
-					var updatedPlayLista = await response.Content.ReadFromJsonAsync<PlayLista>();
+				var updatedPlayLista = await response.Content.ReadFromJsonAsync<PlayLista>();
 					ResetFields();
 					Application.Current.MainPage.DisplayAlert("Uspješno uređena playlista", "Playlista je uspješno uređena", "OK");
-				}
-				else
-				{
-					Console.WriteLine("Error: " + response.ReasonPhrase);
-					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom uređivanja plejliste", "OK");
-				}
+				
+				
 			}
 			catch (Exception ex)
 			{

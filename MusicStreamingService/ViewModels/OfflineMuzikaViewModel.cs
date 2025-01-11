@@ -1,5 +1,6 @@
 ﻿using MediaManager;
 using MusicStreamingService.Models;
+using MusicStreamingService.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,8 @@ namespace MusicStreamingService.ViewModels
 
 
 		public ICommand PlayPauseCommand { get; }
+		
+		public ICommand Odi { get; }
 
 		public ICommand ObrisiPjesmu { get; }
 
@@ -38,7 +41,16 @@ namespace MusicStreamingService.ViewModels
 			}
 		}
 
-
+		private bool isLoading;
+		public bool IsLoading
+		{
+			get => isLoading;
+			set
+			{
+				isLoading = value;
+				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
 		public OfflineMuzikaViewModel()
 		{
 			_httpClient = new HttpClient
@@ -52,9 +64,28 @@ namespace MusicStreamingService.ViewModels
 			Pjesme = new ObservableCollection<Pjesma>();
 			PlayPauseCommand = new Command(OnPlayPause);
 			ObrisiPjesmu = new Command(OnObrisiPjesmu);
+			Odi = new Command(OnOdi);
 
 			//LoadAlbumAsync();
 			LoadOfflineSongs();
+		}
+
+		public async void OnOdi()
+		{
+			if (CurrentSong == null)
+			{
+				return;
+			}
+			try
+			{
+				await App.Current.MainPage.Navigation.PushAsync(new AudioPlayer(CurrentSong));
+
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška prilikom reprodukcije u OnPlayPause: {ex.Message}");
+				await App.Current.MainPage.DisplayAlert("Greška", "Ne mogu reproducirati pjesmu.", "U redu");
+			}
 		}
 
 		private async void OnObrisiPjesmu(object parameter)
@@ -103,11 +134,7 @@ namespace MusicStreamingService.ViewModels
 		private async void OnPlayPause()
 		{
 
-			if (CurrentSong == null)
-			{
-				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
-				return;
-			}
+			
 
 			var mediaManager = CrossMediaManager.Current;
 			await mediaManager.Stop();
@@ -142,17 +169,30 @@ namespace MusicStreamingService.ViewModels
 
 		private void LoadOfflineSongs()
 		{
-			string folderPath = FileSystem.AppDataDirectory;
-			var files = Directory.GetFiles(folderPath, "*.mp3");
-
-			foreach (var file in files)
+			try
 			{
-				Pjesme.Add(new Pjesma
+				isLoading = true;
+
+				string folderPath = FileSystem.AppDataDirectory;
+				var files = Directory.GetFiles(folderPath, "*.mp3");
+
+				foreach (var file in files)
 				{
-					naziv = Path.GetFileNameWithoutExtension(file),
-					putanjaAudio = file,
-					putanjaSlika = "Images/dotnet_bot.png" 
-				});
+					Pjesme.Add(new Pjesma
+					{
+						naziv = Path.GetFileNameWithoutExtension(file),
+						putanjaAudio = file,
+						putanjaSlika = "Images/dotnet_bot.png"
+					});
+				}
+			}
+			catch
+			{
+				Debug.WriteLine("Greška prilikom učitavanja offline pjesama.");
+			}
+			finally
+			{
+				isLoading = false;
 			}
 		}
 

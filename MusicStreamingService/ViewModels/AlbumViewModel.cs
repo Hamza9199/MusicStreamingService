@@ -1,5 +1,7 @@
-﻿using MediaManager;
+﻿using CommunityToolkit.Maui.Views;
+using MediaManager;
 using MusicStreamingService.Models;
+using MusicStreamingService.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,9 +22,13 @@ namespace MusicStreamingService.ViewModels
 		public Models.Album CurrentAlbum { get; set; }
 		private int CurrentSongIndex { get; set; } = 1;
 		public ICommand PlayPauseCommand { get; }
+		public ICommand ObrisiPjesmu { get; }
+
 		public ICommand Play { get; }
 		public ICommand Ponavljaj { get; }
 		public ICommand Random { get; }
+		public ICommand Dodaj { get; }
+
 		private bool ponavljaj = false;
 		private bool isPlaying;
 		private Pjesma _currentSong;
@@ -37,6 +43,37 @@ namespace MusicStreamingService.ViewModels
 			{
 				isLoading = value;
 				OnPropertyChanged(nameof(IsLoading));
+			}
+		}
+
+		public bool _dozvoli = false;
+
+		public bool _dozvoli2 = false;
+
+
+		public bool Dozvoli
+		{
+			get => _dozvoli;
+			set
+			{
+				if (_dozvoli != value)
+				{
+					_dozvoli = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool Dozvoli2
+		{
+			get => _dozvoli2;
+			set
+			{
+				if (_dozvoli2 != value)
+				{
+					_dozvoli2 = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -70,6 +107,7 @@ namespace MusicStreamingService.ViewModels
 		public string SongDurationString => TimeSpan.FromSeconds(SongDuration).ToString(@"mm\:ss");
 
 
+		public DobiveniKorisnik CurrentKorisnik { get; set; }
 
 		public string CurrentTime => TimeSpan.FromSeconds(currentPosition).ToString(@"mm\:ss");
 
@@ -98,19 +136,102 @@ namespace MusicStreamingService.ViewModels
 			Pjesme = new ObservableCollection<Pjesma>();
 			naziv = CurrentAlbum.naziv;
 			Izvodjac = "Hamza";
+			CurrentKorisnik = new DobiveniKorisnik();
 			putanjaSlika = CurrentAlbum.putanjaSlika;
 			PlayPauseCommand = new Command(OnPlayPause);
 			Play = new Command(OnPlayAlbum);
 			Ponavljaj = new Command(OnPonavljaj);
 			Random = new Command(OnRandom);
+			ObrisiPjesmu = new Command(OnObrisiPjesmu);
+			Dodaj = new Command(OnDodajUPlaylistu);
+
 
 			//CurrentSong = Pjesme[CurrentSongIndex];
 
 
 			timer = new System.Threading.Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+			LoadTokenData();
 
 			LoadAlbumAsync();
+			UcitajDozvolu();
 			//SubscribeToMediaManagerEvents();
+		}
+
+		private async void OnDodajUPlaylistu()
+		{
+			//await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma dodana u playlistu AL OZB", "U redu");
+
+			try
+			{
+				var popup = new Poop(CurrentAlbum);
+				await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+			}
+			catch (Exception ex)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", ex.Message, "U redu");
+				Debug.WriteLine(ex.Message);
+			}
+		}
+
+		private async void OnObrisiPjesmu()
+		{
+			if (CurrentSong == null)
+			{
+				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabrana nijedna pjesma.", "U redu");
+				return;
+			}
+			/*var response = await _httpClient.DeleteAsync($"api/PjesmaControllerAPI/{CurrentSong.id}");
+			response.EnsureSuccessStatusCode();*/
+			Pjesme.Remove(CurrentSong);
+			await App.Current.MainPage.DisplayAlert("Obavijest", "Pjesma uspješno obrisana.", "U redu");
+
+			await LoadAlbumAsync();
+		}
+
+		private async void LoadTokenData()
+		{
+			try
+			{
+				var tokenJson = await SecureStorage.GetAsync("token");
+				if (!string.IsNullOrEmpty(tokenJson))
+				{
+					var token = System.Text.Json.JsonSerializer.Deserialize<DobiveniKorisnik>(tokenJson, new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					});
+
+					if (token != null)
+					{
+						foreach (var claim in token.GetType().GetProperties())
+						{
+							Debug.WriteLine($"Claim: {claim.Name} = {claim.GetValue(token)}");
+						}
+
+						CurrentKorisnik.Id = token.Id;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Greška pri učitavanju tokena: {ex.Message}");
+			}
+		}
+
+		private void UcitajDozvolu()
+		{
+			if(CurrentAlbum.korisnikid == CurrentKorisnik.Id)
+			{
+				Debug.WriteLine($"Uspjesno: {CurrentKorisnik.Id} - {CurrentAlbum.korisnikid}");
+				Dozvoli = true;
+				Dozvoli2 = true;
+			}
+			else
+			{
+				Debug.WriteLine($"Nusjesno: {CurrentKorisnik.Id} - {CurrentAlbum.korisnikid}");
+
+				Dozvoli = false;
+				Dozvoli2 = false;
+			}
 		}
 
 		private async void TimerCallback(object state)
@@ -395,6 +516,19 @@ namespace MusicStreamingService.ViewModels
 			finally
 			{
 				IsLoading = false;
+				if (CurrentAlbum.korisnikid == CurrentKorisnik.Id)
+				{
+					Debug.WriteLine($"Uspjesno: {CurrentKorisnik.Id} - {CurrentAlbum.korisnikid}");
+					Dozvoli = true;
+					Dozvoli2 = true;
+				}
+				else
+				{
+					Debug.WriteLine($"Nusjesno: {CurrentKorisnik.Id} - {CurrentAlbum.korisnikid}");
+
+					Dozvoli = false;
+					Dozvoli2 = false;
+				}
 			}
 		}
 

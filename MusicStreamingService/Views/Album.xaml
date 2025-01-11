@@ -49,6 +49,18 @@ WidthRequest="30"
 HeightRequest="30"
 Command="{Binding Random}"
 />
+
+                <ImageButton
+                     Source="Images/playlistadd.svg"
+WidthRequest="30"
+                                     Margin="120,0,0,0"
+
+HeightRequest="30"
+                 Command="{Binding Dodaj}"
+                                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Dozvoli2}"
+
+                 CommandParameter="{Binding .}"
+                 />
             </HorizontalStackLayout>
 
 
@@ -57,16 +69,36 @@ Command="{Binding Random}"
                      SelectionChangedCommand="{Binding PlayPauseCommand}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                            <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
-                                <Image Source="{Binding putanjaSlika}" 
+                        <Grid Padding="20,20" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding putanjaSlika}" 
                                        WidthRequest="50" 
+                                    Grid.Column="0"
                                        HeightRequest="50" 
                                        Aspect="AspectFill" />
                                 <Label Text="{Binding naziv}" 
                                        VerticalOptions="Center" 
                                        Padding="20,0" 
+                                        Grid.Column="1"
                                        Margin="0,0,0,0" />
-                                <VisualStateManager.VisualStateGroups>
+
+                            <ImageButton Source="Images/offlineobrisi"
+                             WidthRequest="30"
+                             HeightRequest="30"
+                                          Grid.Column="2"
+                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Dozvoli}"
+
+                             Padding="10"
+                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ObrisiPjesmu}"
+                             CommandParameter="{Binding .}"
+                             HorizontalOptions="End"
+                             />
+
+                            <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup>
                                         <VisualState Name="Selected">
                                             <VisualState.Setters>
@@ -80,7 +112,7 @@ Command="{Binding Random}"
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
-                            </StackLayout>
+                            </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

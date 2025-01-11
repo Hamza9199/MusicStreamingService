@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             VerticalOptions="Center"
-               HorizontalOptions="Center"
-               
-               x:Class="MusicStreamingService.Views.Poopop"
+             x:Class="MusicStreamingService.Views.Poop"
+                          xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+
              >
     <ScrollView>
-        
+
         <Frame BackgroundColor="#333" CornerRadius="0"  Padding="20,20,20,20">
             <VerticalStackLayout>
-
-                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,10">
-                    <Label Text="Izaberi Playlistu" TextColor="White"  HorizontalOptions="Center" Margin="90,0,0,0" FontAttributes="Bold" FontSize="18"/>
-                    <ImageButton Source="Images/close.svg" Clicked="Button_Clicked" Margin="50,0,0,0" WidthRequest="30" HeightRequest="30" Padding="7"/>
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,10"> 
+                             <Label Text="Izaberi Pjesmu" TextColor="White"  HorizontalOptions="Center" Margin="90,0,0,0" FontAttributes="Bold" FontSize="18"/>
+                <ImageButton Source="Images/close.svg" Clicked="Button_Clicked" Margin="50,0,0,0" WidthRequest="30" HeightRequest="30" Padding="7"/> 
                 </HorizontalStackLayout>
-
+       
                 <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
                 <CollectionView ItemsSource="{Binding Playliste}" 
@@ -40,7 +37,7 @@ SelectionChangedCommand="{Binding SelectPlaylistaCommand}">
                                        FontSize="16"
             Padding="20,0" 
             Margin="0,0,0,0" />
-                                
+
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup>

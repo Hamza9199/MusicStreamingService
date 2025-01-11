@@ -192,20 +192,17 @@ namespace MusicStreamingService.ViewModels
 				
 
 				var response = await _httpClient.PutAsJsonAsync($"api/PjesmaControllerAPI/PutPjesmaAPI/{Pjesma2.id}", Pjesma2);
+				response.EnsureSuccessStatusCode();
+
 				Debug.WriteLine("Response: " + response.StatusCode);
 				Debug.WriteLine("Response: " + response);
 				string responseContent = await response.Content.ReadAsStringAsync();
 				Debug.WriteLine("Response content: " + responseContent);
-				if (response.IsSuccessStatusCode)
-				{
+				
 					var updatedPjesma = await response.Content.ReadFromJsonAsync<Pjesma>();
 					Application.Current.MainPage.DisplayAlert("Uspješno ažurirana pjesma", "Pjesma je uspješno ažurirana", "OK");
-				}
-				else
-				{
-					Console.WriteLine("Error: " + response.ReasonPhrase);
-					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom ažuriranja pjesme", "OK");
-				}
+				
+				
 			}
 			catch (Exception ex)
 			{

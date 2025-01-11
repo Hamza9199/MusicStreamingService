@@ -19,6 +19,8 @@ public partial class Biblioteka : ContentPage
 		{
 			var mediaManager = CrossMediaManager.Current;
 			mediaManager.Stop();
+			viewModel.CurrentKorisnik = null;
+			viewModel.CurrentPlaylista = null;
 		}
 	}
 

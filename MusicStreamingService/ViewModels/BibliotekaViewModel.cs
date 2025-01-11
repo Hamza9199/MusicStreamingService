@@ -27,7 +27,16 @@ namespace MusicStreamingService.ViewModels
 
 		public ICommand Otprati { get; }
 
-		public PlayLista CurrentPlaylista { get; set; }
+		public PlayLista _currentPlaylista;
+		public PlayLista CurrentPlaylista
+		{
+			get => _currentPlaylista;
+			set
+			{
+				_currentPlaylista = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public DobiveniKorisnik _currentKorisnik;
 
@@ -118,6 +127,7 @@ namespace MusicStreamingService.ViewModels
 			OnKorisnik = new Command(onKorisnik);
 			CurrentKorisnik = new DobiveniKorisnik();
 			CurrentKorisnik2 = new DobiveniKorisnik();
+			CurrentPlaylista = new PlayLista();
 			Otprati = new Command(OnOtprati);
 
 			OnPropertyChanged(nameof(CurrentKorisnik));
@@ -135,7 +145,6 @@ namespace MusicStreamingService.ViewModels
 
 			if (CurrentKorisnikk == null)
 			{
-				await App.Current.MainPage.DisplayAlert("Greška", "Nije odabran ni jedan korisnik.", "U redu");
 				return;
 			}
 
@@ -193,11 +202,13 @@ namespace MusicStreamingService.ViewModels
 
 		private void onKorisnik()
 		{
+			if (CurrentKorisnik == null) return;
 			Application.Current.MainPage.Navigation.PushAsync(new PregledIzvodaca(CurrentKorisnik));
 		}
 
 		private void onPlaylista()
 		{
+			if (CurrentPlaylista == null) return;
 			Application.Current.MainPage.Navigation.PushAsync(new Playlista(CurrentPlaylista));
 		}
 

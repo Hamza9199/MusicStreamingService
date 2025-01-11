@@ -65,17 +65,13 @@ namespace MusicStreamingService.ViewModels
 			try
 			{
 				var response = await _httpClient.PutAsJsonAsync($"api/AlbumControllerAPI/AlbumAPI/{Album.id}", Album);
+				response.EnsureSuccessStatusCode();
 
-				if (response.IsSuccessStatusCode)
-				{
-					var updatedAlbum = await response.Content.ReadFromJsonAsync<Album>();
+
+				var updatedAlbum = await response.Content.ReadFromJsonAsync<Album>();
 					Application.Current.MainPage.DisplayAlert("Uspješno ažuriran album", "Album je uspješno ažuriran", "OK");
-				}
-				else
-				{
-					Console.WriteLine("Error: " + response.ReasonPhrase);
-					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom ažuriranja albuma", "OK");
-				}
+				
+				
 			}
 			catch (Exception ex)
 			{
