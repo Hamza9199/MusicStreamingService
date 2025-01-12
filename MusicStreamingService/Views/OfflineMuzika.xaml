@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicStreamingService.Views.OfflineMuzika"
              Title="OfflineMuzika">
-    <VerticalStackLayout>
-        <Label 
+    <ScrollView>
+
+        <VerticalStackLayout>
+            <Label 
             Text="Vaša Offline muzika"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
@@ -14,33 +16,33 @@
             />
 
 
-        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
 
 
-        <CollectionView ItemsSource="{Binding Pjesme}" Margin="20,30,20,0" SelectionMode="Single"
+            <CollectionView ItemsSource="{Binding Pjesme}" Margin="20,30,20,0" SelectionMode="Single"
                 SelectedItem="{Binding CurrentSong, Mode=TwoWay}" 
                 SelectionChangedCommand="{Binding Odi}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="20,20" ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="20,20" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <Image Source="Images/offlineslika.svg" 
+                            <Image Source="Images/offlineslika.svg" 
                        WidthRequest="50" 
                        HeightRequest="50" 
                        Aspect="AspectFill"
                        Grid.Column="0" />
 
-                        <Label Text="{Binding naziv}" 
+                            <Label Text="{Binding naziv}" 
                        VerticalOptions="Center"
                        Grid.Column="1"
                        Padding="10,0,0,0" />
 
-                        <ImageButton Source="Images/offlineobrisi"
+                            <ImageButton Source="Images/offlineobrisi"
                              WidthRequest="30"
                              HeightRequest="30"
                              Padding="8"
@@ -49,25 +51,26 @@
                              HorizontalOptions="End"
                              Grid.Column="2" />
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#333" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="Black" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#333" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Black" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -303,9 +303,9 @@ namespace MusicStreamingService.ViewModels
 					pjesmaid = Pjesma.id,
 				};
 				var response = await _httpClient.PostAsJsonAsync("api/PjesmaControllerAPI/PostPjesmaAPI", Pjesma);
-				var response2 = await _httpClient.PostAsJsonAsync("api/IzvodjacPjesmaContollerAPI", izvodjacPjesma);
+				//var response2 = await _httpClient.PostAsJsonAsync("api/IzvodjacPjesmaContollerAPI", izvodjacPjesma);
 				Debug.WriteLine(response);
-				Debug.WriteLine(response2);
+				//Debug.WriteLine(response2);
 				if (response.IsSuccessStatusCode )
 				{
 					var createdPjesma = await response.Content.ReadFromJsonAsync<Pjesma>();
@@ -315,13 +315,13 @@ namespace MusicStreamingService.ViewModels
 				else
 				{
 					Console.WriteLine("Error: " + response.ReasonPhrase);
-					Console.WriteLine("Error: " + response2.ReasonPhrase);
+					//Console.WriteLine("Error: " + response2.ReasonPhrase);
 					Debug.WriteLine(response);
-					Debug.WriteLine(response2);
+					//Debug.WriteLine(response2);
 					var responseContent = await response.Content.ReadAsStringAsync();
-					var responseContent2 = await response2.Content.ReadAsStringAsync();
+					//var responseContent2 = await response2.Content.ReadAsStringAsync();
 					Debug.WriteLine(responseContent);
-					Debug.WriteLine(responseContent2);
+					//Debug.WriteLine(responseContent2);
 					Application.Current.MainPage.DisplayAlert("Greška", "Greška prilikom kreiranja pjesme", "OK");
 				}
 			}

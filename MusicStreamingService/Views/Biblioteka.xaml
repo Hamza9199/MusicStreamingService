@@ -18,7 +18,7 @@
             </HorizontalStackLayout>
 
 
-            <Label Text="Nedavno Slušano" Margin="40,25,0,10" FontSize="15" FontAttributes="Bold">
+            <Label Text="Vaše playliste i izvođači" Margin="40,25,0,10" FontSize="15" FontAttributes="Bold">
                 
             </Label>
 

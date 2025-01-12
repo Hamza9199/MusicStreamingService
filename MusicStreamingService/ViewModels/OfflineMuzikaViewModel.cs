@@ -182,7 +182,7 @@ namespace MusicStreamingService.ViewModels
 					{
 						naziv = Path.GetFileNameWithoutExtension(file),
 						putanjaAudio = file,
-						putanjaSlika = "Images/dotnet_bot.png"
+						putanjaSlika = "Images/offlineslika.svg"
 					});
 				}
 			}

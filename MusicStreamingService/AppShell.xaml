@@ -1,4 +1,4 @@
-<Shell
+﻿<Shell
     x:Class="MusicStreamingService.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -33,7 +33,7 @@
     </Shell.TabBarBackgroundColor>
 
     <FlyoutItem Title="Home" Icon="Images/home.svg">
-        <Tab Title="Pocetna"  Icon="Images/home.svg">
+        <Tab Title="Početna"  Icon="Images/home.svg">
             <ShellContent
         Route="MainPage"
         ContentTemplate="{DataTemplate local:MainPage}" />
@@ -68,22 +68,8 @@
     </FlyoutItem>
 
     
-    <!-- Bit ce obrisano 
-    <FlyoutItem Title="Pregled Izvodaca" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Pregled Izvodaca" Icon="Images/dotnet_bot.png" Route="PregledIzvodaca" ContentTemplate="{DataTemplate views:PregledIzvodaca}" />
-    </FlyoutItem>
+ 
 
-    <FlyoutItem Title="Playlista" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Playlista" Icon="Images/dotnet_bot.png" Route="Playlista" ContentTemplate="{DataTemplate views:Playlista}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Album" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Album" Icon="Images/dotnet_bot.png" Route="Album" ContentTemplate="{DataTemplate views:Album}" />
-    </FlyoutItem>
-    za pregled -->
-
-
-    <!-- Ostat ce -->
     <FlyoutItem Title="Kreiraj Pjesmu" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Kreiraj Pjesmu" Icon="Images/pjesmanapravi.svg" Route="KreirajPjesmu" ContentTemplate="{DataTemplate views:KreirajPjesmu}" />
     </FlyoutItem>
@@ -93,29 +79,17 @@
     <FlyoutItem Title="Kreiraj Playlistu" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent Title="Kreiraj Playlistu" Icon="Images/playlistnapravi.svg" Route="KreirajPlaylistu" ContentTemplate="{DataTemplate views:KreirajPlaylistu}" />
     </FlyoutItem>
-    <!-- za kreiranje -->
 
     
-    <!-- Bit ce obrisano 
-    <FlyoutItem Title="UrediPjesmu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="UrediPjesmu" Icon="Images/dotnet_bot.png" Route="UrediPjesmu" ContentTemplate="{DataTemplate views:UrediPjesmu}" />
-    </FlyoutItem>
-    <FlyoutItem Title="UrediAlbum" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="UrediAlbum" Icon="Images/dotnet_bot.png" Route="UrediAlbum" ContentTemplate="{DataTemplate views:UrediAlbum}" />
-    </FlyoutItem>
-    <FlyoutItem Title="UrediPlaylistu" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="UrediPlaylistu" Icon="Images/dotnet_bot.png" Route="UrediPlaylistu" ContentTemplate="{DataTemplate views:UrediPlaylistu}" />
-    </FlyoutItem>
-    za uredivanje -->
 
 
     <TabBar Route="Aut">
-        <Tab Title="Login" Icon="Images/dotnet_bot.png">
+        <Tab Title="Login" Icon="Images/login.svg">
             <ShellContent
                 Route="Login"
                 ContentTemplate="{DataTemplate views:Login}" />
         </Tab>
-        <Tab Title="Register" Icon="Images/dotnet_bot.png">
+        <Tab Title="Register" Icon="Images/register.svg">
             <ShellContent
                 Route="Register"
                 ContentTemplate="{DataTemplate views:Register}" />
@@ -123,7 +97,7 @@
     </TabBar>
 
     <TabBar Route="MainTabs">
-        <Tab Title="Pocetna"  Icon="Images/home.svg">
+        <Tab Title="Početna"  Icon="Images/home.svg">
             <ShellContent
     Route="MainPage"
     ContentTemplate="{DataTemplate local:MainPage}" />

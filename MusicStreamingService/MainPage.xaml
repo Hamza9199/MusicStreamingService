@@ -34,7 +34,7 @@
                         <ImageButton Source="Images/like.bmp" HeightRequest="60" WidthRequest="60" Clicked="ImageButton_Clicked" Margin="0,0,10,0" />
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="Pjesme" TextColor="White" />
-                            <Label Text="Oznacene sa Like" TextColor="White" />
+                            <Label Text="Označene sa Like" TextColor="White" />
                         </StackLayout>
                     </HorizontalStackLayout>
                 </Frame>

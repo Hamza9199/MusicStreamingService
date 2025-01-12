@@ -274,7 +274,11 @@ namespace MusicStreamingService.ViewModels
 					foreach (var pjesma in pjesme)
 					{
 						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
-						Pjesme.Add(pjesma);
+						if(Pjesme.Count < 10)
+						{						
+							Pjesme.Add(pjesma);
+
+						}
 					}
 
 				}

@@ -170,10 +170,12 @@ namespace MusicStreamingService.ViewModels
 						Debug.WriteLine($"KorisnikId pjesme: {CurrentKorisnik.Id}");
 						Debug.WriteLine($"PjesmaId pjesme: {playLista.id}");
 
-						if (povezanaPjesma != null)
+						if (Playliste.Count < 10)
 						{
 							Playliste.Add(playLista);
 						}
+						
+						
 					}
 
 

@@ -77,6 +77,71 @@
                     </StackLayout>
                 </Grid>
             </Frame>
+            
+            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+           Grid.Column="0"
+           Source="Images/tema.svg"
+           HeightRequest="120"
+           WidthRequest="60"/>
+                    <StackLayout
+           Grid.Column="1"
+           Padding="10"
+           VerticalOptions="Center">
+                        <Label
+               Text="Promjeni temu"
+               FontSize="16"
+               FontAttributes="Bold"/>
+                        <HorizontalStackLayout>
+                           <Label
+               Text="Light/Dark"
+               FontSize="14"
+               TextColor="Gray"/>
+                        <Switch Margin="100,0,0,0"/> 
+                        </HorizontalStackLayout>
+                        
+                    </StackLayout>
+                </Grid>
+            </Frame>
+            <Frame BackgroundColor="#333" HeightRequest="119" Margin="5,5,5,0">
+                
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+Grid.Column="0"
+Source="Images/tema.svg"
+HeightRequest="120"
+WidthRequest="60"/>
+                    <StackLayout
+Grid.Column="1"
+Padding="10"
+VerticalOptions="Center">
+                        <Label
+    Text="Promjeni jezik"
+    FontSize="16"
+    FontAttributes="Bold"/>
+                        <HorizontalStackLayout>
+                            <Label
+Text="Izaberi jezik"
+FontSize="14"
+TextColor="Gray"/>
+                            <Label Text="Odaberi jezik"  Margin="60,0,0,0">
+                                
+                            </Label>
+                        </HorizontalStackLayout>
+
+                    </StackLayout>
+                </Grid>
+            </Frame>
 
 
             <Button Text="Odjava" BackgroundColor="White" TextColor="#333" Margin="100,10,100,0" Clicked="Odjava_Clicked"></Button>
