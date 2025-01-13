@@ -113,10 +113,9 @@ namespace MusicStreamingService.ViewModels
 					foreach (var pjesma in pjesme)
 					{
 						Debug.WriteLine($"Naziv: {pjesma.naziv}, Opis: {pjesma.opis}");
-						if (Songs.Count < 10)
-						{
+						
 							Songs.Add(pjesma);
-						}
+						
 							
 					}
 
