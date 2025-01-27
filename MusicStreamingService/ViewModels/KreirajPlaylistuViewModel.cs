@@ -24,12 +24,12 @@ namespace MusicStreamingService.ViewModels
 
 			_httpClient = new HttpClient
 			{
-				BaseAddress = new Uri("http://risdecibeltest-001-site1.otempurl.com/")
+				BaseAddress = new Uri("http://risdecibel-001-site1.anytempurl.com/")
 			};
 
 			_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
 				"Basic",
-				Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11205261:60-dayfreetrial"))
+				Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("11213740:60-dayfreetrial"))
 			);
 
 			SaveCommand = new Command(CreatePlaylista);
